@@ -9,7 +9,7 @@ import java.util.PriorityQueue;
 
 public class Busqueda {
     //este código se ejecuta al pulsar el botón
-    public static void Busqueda() {
+    public static ArrayList<Integer> Busqueda(int inicio, int fin) {
         Mapa mapa = new Mapa();
         mapa.anadirEstacion(new Estacion(1, "Mitron Centraal", Arrays.asList(2, 4, 5, 6, 7, 8), Arrays.asList(new Distancia(2, 4), new Distancia(3, 3), new Distancia(8, 7))));
         mapa.anadirEstacion(new Estacion(2, "Mitron Industriel", Arrays.asList(5, 6), Arrays.asList(new Distancia(1, 4))));
@@ -19,9 +19,10 @@ public class Busqueda {
         mapa.anadirEstacion(new Estacion(6, "Av. Picasso Noord", Arrays.asList(5, 8), Arrays.asList(new Distancia(5, 3), new Distancia(7, 2))));
         mapa.anadirEstacion(new Estacion(7, "Centraalen Clinice Hospitaal", Arrays.asList(8), Arrays.asList(new Distancia(6, 2), new Distancia(8, 3))));
         mapa.anadirEstacion(new Estacion(8, "Urgències", Arrays.asList(5), Arrays.asList(new Distancia(7, 3), new Distancia(1, 7))));
-        for (Integer resultado : mapa.obtenerRuta(2,5)) {
+        /*for (Integer resultado : mapa.obtenerRuta((Integer)inicio,(Integer)fin)) {
             System.out.println(mapa.getEstacion(resultado).getNombre());
-        }
+        }*/
+        return(mapa.obtenerRuta((Integer)inicio,(Integer)fin));
     }
 }
 

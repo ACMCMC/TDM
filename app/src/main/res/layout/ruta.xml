@@ -17,7 +17,7 @@
             android:src="@drawable/ic_adjust_black_24dp" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/estacionOrigen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

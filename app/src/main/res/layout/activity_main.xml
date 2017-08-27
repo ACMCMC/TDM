@@ -38,7 +38,7 @@
                 android:src="@drawable/ic_adjust_black_24dp" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/spinnerOrigen"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
@@ -48,6 +48,7 @@
 
         <TextView
             android:id="@+id/textoDestino"
+            android:layout_marginTop="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Selecciona el destino"
@@ -66,7 +67,7 @@
                 android:src="@drawable/ic_place_black_24dp" />
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/spinnerDestino"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
@@ -74,7 +75,8 @@
         </LinearLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/botonBusqueda"
+        android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Calcular ruta"
