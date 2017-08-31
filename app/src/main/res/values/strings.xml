@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">TDM</string>
+    <string name="app_name">Mi Ruta TDM</string>
+    <string name="estacionDestino">Estación de destino</string>
+    <string name="estacionOrigen">Estación de origen</string>
+    <string name="encontrarRuta">Encuentra tu ruta</string>
 </resources>

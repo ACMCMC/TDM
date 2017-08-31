@@ -12,9 +12,9 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="24dp"
             android:layout_weight="0"
-            android:text="Calcula tu ruta"
+            android:text="@string/encontrarRuta"
             android:textAlignment="center"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
 
@@ -22,7 +22,7 @@
             android:id="@+id/textoOrigen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Selecciona el origen"
+            android:text="@string/estacionOrigen"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
 
         <LinearLayout
@@ -51,7 +51,7 @@
             android:layout_marginTop="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Selecciona el destino"
+            android:text="@string/estacionDestino"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
 
         <LinearLayout
