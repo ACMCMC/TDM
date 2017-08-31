@@ -26,13 +26,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Spinner spinner = (Spinner) findViewById(R.id.spinnerOrigen);
-        String[] letra = {"Avinguda Picasso Noord", "Hautes Montàs", "Mitron Centraal", "Izbu Centraal HTF", "Aeropórt T2"};
+        String[] letra = {"ESTO", "DA", "IGUAL", ";", "}"};
         spinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, letra));
 
         Spinner spinner2 = (Spinner) findViewById(R.id.spinnerDestino);
         spinner2.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, letra));
 
-        TextView valueTV = new TextView(this);
+        //TextView valueTV = new TextView(this);
 
         Button botonBusqueda = (Button) findViewById(R.id.botonBusqueda);
         botonBusqueda.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
                 setRuta();
 
-                for (Integer i : Busqueda.Busqueda(1, 4)) {
+                for (Integer i : Busqueda.Busqueda(2, 8)) {
                     estaciones = estaciones + i.toString();
                 }
                 texto.setText((String) estaciones);
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private void setRuta() {
         String[] textArray = {"Mitron Centraal", "Av. Picasso Noord", "Mitron Zuid", "Mitron Haute"};
         LinearLayout layoutRuta = (LinearLayout) findViewById(R.id.layoutRuta);
-        for (int i = 0; i < textArray.length; i++) {
+        for (int i = 0; i <= (textArray.length - 1); i++) {
             LinearLayout estacion = new LinearLayout(this);
             estacion.setOrientation(LinearLayout.HORIZONTAL);
             layoutRuta.addView((View) estacion);

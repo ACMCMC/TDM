@@ -48,9 +48,9 @@ class Estacion {
         return id;
     }
 
-    public ArrayList<Integer> getLineas {
+    /*public ArrayList<Integer> getLineas {
         return(lineas);
-    }
+    }*/
 
     public List<Distancia> getDistancias() {
         return (distancias);
@@ -147,12 +147,12 @@ class Mapa {
         }
         return (ruta);
     }
-    public ArrayList<Integer> encontrarLineas (ArrayList<Integer> ruta) {
+    /*public ArrayList<Integer> encontrarLineas (ArrayList<Integer> ruta) {
         for (Integer numero = 0;numero < ruta.size();numero++) {
             for (estaciones.get(ruta.get(numero)).) {
 
             }
         }
-
-    }
+return(new ArrayList<>());
+    }*/
 }

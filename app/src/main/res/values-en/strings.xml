@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="estacionDestino">Depature station</string>
-    <string name="estacionOrigen">Arrival station</string>
+    <string name="estacionDestino">Arrival station</string>
+    <string name="estacionOrigen">Departure station</string>
     <string name="encontrarRuta">Find your route</string>
-    <string name="app_name">TDM My Route</string>
+    <string name="app_name">TDM - My Route</string>
 </resources>
