@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TDM - Mi Ruta</string>
+    <string name="app_name">Mi Route TDM</string>
     <string name="estacionDestino">Destinació</string>
     <string name="estacionOrigen">Sortida</string>
     <string name="encontrarRuta">Encontrer mi route</string>

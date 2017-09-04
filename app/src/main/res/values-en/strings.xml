@@ -3,6 +3,6 @@
     <string name="estacionDestino">Destination</string>
     <string name="estacionOrigen">Origin</string>
     <string name="encontrarRuta">Find my route</string>
-    <string name="app_name">TDM - My Route</string>
+    <string name="app_name">TDM My Route</string>
     <string name="nombreMarca">Transports of Mitron</string>
 </resources>
