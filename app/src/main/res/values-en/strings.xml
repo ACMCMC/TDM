@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="estacionDestino">Arrival station</string>
-    <string name="estacionOrigen">Departure station</string>
-    <string name="encontrarRuta">Find your route</string>
+    <string name="estacionDestino">Destination</string>
+    <string name="estacionOrigen">Origin</string>
+    <string name="encontrarRuta">Find my route</string>
     <string name="app_name">TDM - My Route</string>
+    <string name="nombreMarca">Transports of Mitron</string>
 </resources>

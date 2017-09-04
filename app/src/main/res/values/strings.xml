@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TDM - Mi Ruta</string>
-    <string name="estacionDestino">Estación de destino</string>
-    <string name="estacionOrigen">Estación de origen</string>
-    <string name="encontrarRuta">Encuentra tu ruta</string>
+    <string name="estacionDestino">Destinació</string>
+    <string name="estacionOrigen">Sortida</string>
+    <string name="encontrarRuta">Encontrer mi route</string>
+    <string name="nombreMarca">Transports de Mitron</string>
 </resources>

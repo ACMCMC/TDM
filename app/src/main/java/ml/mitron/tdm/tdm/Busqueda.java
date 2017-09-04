@@ -9,7 +9,7 @@ import java.util.PriorityQueue;
 
 public class Busqueda {
     //este código se ejecuta al pulsar el botón
-    public static ArrayList<Integer> Busqueda(int inicio, int fin) {
+    public static ArrayList<String> Busqueda(int inicio, int fin) {
         Mapa mapa = new Mapa();
         mapa.anadirEstacion(new Estacion(1, "Mitron Centraal", Arrays.asList(2, 4, 5, 6, 7, 8), Arrays.asList(new Distancia(2, 4), new Distancia(3, 3), new Distancia(8, 7))));
         mapa.anadirEstacion(new Estacion(2, "Mitron Industriel", Arrays.asList(5, 6), Arrays.asList(new Distancia(1, 4))));
@@ -22,7 +22,15 @@ public class Busqueda {
         /*for (Integer resultado : mapa.obtenerRuta((Integer)inicio,(Integer)fin)) {
             System.out.println(mapa.getEstacion(resultado).getNombre());
         }*/
-        return(mapa.obtenerRuta((Integer)inicio,(Integer)fin));
+
+        //devolvemos el resultado
+
+        ArrayList<String> listaEstaciones = new ArrayList<String>();
+
+        for (Integer i : mapa.obtenerRuta((Integer)inicio,(Integer)fin)) {
+            listaEstaciones.add(mapa.getEstacion(i).getNombre());
+        }
+        return(listaEstaciones);
     }
 }
 
@@ -145,6 +153,20 @@ class Mapa {
         for (Integer i = fin; !i.equals(inicio); i = nodoPrevio.get(i)) {
             ruta.add(i);
         }
+
+        ruta.add(inicio);
+
+        //creamos una ruta, pero está invertida
+
+        Integer tamañoRuta = ruta.size() - 1;
+
+        for (Integer indice = 0 ; indice < ruta.size() ; indice++) {
+            ruta.add(ruta.get(tamañoRuta - indice));
+            ruta.remove(tamañoRuta - indice);
+        }
+
+        //le damos la vuelta a la ruta
+
         return (ruta);
     }
     /*public ArrayList<Integer> encontrarLineas (ArrayList<Integer> ruta) {

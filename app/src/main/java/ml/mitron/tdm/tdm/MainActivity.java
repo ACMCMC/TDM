@@ -39,30 +39,35 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 setContentView(R.layout.ruta);
 
-                TextView texto = (TextView) findViewById(R.id.estacionOrigen);
-
-                String estaciones = "";
-
                 setRuta();
 
-                for (Integer i : Busqueda.Busqueda(2, 8)) {
-                    estaciones = estaciones + i.toString();
-                }
-                texto.setText((String) estaciones);
+
             }
         });
     }
 
     private void setRuta() {
-        String[] textArray = {"Mitron Centraal", "Av. Picasso Noord", "Mitron Zuid", "Mitron Haute"};
+
+        ArrayList<String> placeEstaciones = Busqueda.Busqueda(2,5);
+
+        TextView texto = (TextView) findViewById(R.id.estacionOrigen);
+        texto.setText(placeEstaciones.get(0));
+        //colocamos la primera estación
+
         LinearLayout layoutRuta = (LinearLayout) findViewById(R.id.layoutRuta);
-        for (int i = 0; i <= (textArray.length - 1); i++) {
+        for (int i = 1; i < (placeEstaciones.size()); i++) {
             LinearLayout estacion = new LinearLayout(this);
             estacion.setOrientation(LinearLayout.HORIZONTAL);
             layoutRuta.addView((View) estacion);
             TextView textView = new TextView(this);
             ImageView icono = new ImageView(this);
-            icono.setImageResource(R.drawable.ic_adjust_black_24dp);
+
+            if (i == (placeEstaciones.size() - 1)) {
+                icono.setImageResource(R.drawable.ic_place_black_24dp);
+            } else {
+                icono.setImageResource(R.drawable.ic_estacion);
+            }
+
             icono.setLayoutParams(new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.estacionHeight),(int) getResources().getDimension(R.dimen.estacionWidth)));
             icono.setLayoutParams(new LinearLayout.MarginLayoutParams((ViewGroup.MarginLayoutParams) findViewById(R.id.iconoEstacion).getLayoutParams()));
             /*la de arriba es una solución cutrilla. Solo copia los parámetros de margen del primer icono (iconoEstacion), que ya está definido en el XML.
@@ -78,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             parametros = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
             parametros.gravity = Gravity.CENTER_VERTICAL;
             textView.setLayoutParams(parametros);
-            textView.setText(textArray[i]);
+            textView.setText(placeEstaciones.get(i));
             estacion.addView((View) icono);
             estacion.addView((View) textView);
         }
