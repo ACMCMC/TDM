@@ -1,5 +1,7 @@
 package ml.mitron.tdm.tdm;
 
+import android.content.Context;
+import android.database.SQLException;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +14,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteDatabase;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -21,12 +25,33 @@ import static ml.mitron.tdm.tdm.R.id.textView;
 
 public class MainActivity extends AppCompatActivity {
 
+    public Context contexto;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        contexto = getApplicationContext();
+
+        DBReaderHelper myDbHelper = new DBReaderHelper(contexto);
+
+        try {
+
+            myDbHelper.createDataBase();
+
+        } catch (IOException ioe) {
+
+            throw new Error("Unable to create database");
+
+        }
+
+        myDbHelper.close();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Spinner spinner = (Spinner) findViewById(R.id.spinnerOrigen);
-        String[] letra = {"ESTO", "DA", "IGUAL", ";", "}"};
+        String[] letra = {"Seleccionar...", "DA", "IGUAL", ";", "}"};
         spinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, letra));
 
         Spinner spinner2 = (Spinner) findViewById(R.id.spinnerDestino);

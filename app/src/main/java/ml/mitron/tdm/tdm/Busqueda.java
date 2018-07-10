@@ -90,11 +90,11 @@ class Distancia implements Comparable<Distancia> {
     @Override
     public int compareTo(Distancia o) {
         if (distancia > o.getDistancia()) {
-            return -1;
+            return(-1);
         } else if (distancia < o.getDistancia()) {
-            return 1;
+            return(1);
         } else {
-            return 0;
+            return(0);
         }
     }
 }
@@ -139,6 +139,7 @@ class Mapa {
             if (nodo.getId().equals(fin)) {
                 break;
             }
+            //acabar el bucle si hemos llegado al destino
             for (Distancia distancia : estaciones.get(nodo.getId()).getDistancias()) {
                 //para cada distancia de la estación asociada al nodo...
                 if ((distancia.getDistancia() + nodo.getDistancia()) < distancias.get(distancia.getId())) {
@@ -167,7 +168,7 @@ class Mapa {
 
         //le damos la vuelta a la ruta
 
-        return (ruta);
+        return(ruta);
     }
     /*public ArrayList<Integer> encontrarLineas (ArrayList<Integer> ruta) {
         for (Integer numero = 0;numero < ruta.size();numero++) {
