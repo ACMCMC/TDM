@@ -1,6 +1,7 @@
 package ml.mitron.tdm.tdm;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.SQLException;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,14 +20,17 @@ import android.database.sqlite.SQLiteDatabase;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static ml.mitron.tdm.tdm.R.id.textView;
+import static ml.mitron.tdm.tdm.R.layout.ruta;
 
 public class MainActivity extends AppCompatActivity {
 
     public Context contexto;
-
+    public DBExtractor extractor;
 
 
     @Override
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
 
-            myDbHelper.createDataBase();
+            myDbHelper.createDataBase(contexto);
 
         } catch (IOException ioe) {
 
@@ -50,67 +54,74 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Spinner spinner = (Spinner) findViewById(R.id.spinnerOrigen);
-        String[] letra = {"Seleccionar...", "DA", "IGUAL", ";", "}"};
-        spinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, letra));
+        final Spinner spinner = (Spinner) findViewById(R.id.spinnerOrigen);
+
+
+        //vamos a obtener los nombres de las estaciones
+
+        int count;
+        try {
+            extractor = new DBExtractor(contexto);
+        } catch (Exception e) {
+            count = 0;
+        }
+        try {
+            count = extractor.GetEstacionCount();
+        } catch (SQLiteException e) {
+            extractor.CloseDB();
+            count = 0;
+        }
+        ;
+        String[] nombres = new String[count];
+        for (int i = 1; i <= count && count != 0; i++) {
+            nombres[i - 1] = (extractor.GetEstacion(i).getNombre());
+        }
+        spinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, nombres));
 
         Spinner spinner2 = (Spinner) findViewById(R.id.spinnerDestino);
-        spinner2.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, letra));
+        spinner2.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, nombres));
 
         //TextView valueTV = new TextView(this);
 
         Button botonBusqueda = (Button) findViewById(R.id.botonBusqueda);
         botonBusqueda.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                setContentView(R.layout.ruta);
 
-                setRuta();
+                if (!extractor.isOpen()) {
+                    extractor.OpenDB();
+                }
 
+                Integer inicio = Integer.valueOf(0);
+                Integer destino = Integer.valueOf(0);
+                final Spinner spinnerOrigen = (Spinner) findViewById(R.id.spinnerOrigen);
+                final Spinner spinnerDestino = (Spinner) findViewById(R.id.spinnerDestino);
 
+                for (int i = extractor.GetEstacionCount(); i > 0; i--) {
+                    if (spinnerOrigen.getSelectedItem().toString().equals(extractor.GetEstacion((Integer) i).getNombre())) {
+                        inicio = i;
+                        break;
+                    }
+                }
+
+                for (int i = extractor.GetEstacionCount(); i > 0; i--) {
+                    if (spinnerDestino.getSelectedItem().toString().equals(extractor.GetEstacion((Integer) i).getNombre())) {
+                        destino = i;
+                        break;
+                    }
+                }
+
+                extractor.CloseDB();
+
+                RutaActivity rutaActivity = new RutaActivity();
+
+                Intent intent = new Intent(contexto,RutaActivity.class);
+
+                intent.putExtra("inicio",inicio);
+                intent.putExtra("destino",destino);
+
+                startActivity(intent);
             }
         });
     }
 
-    private void setRuta() {
-
-        ArrayList<String> placeEstaciones = Busqueda.Busqueda(2,5);
-
-        TextView texto = (TextView) findViewById(R.id.estacionOrigen);
-        texto.setText(placeEstaciones.get(0));
-        //colocamos la primera estación
-
-        LinearLayout layoutRuta = (LinearLayout) findViewById(R.id.layoutRuta);
-        for (int i = 1; i < (placeEstaciones.size()); i++) {
-            LinearLayout estacion = new LinearLayout(this);
-            estacion.setOrientation(LinearLayout.HORIZONTAL);
-            layoutRuta.addView((View) estacion);
-            TextView textView = new TextView(this);
-            ImageView icono = new ImageView(this);
-
-            if (i == (placeEstaciones.size() - 1)) {
-                icono.setImageResource(R.drawable.ic_place_black_24dp);
-            } else {
-                icono.setImageResource(R.drawable.ic_estacion);
-            }
-
-            icono.setLayoutParams(new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.estacionHeight),(int) getResources().getDimension(R.dimen.estacionWidth)));
-            icono.setLayoutParams(new LinearLayout.MarginLayoutParams((ViewGroup.MarginLayoutParams) findViewById(R.id.iconoEstacion).getLayoutParams()));
-            /*la de arriba es una solución cutrilla. Solo copia los parámetros de margen del primer icono (iconoEstacion), que ya está definido en el XML.
-            Pero no los genera en el propio código, porque no sé cómo. Lo intenté con la línea de abajo, pero da error:*/
-            //icono.setLayoutParams(new LinearLayout.MarginLayoutParams((int) getResources().getDimension(R.dimen.marginEstacion),(int) getResources().getDimension(R.dimen.marginEstacion)));
-            LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams(icono.getLayoutParams());
-            parametros.leftMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
-            parametros.rightMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
-            parametros.topMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
-            parametros.bottomMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
-            icono.setLayoutParams(parametros);
-            textView.setTextAppearance(android.R.style.TextAppearance_Material_Subhead);
-            parametros = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-            parametros.gravity = Gravity.CENTER_VERTICAL;
-            textView.setLayoutParams(parametros);
-            textView.setText(placeEstaciones.get(i));
-            estacion.addView((View) icono);
-            estacion.addView((View) textView);
-        }
-    }
 }

@@ -1,36 +1,27 @@
 package ml.mitron.tdm.tdm;
 
+import android.content.Context;
+
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+
+import static android.R.attr.id;
 
 public class Busqueda {
     //este código se ejecuta al pulsar el botón
-    public static ArrayList<String> Busqueda(int inicio, int fin) {
+    public static Ruta Busqueda(int inicio, int fin, DBExtractor extractor) throws IllegalArgumentException {
         Mapa mapa = new Mapa();
-        mapa.anadirEstacion(new Estacion(1, "Mitron Centraal", Arrays.asList(2, 4, 5, 6, 7, 8), Arrays.asList(new Distancia(2, 4), new Distancia(3, 3), new Distancia(8, 7))));
-        mapa.anadirEstacion(new Estacion(2, "Mitron Industriel", Arrays.asList(5, 6), Arrays.asList(new Distancia(1, 4))));
-        mapa.anadirEstacion(new Estacion(3, "Avinguda América", Arrays.asList(5), Arrays.asList(new Distancia(1, 3), new Distancia(4, 7))));
-        mapa.anadirEstacion(new Estacion(4, "Av. Félix Iglesias", Arrays.asList(5), Arrays.asList(new Distancia(3, 7), new Distancia(5, 4))));
-        mapa.anadirEstacion(new Estacion(5, "Teatre", Arrays.asList(5), Arrays.asList(new Distancia(4, 4), new Distancia(6, 3))));
-        mapa.anadirEstacion(new Estacion(6, "Av. Picasso Noord", Arrays.asList(5, 8), Arrays.asList(new Distancia(5, 3), new Distancia(7, 2))));
-        mapa.anadirEstacion(new Estacion(7, "Centraalen Clinice Hospitaal", Arrays.asList(8), Arrays.asList(new Distancia(6, 2), new Distancia(8, 3))));
-        mapa.anadirEstacion(new Estacion(8, "Urgències", Arrays.asList(5), Arrays.asList(new Distancia(7, 3), new Distancia(1, 7))));
-        /*for (Integer resultado : mapa.obtenerRuta((Integer)inicio,(Integer)fin)) {
-            System.out.println(mapa.getEstacion(resultado).getNombre());
-        }*/
 
-        //devolvemos el resultado
-
-        ArrayList<String> listaEstaciones = new ArrayList<String>();
-
-        for (Integer i : mapa.obtenerRuta((Integer)inicio,(Integer)fin)) {
-            listaEstaciones.add(mapa.getEstacion(i).getNombre());
-        }
-        return(listaEstaciones);
+        return (mapa.obtenerRuta(inicio, fin, extractor));
     }
 }
 
@@ -38,10 +29,10 @@ public class Busqueda {
 class Estacion {
     private Integer id;
     private String nombre;
-    private List<Integer> lineas;
+    private List<String> lineas;
     private List<Distancia> distancias;
 
-    public Estacion(Integer id, String nombre, List lineas, List distancias) {
+    public Estacion(Integer id, String nombre, List<String> lineas, List<Distancia> distancias) {
         this.id = id;
         this.nombre = nombre;
         this.lineas = lineas;
@@ -63,20 +54,31 @@ class Estacion {
     public List<Distancia> getDistancias() {
         return (distancias);
     }
+
+    List<String> getLineas() {
+        return (lineas);
+    }
 }
 
 //la clase Distancia solo sirve para representar distancias, como un vector
 class Distancia implements Comparable<Distancia> {
-    private Integer id;
+    private Integer origen;
+    private Integer destino;
     private Integer distancia;
 
-    public Distancia(Integer id, Integer distancia) {
-        this.id = id;
+    Distancia(Integer IDDestino, Integer distancia) {
+        this.destino = IDDestino;
         this.distancia = distancia;
     }
 
-    public Integer getId() {
-        return (id);
+    Distancia(Integer IDOrigen, Integer IDDestino, Integer distancia) {
+        this.origen = IDOrigen;
+        this.destino = IDDestino;
+        this.distancia = distancia;
+    }
+
+    public Integer getIDDestino() {
+        return (destino);
     }
 
     public Integer getDistancia() {
@@ -90,12 +92,220 @@ class Distancia implements Comparable<Distancia> {
     @Override
     public int compareTo(Distancia o) {
         if (distancia > o.getDistancia()) {
-            return(-1);
+            return (1);
         } else if (distancia < o.getDistancia()) {
-            return(1);
+            return (-1);
         } else {
-            return(0);
+            return (0);
         }
+    }
+}
+
+
+class seccionLinea {
+    Estacion origen;
+    Estacion fin;
+    String nombre;
+    String nombrePropio;
+
+    seccionLinea(Estacion origen, Estacion fin, String nombreLinea) {
+        this.origen = origen;
+        this.fin = fin;
+        this.nombre = nombreLinea;
+        this.nombrePropio = "";
+    }
+
+    seccionLinea(Estacion origen, Estacion fin, String nombreLinea, String nombrePropio) {
+        this.origen = origen;
+        this.fin = fin;
+        this.nombre = nombreLinea;
+        this.nombrePropio = nombrePropio;
+    }
+
+    String getNombre() {
+        return nombre;
+    }
+
+    String getNombrePropio(Context contexto) throws NoSuchElementException {
+        if (nombrePropio.isEmpty()) {
+            switch (nombre) {
+                case "1": {
+                    nombrePropio = (String) contexto.getResources().getText(R.string.l1);
+                    break;
+                }
+                case "2": {
+                    nombrePropio = (String) contexto.getResources().getText(R.string.l2);
+                    break;
+                }
+                case "3": {
+                    nombrePropio = (String) contexto.getResources().getText(R.string.l3);
+                    break;
+                }
+                case "4": {
+                    nombrePropio = (String) contexto.getResources().getText(R.string.l4);
+                    break;
+                }
+                case "5": {
+                    nombrePropio = (String) contexto.getResources().getText(R.string.l5);
+                    break;
+                }
+                case "6": {
+                    nombrePropio = (String) contexto.getResources().getText(R.string.l6);
+                    break;
+                }
+                case "7": {
+                    nombrePropio = (String) contexto.getResources().getText(R.string.l7);
+                    break;
+                }
+                case "7A": {
+                    nombrePropio = (String) contexto.getResources().getText(R.string.l7A);
+                    break;
+                }
+                case "7B": {
+                    nombrePropio = (String) contexto.getResources().getText(R.string.l7B);
+                    break;
+                }
+                case "8": {
+                    nombrePropio = (String) contexto.getResources().getText(R.string.l8);
+                    break;
+                }
+                case "T": {
+                    nombrePropio = (String) contexto.getResources().getText(R.string.T);
+                    break;
+                }
+                case "C": {
+                    nombrePropio = (String) contexto.getResources().getText(R.string.C);
+                    break;
+                }
+                case "F": {
+                    nombrePropio = (String) contexto.getResources().getText(R.string.F);
+                    break;
+                }
+                default: {
+                    nombrePropio = null;
+                    throw new NoSuchElementException();
+                }
+            }
+        }
+        return nombrePropio;
+    }
+
+    Boolean checkInicioLinea(Estacion inicio) {
+        return (this.origen.equals(inicio));
+    }
+
+    Boolean checkFinLinea(Estacion fin) {
+        return (this.fin.equals(fin));
+    }
+}
+
+
+class Ruta {
+    List<Estacion> estaciones;
+    List<seccionLinea> lineas;
+    Integer tiempo;
+
+    Ruta() {
+        estaciones = new ArrayList<Estacion>();
+        lineas = new ArrayList<seccionLinea>();
+    }
+
+    Ruta(List<Estacion> estaciones, List<seccionLinea> lineas) {
+        this.estaciones = estaciones;
+        this.lineas = lineas;
+    }
+
+    void anadirEstacion(Estacion estacion) {
+        estaciones.add(estacion);
+    }
+
+    void anadirSeccionLinea(seccionLinea linea) {
+        lineas.add(linea);
+    }
+
+    List<Estacion> getEstacionesRuta() {
+        return (estaciones);
+    }
+
+    List<String> getNombresRuta() {
+        List<String> nombres = new ArrayList<String>();
+        for (Estacion estacion : estaciones) {
+            nombres.add(estacion.getNombre());
+        }
+        return (nombres);
+    }
+
+    List<Integer> getIDsRuta() {
+        List<Integer> ids = new ArrayList<Integer>();
+        for (Estacion estacion : estaciones) {
+            ids.add(estacion.getId());
+        }
+        return (ids);
+    }
+
+    List<seccionLinea> getLineas() {
+        if (lineas.isEmpty()) {
+            calcularLineas();
+        }
+        return lineas;
+    }
+
+    void calcularLineas() {
+        Boolean contenido;
+        Estacion lastEstacion = estaciones.get(0);
+
+        //Usamos un Set para las líneas disponibles
+        Set<String> lineasDisponibles = new HashSet<String>();
+
+        //debemos usar el removeStack porque si no, estamos editando el Set mientras estamos en un bucle for.
+        List<String> removeStack = new ArrayList<String>();
+        lineasDisponibles.addAll(estaciones.get(0).getLineas());
+        for (Estacion estacionActual : estaciones) {
+
+            contenido = false;
+
+            for (String linea : lineasDisponibles) {
+                if (estacionActual.getLineas().contains(linea)) {
+                    contenido = true;
+                    break;
+                }
+            }
+            if (!contenido) {
+                lineas.add(new seccionLinea(lastEstacion, estaciones.get(estaciones.indexOf(estacionActual) - 1), lineasDisponibles.toArray()[0].toString()));
+                lineasDisponibles.clear();
+                lineasDisponibles.addAll(estaciones.get(estaciones.indexOf(estacionActual) - 1).getLineas());
+                for (String linea : lineasDisponibles) {
+                    if (!estacionActual.getLineas().contains(linea)) {
+                        removeStack.add(linea);
+                    }
+                }
+                lineasDisponibles.removeAll(removeStack);
+                removeStack.clear();
+                lastEstacion = estaciones.get(estaciones.indexOf(estacionActual) - 1);
+            } else {
+
+                //es aquí donde estaríamos editando el Set mientras estamos en un bucle for
+                for (String linea : lineasDisponibles) {
+                    if (!estacionActual.getLineas().contains(linea)) {
+                        removeStack.add(linea);
+                    }
+                }
+                lineasDisponibles.removeAll(removeStack);
+                removeStack.clear();
+            }
+        }
+        for (String linea : lineasDisponibles) {
+            if (!estaciones.get(estaciones.size() - 1).getLineas().contains(linea)) {
+                removeStack.add(linea);
+            }
+        }
+        lineasDisponibles.removeAll(removeStack);
+        removeStack.clear();
+        lineas.add(new seccionLinea(lastEstacion, estaciones.get(estaciones.size() - 1), lineasDisponibles.toArray()[0].toString()));
+    }
+
+    void setTiempo(Integer tiempo) {
+        this.tiempo = tiempo;
     }
 }
 
@@ -112,70 +322,92 @@ class Mapa {
     }
 
     public Estacion getEstacion(Integer id) {
-        return(estaciones.get(id));
+        return (estaciones.get(id));
     }
 
-    public ArrayList<Integer> obtenerRuta(Integer inicio, Integer fin) {
+    public Ruta obtenerRuta(Integer inicio, Integer fin, DBExtractor extractor) throws IllegalArgumentException {
+
+        //esta Pila es la que analiza las distancias a cada estación colindante
         PriorityQueue<Distancia> pilaNodos = new PriorityQueue<>();
+
+        //aquí, guardamos las distancias a cada estación
         HashMap<Integer, Integer> distancias = new HashMap<>();
+
+        //esto nos sirve para relacionar cada estación con la que la precede
         HashMap<Integer, Integer> nodoPrevio = new HashMap<>();
-        //inicializamos las distancias
-        for (Map.Entry<Integer, Estacion> registro : estaciones.entrySet()) {
-            //registro está formado por el key en el HashMap y su valor (Estacion)
-            if (registro.getKey() == inicio) {
-                pilaNodos.add(new Distancia(inicio, 0));
-                distancias.put(inicio, 0);
-            } else {
-                //pilaNodos.add(new Distancia(registro.getValue().getId(), Integer.MAX_VALUE));
-                distancias.put(registro.getKey(), Integer.MAX_VALUE);
-            }
-        }
-        //fin de la inicialización de la búsqueda
-        //búsqueda de ruta
+
+
+        //VAMOS A COMENZAR EL PROCESO DE BÚSQUEDA
+
+        //La estación de origen está a 0 de la estación de origen
+        pilaNodos.add(new Distancia(inicio, inicio, 0));
+        distancias.put(inicio, 0);
+
+        //mientras haya nodos en la pila...
         while (!pilaNodos.isEmpty()) {
-            //mientras quedan nodos en la pila...
-            Distancia nodo = pilaNodos.poll();
-            //obtenemos el nodo de la pila
-            if (nodo.getId().equals(fin)) {
+            Distancia distanciaNodo = pilaNodos.poll();
+            if (distanciaNodo.getIDDestino().equals(fin)) {
                 break;
             }
-            //acabar el bucle si hemos llegado al destino
-            for (Distancia distancia : estaciones.get(nodo.getId()).getDistancias()) {
-                //para cada distancia de la estación asociada al nodo...
-                if ((distancia.getDistancia() + nodo.getDistancia()) < distancias.get(distancia.getId())) {
-                    distancias.remove(distancia.getId());
-                    distancias.put(distancia.getId(), (distancia.getDistancia() + nodo.getDistancia()));
-                    pilaNodos.add(new Distancia(distancia.getId(), (distancia.getDistancia() + nodo.getDistancia())));
-                    nodoPrevio.put(distancia.getId(), nodo.getId());
+
+            //hacemos un List de las distancias
+            List<Distancia> distsColindantes = extractor.GetEstacion(distanciaNodo.getIDDestino()).getDistancias();
+
+            //vamos a borrar la distancia que apunta al nodo del que venimos, ya que no tiene sentido analizarla.
+            for (Distancia distanciaPrevia : distsColindantes) {
+                if (distanciaPrevia.getIDDestino().equals(nodoPrevio.get(distanciaNodo.getIDDestino()))) {
+                    distsColindantes.remove(distanciaPrevia);
+                    break;
+                }
+            }
+
+
+            for (Distancia distanciaColindante : distsColindantes) {
+                if (!distancias.containsKey(distanciaColindante.getIDDestino())) {
+
+                    //Si el registro de distancias no sabe que distancia hay al nodo colindante, entonces simplemente la añadimos
+                    distancias.put(distanciaColindante.getIDDestino(), distanciaNodo.getDistancia() + distanciaColindante.getDistancia());
+
+                    //añadimos este nodo a la Priority Queue
+                    pilaNodos.add(new Distancia(inicio, distanciaColindante.getIDDestino(), distanciaNodo.getDistancia() + distanciaColindante.getDistancia()));
+
+                    //registramos cuál era el nodo previo
+                    nodoPrevio.put(distanciaColindante.getIDDestino(), distanciaNodo.getIDDestino());
+
+
+                    //puede pasar que ya llegásemos al nodo desde otro sitio, entonces solo vamos a registrar este nuevo camino si es más corto.
+                } else if (distanciaNodo.getDistancia() + distanciaColindante.getDistancia() < distancias.get(distanciaColindante.getIDDestino())) {
+                    distancias.remove(distanciaColindante.getIDDestino());
+                    distancias.put(distanciaColindante.getIDDestino(), distanciaNodo.getDistancia() + distanciaColindante.getDistancia());
+                    pilaNodos.add(new Distancia(inicio, distanciaColindante.getIDDestino(), distanciaNodo.getDistancia() + distanciaColindante.getDistancia()));
+                    nodoPrevio.remove(distanciaColindante.getIDDestino());
+                    nodoPrevio.put(distanciaColindante.getIDDestino(), distanciaNodo.getIDDestino());
                 }
             }
         }
-        ArrayList<Integer> ruta = new ArrayList<>();
+
+        //formamos la ruta...
+        Ruta ruta = new Ruta();
+
+        List<Integer> orden = new ArrayList<Integer>();
+
+        if(!nodoPrevio.containsKey(fin)) {
+            throw new IllegalArgumentException();
+        }
+
         for (Integer i = fin; !i.equals(inicio); i = nodoPrevio.get(i)) {
-            ruta.add(i);
+            orden.add(i);
         }
 
-        ruta.add(inicio);
+        orden.add(inicio);
 
-        //creamos una ruta, pero está invertida
-
-        Integer tamañoRuta = ruta.size() - 1;
-
-        for (Integer indice = 0 ; indice < ruta.size() ; indice++) {
-            ruta.add(ruta.get(tamañoRuta - indice));
-            ruta.remove(tamañoRuta - indice);
+        while (!orden.isEmpty()) {
+            ruta.anadirEstacion(extractor.GetEstacion(orden.get(orden.size() - 1)));
+            orden.remove(orden.size() - 1);
         }
 
-        //le damos la vuelta a la ruta
+        ruta.setTiempo(distancias.get(fin));
 
-        return(ruta);
+        return (ruta);
     }
-    /*public ArrayList<Integer> encontrarLineas (ArrayList<Integer> ruta) {
-        for (Integer numero = 0;numero < ruta.size();numero++) {
-            for (estaciones.get(ruta.get(numero)).) {
-
-            }
-        }
-return(new ArrayList<>());
-    }*/
 }

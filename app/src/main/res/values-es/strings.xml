@@ -5,4 +5,24 @@
     <string name="estacionDestino">Destino</string>
     <string name="estacionOrigen">Origen</string>
     <string name="nombreMarca">Transportes de Mitron</string>
+    <string name="rutaEncontrada">Ruta encontrada</string>
+    <string name="tiempoRuta">Tiempo de viaje estimado</string>
+    <string name="tomarLinea">Tome la línea</string>
+    <string name="l1">Océano</string>
+    <string name="l2">Periferias</string>
+    <string name="l3">Selva</string>
+    <string name="l4">Largo del Isotopo</string>
+    <string name="l5">Mitron Norte</string>
+    <string name="l6">Mitron Sur</string>
+    <string name="l7">Largo de Southlands</string>
+    <string name="l8">Circular de Mitron</string>
+    <string name="T">Tranvía de Mitron</string>
+    <string name="C">Circular de Southlands</string>
+    <string name="F">Funicular de Southlands</string>
+    <string name="l7A">Mitron Oeste</string>
+    <string name="l7B">Shuttle al Aeropuerto</string>
+    <string name="tituloError">Error</string>
+    <string name="descripcionError">No se ha encontrado una ruta entre las estaciones seleccionadas</string>
+    <string name="buttonCalcular">Encontrar mi ruta</string>
+    <string name="calcularOtraButton">Encontrar otra ruta</string>
 </resources>

@@ -4,4 +4,24 @@
     <string name="estacionOrigen">Sortida</string>
     <string name="encontrarRuta">Encontrer mi route</string>
     <string name="nombreMarca">Transports de Mitron</string>
+    <string name="rutaEncontrada">Trouvent Route</string>
+    <string name="tiempoRuta">Estimat Route Time</string>
+    <string name="tomarLinea">Take linn</string>
+    <string name="l1">Océan</string>
+    <string name="l2">Perifèrs</string>
+    <string name="l3">Selva</string>
+    <string name="l4">Larg di Isotope</string>
+    <string name="l5">Mitron Noord</string>
+    <string name="l6">Mitron Zuid</string>
+    <string name="l7">Larg de Southlands</string>
+    <string name="l8">Circular di Mitron</string>
+    <string name="T">Tranvie di Mitron</string>
+    <string name="C">Circular di Southlands</string>
+    <string name="F">Funicular di Southlands</string>
+    <string name="l7A">Mitron Weest</string>
+    <string name="l7B">Aeropórt Shuttle</string>
+    <string name="tituloError">Error</string>
+    <string name="descripcionError">Tuhr Route ist not possible</string>
+    <string name="buttonCalcular">Calculer Route</string>
+    <string name="calcularOtraButton">Trouver autre route</string>
 </resources>

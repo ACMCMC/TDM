@@ -4,8 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Path;
 import android.provider.BaseColumns;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +33,8 @@ public class DBReaderHelper extends SQLiteOpenHelper {
     public DBReaderHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.myContext = context;
-        DB_PATH = context.getFilesDir().getPath();
+        DB_PATH = context.getDatabasePath(DATABASE_NAME).getPath();
+        //DB_PATH = "/data/data/ml.mitron.tdm.tdm/databases";
     }
     public void onCreate(SQLiteDatabase db) {
         //Nunca vamos a crear la base de datos, así que no hace falta especificar nada.
@@ -39,9 +42,9 @@ public class DBReaderHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    public void createDataBase() throws IOException {
+    public void createDataBase(Context context) throws IOException {
 
-        if (!checkDataBase()) {
+        if (!checkDataBase(context)) {
             //(comprobamos si la base de datos NO existe)
 
             //By calling this method an empty database will be created into the default system path
@@ -65,12 +68,12 @@ public class DBReaderHelper extends SQLiteOpenHelper {
      * Check if the database already exist to avoid re-copying the file each time you open the application.
      * @return true if it exists, false if it doesn't
      */
-    private boolean checkDataBase(){
+    private boolean checkDataBase(Context context){
 
         SQLiteDatabase checkDB = null;
 
         try{
-            String myPath = DB_PATH + "/" + DATABASE_NAME;
+            String myPath = DB_PATH;
             checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
 
         }catch(SQLiteException e){
@@ -86,6 +89,7 @@ public class DBReaderHelper extends SQLiteOpenHelper {
         }
 
         return checkDB != null;
+
     }
 
     /**
@@ -99,7 +103,7 @@ public class DBReaderHelper extends SQLiteOpenHelper {
         InputStream myInput = myContext.getAssets().open(DATABASE_NAME);
 
         // Path to the just created empty db
-        String outFileName = DB_PATH + "/" + DATABASE_NAME;
+        String outFileName = DB_PATH;
 
         //Open the empty db as the output stream
         OutputStream myOutput = new FileOutputStream(outFileName);
@@ -134,9 +138,9 @@ public class DBReaderHelper extends SQLiteOpenHelper {
 
 final class ContratoSQL {
 
-    public static final String NombreDatabase = "Database";
+    public static final String NombreDatabase = "Mapa";
 
-private ContratoSQL(){
+public ContratoSQL(){
 
 };
 

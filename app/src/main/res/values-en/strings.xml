@@ -5,4 +5,24 @@
     <string name="encontrarRuta">Find my route</string>
     <string name="app_name">TDM My Route</string>
     <string name="nombreMarca">Transports of Mitron</string>
+    <string name="rutaEncontrada">Route found</string>
+    <string name="tiempoRuta">Estimated travel time</string>
+    <string name="tomarLinea">Take line</string>
+    <string name="l1">Ocean</string>
+    <string name="l2">Peripherals</string>
+    <string name="l3">Jungle</string>
+    <string name="l4">Isotope Long Distance</string>
+    <string name="l5">Mitron North</string>
+    <string name="l6">Mitron South</string>
+    <string name="l7">Southlands Long Distance</string>
+    <string name="l8">Mitron Round Line</string>
+    <string name="T">Mitron Tram</string>
+    <string name="C">Southlands Round Line</string>
+    <string name="F">Southlands Funicular</string>
+    <string name="l7A">Mitron West</string>
+    <string name="l7B">Airport Shuttle</string>
+    <string name="tituloError">Error</string>
+    <string name="descripcionError">No route has been found between the selected stations</string>
+    <string name="buttonCalcular">Find my route</string>
+    <string name="calcularOtraButton">Find another route</string>
 </resources>

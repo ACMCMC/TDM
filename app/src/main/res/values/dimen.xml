@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="marginLineaLeft">48dp</dimen>
+    <dimen name="marginLineaTop">-12dp</dimen>
+    <dimen name="marginLineaBottom">0dp</dimen>
     <dimen name="estacionWidth">24dp</dimen>
     <dimen name="estacionHeight">24dp</dimen>
     <dimen name="marginEstacion">12dp</dimen>
