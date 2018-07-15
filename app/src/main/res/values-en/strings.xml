@@ -20,7 +20,7 @@
     <string name="C">Southlands Round Line</string>
     <string name="F">Southlands Funicular</string>
     <string name="l7A">Mitron West</string>
-    <string name="l7B">Airport Shuttle</string>
+    <string name="l7B">Mitron Airport Express</string>
     <string name="tituloError">Error</string>
     <string name="descripcionError">No route has been found between the selected stations</string>
     <string name="buttonCalcular">Find my route</string>

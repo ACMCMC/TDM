@@ -20,7 +20,7 @@
     <string name="C">Circular de Southlands</string>
     <string name="F">Funicular de Southlands</string>
     <string name="l7A">Mitron Oeste</string>
-    <string name="l7B">Shuttle al Aeropuerto</string>
+    <string name="l7B">Express al Aeropuerto de Mitron</string>
     <string name="tituloError">Error</string>
     <string name="descripcionError">No se ha encontrado una ruta entre las estaciones seleccionadas</string>
     <string name="buttonCalcular">Encontrar mi ruta</string>
