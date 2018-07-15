@@ -2,30 +2,14 @@ package ml.mitron.tdm.tdm;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.SQLException;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteDatabase;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-import static ml.mitron.tdm.tdm.R.id.textView;
-import static ml.mitron.tdm.tdm.R.layout.ruta;
 
 public class MainActivity extends AppCompatActivity {
 
