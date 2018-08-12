@@ -2,8 +2,6 @@ package ml.mitron.tdm.tdm;
 
 import android.content.Context;
 
-import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,9 +10,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
-
-import static android.R.attr.id;
 
 public class Busqueda {
     //este código se ejecuta al pulsar el botón
@@ -30,13 +25,13 @@ class Estacion {
     private Integer id;
     private String nombre;
     private List<String> lineas;
-    private List<Distancia> distancias;
+    private List<Conexion> conexiones;
 
-    public Estacion(Integer id, String nombre, List<String> lineas, List<Distancia> distancias) {
+    public Estacion(Integer id, String nombre, List<String> lineas, List<Conexion> conexiones) {
         this.id = id;
         this.nombre = nombre;
         this.lineas = lineas;
-        this.distancias = distancias;
+        this.conexiones = conexiones;
     }
 
     public String getNombre() {
@@ -51,8 +46,8 @@ class Estacion {
         return(lineas);
     }*/
 
-    public List<Distancia> getDistancias() {
-        return (distancias);
+    public List<Conexion> getConexiones() {
+        return (conexiones);
     }
 
     List<String> getLineas() {
@@ -60,28 +55,35 @@ class Estacion {
     }
 }
 
-//la clase Distancia solo sirve para representar distancias, como un vector
-class Distancia implements Comparable<Distancia> {
+//la clase Distancia solo sirve para representar conexiones, como un vector
+class Conexion implements Comparable<Conexion> {
     private Integer origen;
     private Integer destino;
     private Integer distancia;
+    private List<String> lineas;
 
-    Distancia(Integer IDDestino, Integer distancia) {
+    Conexion(Integer IDDestino, Integer distancia, List<String> lineas) {
         this.destino = IDDestino;
         this.distancia = distancia;
+        this.lineas = lineas;
     }
 
-    Distancia(Integer IDOrigen, Integer IDDestino, Integer distancia) {
+    Conexion(Integer IDOrigen, Integer IDDestino, Integer distancia, List<String> lineas) {
         this.origen = IDOrigen;
         this.destino = IDDestino;
         this.distancia = distancia;
+        this.lineas = lineas;
     }
 
-    public Integer getIDDestino() {
+    List<String> getLineas() {
+        return(lineas);
+    }
+
+    Integer getIDDestino() {
         return (destino);
     }
 
-    public Integer getDistancia() {
+    Integer getDistancia() {
         return (distancia);
     }
 
@@ -90,7 +92,7 @@ class Distancia implements Comparable<Distancia> {
     }
 
     @Override
-    public int compareTo(Distancia o) {
+    public int compareTo(Conexion o) {
         if (distancia > o.getDistancia()) {
             return (1);
         } else if (distancia < o.getDistancia()) {
@@ -327,10 +329,10 @@ class Mapa {
 
     public Ruta obtenerRuta(Integer inicio, Integer fin, DBExtractor extractor) throws IllegalArgumentException {
 
-        //esta Pila es la que analiza las distancias a cada estación colindante
-        PriorityQueue<Distancia> pilaNodos = new PriorityQueue<>();
+        //esta Pila es la que analiza las conexiones a cada estación colindante
+        PriorityQueue<Conexion> pilaConexiones = new PriorityQueue<>();
 
-        //aquí, guardamos las distancias a cada estación
+        //aquí, guardamos las conexiones a cada estación
         HashMap<Integer, Integer> distancias = new HashMap<>();
 
         //esto nos sirve para relacionar cada estación con la que la precede
@@ -340,48 +342,48 @@ class Mapa {
         //VAMOS A COMENZAR EL PROCESO DE BÚSQUEDA
 
         //La estación de origen está a 0 de la estación de origen
-        pilaNodos.add(new Distancia(inicio, inicio, 0));
+        pilaConexiones.add(new Conexion(inicio, inicio, 0, extractor.GetEstacion(inicio).getLineas()));
         distancias.put(inicio, 0);
 
         //mientras haya nodos en la pila...
-        while (!pilaNodos.isEmpty()) {
-            Distancia distanciaNodo = pilaNodos.poll();
-            if (distanciaNodo.getIDDestino().equals(fin)) {
+        while (!pilaConexiones.isEmpty()) {
+            Conexion conexionNodo = pilaConexiones.poll();
+            if (conexionNodo.getIDDestino().equals(fin)) {
                 break;
             }
 
-            //hacemos un List de las distancias
-            List<Distancia> distsColindantes = extractor.GetEstacion(distanciaNodo.getIDDestino()).getDistancias();
+            //hacemos un List de las conexiones
+            List<Conexion> conexiones = extractor.GetEstacion(conexionNodo.getIDDestino()).getConexiones();
 
             //vamos a borrar la distancia que apunta al nodo del que venimos, ya que no tiene sentido analizarla.
-            for (Distancia distanciaPrevia : distsColindantes) {
-                if (distanciaPrevia.getIDDestino().equals(nodoPrevio.get(distanciaNodo.getIDDestino()))) {
-                    distsColindantes.remove(distanciaPrevia);
+            for (Conexion conexionPrevia : conexiones) {
+                if (conexionPrevia.getIDDestino().equals(nodoPrevio.get(conexionNodo.getIDDestino()))) {
+                    conexiones.remove(conexionPrevia);
                     break;
                 }
             }
 
 
-            for (Distancia distanciaColindante : distsColindantes) {
-                if (!distancias.containsKey(distanciaColindante.getIDDestino())) {
+            for (Conexion conexion : conexiones) {
+                if (!distancias.containsKey(conexion.getIDDestino())) {
 
-                    //Si el registro de distancias no sabe que distancia hay al nodo colindante, entonces simplemente la añadimos
-                    distancias.put(distanciaColindante.getIDDestino(), distanciaNodo.getDistancia() + distanciaColindante.getDistancia());
+                    //Si el registro de conexiones no sabe que distancia hay al nodo colindante, entonces simplemente la añadimos
+                    distancias.put(conexion.getIDDestino(), conexionNodo.getDistancia() + conexion.getDistancia());
 
                     //añadimos este nodo a la Priority Queue
-                    pilaNodos.add(new Distancia(inicio, distanciaColindante.getIDDestino(), distanciaNodo.getDistancia() + distanciaColindante.getDistancia()));
+                    pilaConexiones.add(new Conexion(inicio, conexion.getIDDestino(), conexionNodo.getDistancia() + conexion.getDistancia(), null));
 
                     //registramos cuál era el nodo previo
-                    nodoPrevio.put(distanciaColindante.getIDDestino(), distanciaNodo.getIDDestino());
+                    nodoPrevio.put(conexion.getIDDestino(), conexionNodo.getIDDestino());
 
 
                     //puede pasar que ya llegásemos al nodo desde otro sitio, entonces solo vamos a registrar este nuevo camino si es más corto.
-                } else if (distanciaNodo.getDistancia() + distanciaColindante.getDistancia() < distancias.get(distanciaColindante.getIDDestino())) {
-                    distancias.remove(distanciaColindante.getIDDestino());
-                    distancias.put(distanciaColindante.getIDDestino(), distanciaNodo.getDistancia() + distanciaColindante.getDistancia());
-                    pilaNodos.add(new Distancia(inicio, distanciaColindante.getIDDestino(), distanciaNodo.getDistancia() + distanciaColindante.getDistancia()));
-                    nodoPrevio.remove(distanciaColindante.getIDDestino());
-                    nodoPrevio.put(distanciaColindante.getIDDestino(), distanciaNodo.getIDDestino());
+                } else if (conexionNodo.getDistancia() + conexion.getDistancia() < distancias.get(conexion.getIDDestino())) {
+                    distancias.remove(conexion.getIDDestino());
+                    distancias.put(conexion.getIDDestino(), conexionNodo.getDistancia() + conexion.getDistancia());
+                    pilaConexiones.add(new Conexion(inicio, conexion.getIDDestino(), conexionNodo.getDistancia() + conexion.getDistancia(), null));
+                    nodoPrevio.remove(conexion.getIDDestino());
+                    nodoPrevio.put(conexion.getIDDestino(), conexionNodo.getIDDestino());
                 }
             }
         }

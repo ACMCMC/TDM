@@ -151,11 +151,12 @@ public ContratoSQL(){
         public static final String NombreColumnaLineas = "lineas";
     }
 
-    public static class TablaDistancias implements BaseColumns {
-        public static final String NombreTabla = "distancias";
+    public static class TablaConexiones implements BaseColumns {
+        public static final String NombreTabla = "conexiones";
         public static final String NombreColumnaIDOrigen = "origen";
         public static final String NombreColumnaIDDestino = "destino";
         public static final String NombreColumnaDistancia = "distancia";
+        public static final String NombreColumnaLineas = "lineas";
     }
 
 }

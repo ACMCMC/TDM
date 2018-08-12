@@ -70,6 +70,56 @@ public final class DBExtractor {
     }
 
 
+    List<Conexion> GetConexiones(Integer IDEstacion) throws SQLiteException {
+        if (!database.isOpen()) {
+            throw new SQLiteException("La conexión con la base de datos no está abierta");
+        }
+
+        Cursor cursor;
+
+        /*Vamos a obtener las conexiones.
+
+        Las concexiones, en la base de datos, están definidas con
+        - origen
+        - destino
+        - distancia entre ellos
+        - líneas que operan la conexión
+
+        Las conexiones son reversibles. Es decir, conexion(A,B) = conexion(B,A).
+
+        Entonces, vamos a tener que buscar la estación cuando figura como origen pero también como destino.
+        */
+
+        List<Conexion> conexiones = new ArrayList<Conexion>();
+        Set<Conexion> setConexiones = new HashSet<Conexion>();
+        List<String> lineasConexion = new ArrayList<String>();
+
+        cursor = database.query(true, ContratoSQL.TablaConexiones.NombreTabla, null, ContratoSQL.TablaConexiones.NombreColumnaIDOrigen + " = ? OR " + ContratoSQL.TablaConexiones.NombreColumnaIDDestino + " = ?", new String[]{IDEstacion.toString(), IDEstacion.toString()}, null, null, null, null);
+
+        cursor.moveToFirst();
+
+        while(cursor.getCount() != 0) {
+            lineasConexion = Arrays.asList(cursor.getString(4).split(","));
+            if (cursor.getInt(1) == IDEstacion) {
+                setConexiones.add(new Conexion(IDEstacion, cursor.getInt(2), cursor.getInt(3), lineasConexion));
+            } else if (cursor.getInt(2) == IDEstacion) {
+                setConexiones.add(new Conexion(IDEstacion, cursor.getInt(1), cursor.getInt(3), lineasConexion));
+            }
+            if (cursor.isLast()) {
+                break;
+            }
+            cursor.moveToNext();
+        }
+
+        conexiones.addAll(setConexiones);
+
+        cursor.close();
+
+        return (conexiones);
+    }
+
+
+
 
     Estacion GetEstacion(Integer IDEstacion) throws SQLiteException {
         if (!database.isOpen()) {
@@ -98,38 +148,41 @@ public final class DBExtractor {
 
         //obtenemos las líneas de la estación
 
-        List<String> lineas;
+        List<String> lineasEstacion;
 
         cursor.moveToFirst();
 
-        lineas = Arrays.asList(cursor.getString(2).split(","));
+        lineasEstacion = Arrays.asList(cursor.getString(2).split(","));
 
-        /*Vamos a obtener las distancias.
+        /*Vamos a obtener las conexiones.
 
-        Las distancias, en la base de datos, están definidas con
+        Las concexiones, en la base de datos, están definidas con
         - origen
         - destino
         - distancia entre ellos
+        - líneas que operan la conexión
 
-        Las distancias son reversibles. Es decir, distancia(A,B) = distancia(B,A).
+        Las conexiones son reversibles. Es decir, conexion(A,B) = conexion(B,A).
 
         Entonces, vamos a tener que buscar la estación cuando figura como origen pero también como destino.
         */
 
         cursor.close();
 
-        List<Distancia> distancias = new ArrayList<Distancia>();
-        Set<Distancia> setDistancias = new HashSet<Distancia>();
+        List<Conexion> conexiones = new ArrayList<Conexion>();
+        Set<Conexion> setConexiones = new HashSet<Conexion>();
+        List<String> lineasConexion = new ArrayList<String>();
 
-        cursor = database.query(true, ContratoSQL.TablaDistancias.NombreTabla, null, ContratoSQL.TablaDistancias.NombreColumnaIDOrigen + " = ? OR " + ContratoSQL.TablaDistancias.NombreColumnaIDDestino + " = ?", new String[]{IDEstacion.toString(), IDEstacion.toString()}, null, null, null, null);
+        cursor = database.query(true, ContratoSQL.TablaConexiones.NombreTabla, null, ContratoSQL.TablaConexiones.NombreColumnaIDOrigen + " = ? OR " + ContratoSQL.TablaConexiones.NombreColumnaIDDestino + " = ?", new String[]{IDEstacion.toString(), IDEstacion.toString()}, null, null, null, null);
 
         cursor.moveToFirst();
 
         while(cursor.getCount() != 0) {
+            lineasConexion = Arrays.asList(cursor.getString(4).split(","));
             if (cursor.getInt(1) == IDEstacion) {
-                setDistancias.add(new Distancia(IDEstacion, cursor.getInt(2), cursor.getInt(3)));
+                setConexiones.add(new Conexion(IDEstacion, cursor.getInt(2), cursor.getInt(3), lineasConexion));
             } else if (cursor.getInt(2) == IDEstacion) {
-                setDistancias.add(new Distancia(IDEstacion, cursor.getInt(1), cursor.getInt(3)));
+                setConexiones.add(new Conexion(IDEstacion, cursor.getInt(1), cursor.getInt(3), lineasConexion));
             }
             if (cursor.isLast()) {
                 break;
@@ -137,11 +190,11 @@ public final class DBExtractor {
             cursor.moveToNext();
         }
 
-        distancias.addAll(setDistancias);
+        conexiones.addAll(setConexiones);
 
         cursor.close();
 
-        return (new Estacion(IDEstacion,nombreEstacion,lineas,distancias));
+        return (new Estacion(IDEstacion,nombreEstacion,lineasEstacion,conexiones));
     }
 
 }
