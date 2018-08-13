@@ -69,7 +69,7 @@ public class RutaActivity extends AppCompatActivity {
 
         LinearLayout layoutRuta = (LinearLayout) findViewById(R.id.layoutRuta);
 
-        View.OnClickListener listenerEstacion = new View.OnClickListener() {
+        /*View.OnClickListener listenerEstacion = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -79,6 +79,7 @@ public class RutaActivity extends AppCompatActivity {
                     view.setTransitionName("nombreEstacion");
                     // inside your activity (if you did not enable transitions in your theme)
                     getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+                    Intent intent = new Intent(, EstacionActivity.class);
                 } else {
                     // Swap without transition
 
@@ -86,18 +87,20 @@ public class RutaActivity extends AppCompatActivity {
 
 
             }
-        };
+        };*/
+
+        //colocamos el tiempo de ruta
+        TextView texto = (TextView) findViewById(R.id.tiempoRuta);
+        Integer segundos = ruta.tiempo;
+        //añadimos el 7% al tiempo de viaje estimado
+        segundos = Double.valueOf(segundos.doubleValue() * 1.07).intValue();
+        Integer minutos = segundos / 60;
+        segundos = segundos % 60;
+        texto.setText(texto.getText().toString() + ": " + minutos.toString() + " min " + segundos.toString() + " s");
 
         for (Estacion estacion : ruta.getEstacionesRuta()) {
-            if (ruta.getEstacionesRuta().indexOf(estacion) == 0) {
-                //colocamos el tiempo de ruta
-                TextView texto = (TextView) findViewById(R.id.tiempoRuta);
-                Integer segundos = ruta.tiempo;
-                //añadimos el 7% al tiempo de viaje estimado
-                segundos = Double.valueOf(segundos.doubleValue()*1.07).intValue();
-                Integer minutos = segundos/60;
-                segundos = segundos%60;
-                texto.setText(texto.getText().toString() + ": " + minutos.toString() + " min " + segundos.toString() + " s");
+            /*if (ruta.getEstacionesRuta().indexOf(estacion) == 0) {
+
 
                 //colocamos la primera estación
                 texto = (TextView) findViewById(R.id.estacionOrigen);
@@ -111,7 +114,7 @@ public class RutaActivity extends AppCompatActivity {
                 } catch (NoSuchElementException e) {
                     texto.setText(getResources().getText(R.string.tomarLinea) + " " + ruta.getLineas().get(0).getNombre());
                 }
-            } else {
+            } else {*/
 
                 LinearLayout layoutEstacion = new LinearLayout(contexto);
                 layoutEstacion.setOrientation(LinearLayout.HORIZONTAL);
@@ -129,17 +132,19 @@ public class RutaActivity extends AppCompatActivity {
                 ImageView icono = new ImageView(this);
                 if (ruta.getEstacionesRuta().indexOf(estacion) == ruta.getEstacionesRuta().size() - 1) {
                     icono.setImageResource(R.drawable.ic_place_black_24dp);
+                } else if (ruta.getEstacionesRuta().indexOf(estacion) == 0) {
+                    icono.setImageResource(R.drawable.ic_adjust_black_24dp);
                 } else {
                     icono.setImageResource(R.drawable.ic_estacion);
                 }
 
-                icono.setLayoutParams(new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.estacionHeight), (int) getResources().getDimension(R.dimen.estacionWidth)));
-                icono.setLayoutParams(new LinearLayout.MarginLayoutParams((ViewGroup.MarginLayoutParams) findViewById(R.id.iconoEstacion).getLayoutParams()));
+            //icono.setLayoutParams(new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.estacionHeight), (int) getResources().getDimension(R.dimen.estacionWidth)));
+            //icono.setLayoutParams(new LinearLayout.MarginLayoutParams((ViewGroup.MarginLayoutParams) findViewById(R.id.iconoEstacion).getLayoutParams()));
             /*la de arriba es una solución cutrilla. Solo copia los parámetros de margen del primer icono (iconoEstacion), que ya está definido en el XML.
             Pero no los genera en el propio código, porque no sé cómo. Lo intenté con la línea de abajo, pero da error:*/
                 //icono.setLayoutParams(new LinearLayout.MarginLayoutParams((int) getResources().getDimension(R.dimen.marginEstacion),(int) getResources().getDimension(R.dimen.marginEstacion)));
 
-                parametros = new LinearLayout.LayoutParams(icono.getLayoutParams());
+            parametros = new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.estacionWidth), (int) getResources().getDimension(R.dimen.estacionHeight));
                 parametros.leftMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
                 parametros.rightMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
                 parametros.topMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
@@ -170,7 +175,7 @@ public class RutaActivity extends AppCompatActivity {
 
                     }
                 }
-            }
+            //}
 
         }
     }
