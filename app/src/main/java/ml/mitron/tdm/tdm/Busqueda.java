@@ -83,6 +83,10 @@ class Conexion implements Comparable<Conexion> {
         return (destino);
     }
 
+    Integer getIDOrigen() {
+        return (origen);
+    }
+
     Integer getDistancia() {
         return (distancia);
     }
@@ -193,7 +197,7 @@ class seccionLinea {
     }
 
     Boolean checkInicioLinea(Estacion inicio) {
-        return (this.origen.equals(inicio));
+        return (this.origen.getId().equals(inicio.getId()));
     }
 
     Boolean checkFinLinea(Estacion fin) {
@@ -252,6 +256,11 @@ class Ruta {
         return lineas;
     }
 
+    @Deprecated
+    /*
+    Lo guardo por si hiciera falta, pero las líneas ya se calculan al crear la ruta en la clase Mapa.
+    Este método puede ser inexacto, porque se basa en las estaciones y no en las conexiones.
+     */
     void calcularLineas() {
         Boolean contenido;
         Estacion lastEstacion = estaciones.get(0);
@@ -312,6 +321,7 @@ class Ruta {
 }
 
 class Mapa {
+    final static Integer tiempoCambioLinea = 10;
     private final Map<Integer, Estacion> estaciones;
 
     Mapa() {
@@ -336,8 +346,15 @@ class Mapa {
         HashMap<Integer, Integer> distancias = new HashMap<>();
 
         //esto nos sirve para relacionar cada estación con la que la precede
-        HashMap<Integer, Integer> nodoPrevio = new HashMap<>();
+        HashMap<Integer, Conexion> nodoPrevio = new HashMap<>();
 
+        /*
+        Hasta ahí nos sirve para analizar las ESTACIONES por las que pasa la ruta.
+        PERO también queremos tener en cuenta los cambios de línea; de esa forma se tendrán en cuenta para el cómputo final.
+        Así que para eso vamos a mantener un registro de las líneas también.
+        */
+
+        Set<String> lineasCoincidentes = new HashSet<String>();
 
         //VAMOS A COMENZAR EL PROCESO DE BÚSQUEDA
 
@@ -345,45 +362,87 @@ class Mapa {
         pilaConexiones.add(new Conexion(inicio, inicio, 0, extractor.GetEstacion(inicio).getLineas()));
         distancias.put(inicio, 0);
 
-        //mientras haya nodos en la pila...
+        //Repetimos este bucle mientras haya conexiones en la pila para analizar. Si nos quedamos sin estaciones, no hay ruta posible.
         while (!pilaConexiones.isEmpty()) {
-            Conexion conexionNodo = pilaConexiones.poll();
-            if (conexionNodo.getIDDestino().equals(fin)) {
+            Conexion conexionANodo = pilaConexiones.poll();
+
+            //aquí vamos a comprobar si hemos llegado a la estación de destino.
+            if (conexionANodo.getIDDestino().equals(fin)) {
                 break;
             }
 
             //hacemos un List de las conexiones
-            List<Conexion> conexiones = extractor.GetEstacion(conexionNodo.getIDDestino()).getConexiones();
+            List<Conexion> conexiones = extractor.GetEstacion(conexionANodo.getIDDestino()).getConexiones();
 
             //vamos a borrar la distancia que apunta al nodo del que venimos, ya que no tiene sentido analizarla.
-            for (Conexion conexionPrevia : conexiones) {
-                if (conexionPrevia.getIDDestino().equals(nodoPrevio.get(conexionNodo.getIDDestino()))) {
-                    conexiones.remove(conexionPrevia);
+            for (Conexion conexionRedundante : conexiones) {
+                if (conexionRedundante.getIDDestino().equals(conexionANodo.getIDDestino())) {
+                    conexiones.remove(conexionRedundante);
                     break;
                 }
             }
 
+            /*analizamos todas las conexiones de la estación que está conectada
 
-            for (Conexion conexion : conexiones) {
-                if (!distancias.containsKey(conexion.getIDDestino())) {
+            esto va más o menos así:
 
-                    //Si el registro de conexiones no sabe que distancia hay al nodo colindante, entonces simplemente la añadimos
-                    distancias.put(conexion.getIDDestino(), conexionNodo.getDistancia() + conexion.getDistancia());
+            |ESTACION ORIGEN|
+
+                \/
+            (Conexión)            Las conexiones se almacenan en una PriorityQueue, que se llama pilaConexiones.
+
+                \/
+            |ESTACIÓN CONECTADA|
+
+                \/
+            (Conexión)
+
+                \/
+            |ESTACIÓN DESTINO|
+
+             */
+
+            for (Conexion conexionFutura : conexiones) {
+
+                lineasCoincidentes.clear();
+
+                Integer distanciaAEstacion;
+
+                for (String linea : conexionANodo.getLineas()) {
+                    if (conexionFutura.getLineas().contains(linea)) {
+                        lineasCoincidentes.add(linea);
+                    }
+                }
+
+                if (lineasCoincidentes.isEmpty()) {
+                    distanciaAEstacion = conexionANodo.getDistancia() + conexionFutura.getDistancia() + tiempoCambioLinea;
+                } else {
+                    distanciaAEstacion = conexionANodo.getDistancia() + conexionFutura.getDistancia();
+                }
+
+                //ya hemos comprobado las líneas que hay en común entre los dos nodos; vamos ahora a ver las distancias
+
+                if (!distancias.containsKey(conexionFutura.getIDDestino())) {
+
+                    //Dado que el registro de conexiones no sabe qué distancia hay al nodo colindante, entonces simplemente la añadimos
+                    distancias.put(conexionFutura.getIDDestino(), distanciaAEstacion);
 
                     //añadimos este nodo a la Priority Queue
-                    pilaConexiones.add(new Conexion(inicio, conexion.getIDDestino(), conexionNodo.getDistancia() + conexion.getDistancia(), null));
+                    pilaConexiones.add(new Conexion(inicio, conexionFutura.getIDDestino(), distanciaAEstacion, conexionFutura.getLineas()));
 
                     //registramos cuál era el nodo previo
-                    nodoPrevio.put(conexion.getIDDestino(), conexionNodo.getIDDestino());
+                    nodoPrevio.put(conexionFutura.getIDDestino(), conexionFutura);
 
 
                     //puede pasar que ya llegásemos al nodo desde otro sitio, entonces solo vamos a registrar este nuevo camino si es más corto.
-                } else if (conexionNodo.getDistancia() + conexion.getDistancia() < distancias.get(conexion.getIDDestino())) {
-                    distancias.remove(conexion.getIDDestino());
-                    distancias.put(conexion.getIDDestino(), conexionNodo.getDistancia() + conexion.getDistancia());
-                    pilaConexiones.add(new Conexion(inicio, conexion.getIDDestino(), conexionNodo.getDistancia() + conexion.getDistancia(), null));
-                    nodoPrevio.remove(conexion.getIDDestino());
-                    nodoPrevio.put(conexion.getIDDestino(), conexionNodo.getIDDestino());
+                } else if (distanciaAEstacion < distancias.get(conexionFutura.getIDDestino())) {
+                    distancias.remove(conexionFutura.getIDDestino());
+                    distancias.put(conexionFutura.getIDDestino(), conexionANodo.getDistancia() + conexionFutura.getDistancia());
+
+                    pilaConexiones.add(new Conexion(inicio, conexionFutura.getIDDestino(), distanciaAEstacion, conexionFutura.getLineas()));
+
+                    nodoPrevio.remove(conexionFutura.getIDDestino());
+                    nodoPrevio.put(conexionFutura.getIDDestino(), conexionFutura);
                 }
             }
         }
@@ -397,16 +456,65 @@ class Mapa {
             throw new IllegalArgumentException();
         }
 
-        for (Integer i = fin; !i.equals(inicio); i = nodoPrevio.get(i)) {
+        for (Integer i = fin; !i.equals(inicio); i = nodoPrevio.get(i).getIDOrigen()) {
             orden.add(i);
         }
 
         orden.add(inicio);
 
-        while (!orden.isEmpty()) {
-            ruta.anadirEstacion(extractor.GetEstacion(orden.get(orden.size() - 1)));
-            orden.remove(orden.size() - 1);
+        for (Integer i = orden.size() - 1; i >= 0; i--) {
+            ruta.anadirEstacion(extractor.GetEstacion(orden.get(i)));
         }
+
+        //VAMOS A CALCULAR LOS TRAMOS DE LÍNEA
+
+        /*Esto lo calculamos del inicio al final:
+
+         el ArrayList "orden" está del revés; la estación 0 es el final
+         por eso empezamos en orden.size() - 1
+         pero podríamos calcularlo al revés también, aunque sería más rollo porque al final habría que darle la vuelta*/
+
+        List<seccionLinea> listaLineas = new ArrayList<seccionLinea>();
+
+        Set<String> lineasDisponibles = new HashSet<String>();
+
+        Integer idEstacionOrigenLinea = orden.get(orden.size() - 1);
+
+        lineasDisponibles.addAll(nodoPrevio.get(orden.get(0)).getLineas());
+
+        for (Integer i = 0; i < orden.size() - 1; i++) {
+
+            //Vamos a copiar las líneas disponibles para ver si hay en común.
+            //Si no hay, entonces tenemos la copia de las que había para añadirlas.
+
+            Set<String> pruebaLineasDisponibles = new HashSet<String>(lineasDisponibles);
+
+            //el método retainAll es equivalente a comprobar los elementos que son comunes.
+            //Es decir, devuelve sólo un Set de los elementos comunes.
+
+            pruebaLineasDisponibles.retainAll(nodoPrevio.get(orden.get(i)).getLineas());
+
+            if (pruebaLineasDisponibles.isEmpty()) {
+                listaLineas.add(new seccionLinea(extractor.GetEstacion(orden.get(i)), extractor.GetEstacion(idEstacionOrigenLinea), (String) lineasDisponibles.toArray()[0]));
+                lineasDisponibles.clear();
+                lineasDisponibles.addAll(nodoPrevio.get(orden.get(i)).getLineas());
+
+                idEstacionOrigenLinea = orden.get(i);
+            } else {
+                lineasDisponibles = pruebaLineasDisponibles;
+            }
+
+        }
+
+        //cuando llegamos a la estación inicial, tenemos que añadir con ella una nueva línea hasta ella.
+
+        listaLineas.add(new seccionLinea(extractor.GetEstacion(orden.get(orden.size() - 1)), extractor.GetEstacion(idEstacionOrigenLinea), (String) lineasDisponibles.toArray()[0]));
+
+        for (Integer i = listaLineas.size() - 1; i >= 0; i--) {
+            ruta.anadirSeccionLinea(listaLineas.get(i));
+        }
+
+        //HEMOS ACABADO DE CALCULAR LOS TRAMOS DE LÍNEA
 
         ruta.setTiempo(distancias.get(fin));
 

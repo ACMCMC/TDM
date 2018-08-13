@@ -69,8 +69,6 @@ public class RutaActivity extends AppCompatActivity {
 
         LinearLayout layoutRuta = (LinearLayout) findViewById(R.id.layoutRuta);
 
-        ruta.calcularLineas();
-
         for (Estacion estacion : ruta.getEstacionesRuta()) {
             if (ruta.getEstacionesRuta().indexOf(estacion) == 0) {
                 //colocamos el tiempo de ruta
@@ -78,7 +76,6 @@ public class RutaActivity extends AppCompatActivity {
                 Integer segundos = ruta.tiempo;
                 //añadimos el 7% al tiempo de viaje estimado
                 segundos = Double.valueOf(segundos.doubleValue()*1.07).intValue();
-                segundos = segundos + (ruta.getLineas().size() - 1)*10;
                 Integer minutos = segundos/60;
                 segundos = segundos%60;
                 texto.setText(texto.getText().toString() + ": " + minutos.toString() + " min " + segundos.toString() + " s");
@@ -132,6 +129,8 @@ public class RutaActivity extends AppCompatActivity {
 
                 layoutEstacion.addView(icono);
                 layoutEstacion.addView(nombreEstacion);
+
+                //Ponemos el texto de las líneas
 
                 for (seccionLinea linea : ruta.getLineas()) {
                     if (linea.checkInicioLinea(estacion)) {
