@@ -1,13 +1,14 @@
 package ml.mitron.tdm.tdm;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,7 +16,6 @@ import android.widget.TextView;
 
 import java.util.NoSuchElementException;
 
-import static ml.mitron.tdm.tdm.R.id.nuevoCalculoButton;
 import static ml.mitron.tdm.tdm.R.layout.ruta;
 
 /**
@@ -68,6 +68,25 @@ public class RutaActivity extends AppCompatActivity {
         extractor.CloseDB();
 
         LinearLayout layoutRuta = (LinearLayout) findViewById(R.id.layoutRuta);
+
+        View.OnClickListener listenerEstacion = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // Check if we're running on Android 5.0 or higher
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    // Apply activity transition
+                    view.setTransitionName("nombreEstacion");
+                    // inside your activity (if you did not enable transitions in your theme)
+                    getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+                } else {
+                    // Swap without transition
+
+                }
+
+
+            }
+        };
 
         for (Estacion estacion : ruta.getEstacionesRuta()) {
             if (ruta.getEstacionesRuta().indexOf(estacion) == 0) {
