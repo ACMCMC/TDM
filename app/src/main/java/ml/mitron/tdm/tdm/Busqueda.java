@@ -1,6 +1,7 @@
 package ml.mitron.tdm.tdm;
 
 import android.content.Context;
+import android.graphics.Color;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -20,14 +21,94 @@ public class Busqueda {
     }
 }
 
+class Linea {
+    Color color;
+    String id;
+    String nombrePropio;
+
+    Linea(String id) {
+        this.id = id;
+        color = null;
+        nombrePropio = null;
+    }
+
+
+    Linea(String id, Context contexto) {
+        this.id = id;
+
+        switch (id) {
+            case "1": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l1);
+                break;
+            }
+            case "2": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l2);
+                break;
+            }
+            case "3": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l3);
+                break;
+            }
+            case "4": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l4);
+                break;
+            }
+            case "5": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l5);
+                break;
+            }
+            case "6": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l6);
+                break;
+            }
+            case "7": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l7);
+                break;
+            }
+            case "7A": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l7A);
+                break;
+            }
+            case "7B": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l7B);
+                break;
+            }
+            case "8": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l8);
+                break;
+            }
+            case "T": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.T);
+                break;
+            }
+            case "C": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.C);
+                break;
+            }
+            case "F": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.F);
+                break;
+            }
+            default: {
+                nombrePropio = null;
+                throw new NoSuchElementException();
+            }
+        }
+    }
+
+    String getIDLinea() {
+        return (id);
+    }
+}
+
 //la clase Estacion representa una estacion completa
 class Estacion {
     private Integer id;
     private String nombre;
-    private List<String> lineas;
+    private List<Linea> lineas;
     private List<Conexion> conexiones;
 
-    public Estacion(Integer id, String nombre, List<String> lineas, List<Conexion> conexiones) {
+    public Estacion(Integer id, String nombre, List<Linea> lineas, List<Conexion> conexiones) {
         this.id = id;
         this.nombre = nombre;
         this.lineas = lineas;
@@ -50,7 +131,7 @@ class Estacion {
         return (conexiones);
     }
 
-    List<String> getLineas() {
+    List<Linea> getLineas() {
         return (lineas);
     }
 }
@@ -60,22 +141,22 @@ class Conexion implements Comparable<Conexion> {
     private Integer origen;
     private Integer destino;
     private Integer distancia;
-    private List<String> lineas;
+    private List<Linea> lineas;
 
-    Conexion(Integer IDDestino, Integer distancia, List<String> lineas) {
+    Conexion(Integer IDDestino, Integer distancia, List<Linea> lineas) {
         this.destino = IDDestino;
         this.distancia = distancia;
         this.lineas = lineas;
     }
 
-    Conexion(Integer IDOrigen, Integer IDDestino, Integer distancia, List<String> lineas) {
+    Conexion(Integer IDOrigen, Integer IDDestino, Integer distancia, List<Linea> lineas) {
         this.origen = IDOrigen;
         this.destino = IDDestino;
         this.distancia = distancia;
         this.lineas = lineas;
     }
 
-    List<String> getLineas() {
+    List<Linea> getLineas() {
         return(lineas);
     }
 
@@ -266,16 +347,16 @@ class Ruta {
         Estacion lastEstacion = estaciones.get(0);
 
         //Usamos un Set para las líneas disponibles
-        Set<String> lineasDisponibles = new HashSet<String>();
+        Set<Linea> lineasDisponibles = new HashSet<Linea>();
 
         //debemos usar el removeStack porque si no, estamos editando el Set mientras estamos en un bucle for.
-        List<String> removeStack = new ArrayList<String>();
+        List<Linea> removeStack = new ArrayList<Linea>();
         lineasDisponibles.addAll(estaciones.get(0).getLineas());
         for (Estacion estacionActual : estaciones) {
 
             contenido = false;
 
-            for (String linea : lineasDisponibles) {
+            for (Linea linea : lineasDisponibles) {
                 if (estacionActual.getLineas().contains(linea)) {
                     contenido = true;
                     break;
@@ -285,7 +366,7 @@ class Ruta {
                 lineas.add(new seccionLinea(lastEstacion, estaciones.get(estaciones.indexOf(estacionActual) - 1), lineasDisponibles.toArray()[0].toString()));
                 lineasDisponibles.clear();
                 lineasDisponibles.addAll(estaciones.get(estaciones.indexOf(estacionActual) - 1).getLineas());
-                for (String linea : lineasDisponibles) {
+                for (Linea linea : lineasDisponibles) {
                     if (!estacionActual.getLineas().contains(linea)) {
                         removeStack.add(linea);
                     }
@@ -296,7 +377,7 @@ class Ruta {
             } else {
 
                 //es aquí donde estaríamos editando el Set mientras estamos en un bucle for
-                for (String linea : lineasDisponibles) {
+                for (Linea linea : lineasDisponibles) {
                     if (!estacionActual.getLineas().contains(linea)) {
                         removeStack.add(linea);
                     }
@@ -305,7 +386,7 @@ class Ruta {
                 removeStack.clear();
             }
         }
-        for (String linea : lineasDisponibles) {
+        for (Linea linea : lineasDisponibles) {
             if (!estaciones.get(estaciones.size() - 1).getLineas().contains(linea)) {
                 removeStack.add(linea);
             }
@@ -354,12 +435,12 @@ class Mapa {
         Así que para eso vamos a mantener un registro de las líneas también.
         */
 
-        Set<String> lineasCoincidentes = new HashSet<String>();
+        Set<Linea> lineasCoincidentes = new HashSet<Linea>();
 
         //VAMOS A COMENZAR EL PROCESO DE BÚSQUEDA
 
         //La estación de origen está a 0 de la estación de origen
-        pilaConexiones.add(new Conexion(inicio, inicio, 0, extractor.GetEstacion(inicio).getLineas()));
+        pilaConexiones.add(new Conexion(inicio, inicio, 0, extractor.getEstacion(inicio).getLineas()));
         distancias.put(inicio, 0);
 
         //Repetimos este bucle mientras haya conexiones en la pila para analizar. Si nos quedamos sin estaciones, no hay ruta posible.
@@ -372,7 +453,7 @@ class Mapa {
             }
 
             //hacemos un List de las conexiones
-            List<Conexion> conexiones = extractor.GetEstacion(conexionANodo.getIDDestino()).getConexiones();
+            List<Conexion> conexiones = extractor.getEstacion(conexionANodo.getIDDestino()).getConexiones();
 
             //vamos a borrar la distancia que apunta al nodo del que venimos, ya que no tiene sentido analizarla.
             for (Conexion conexionRedundante : conexiones) {
@@ -408,7 +489,7 @@ class Mapa {
 
                 Integer distanciaAEstacion;
 
-                for (String linea : conexionANodo.getLineas()) {
+                for (Linea linea : conexionANodo.getLineas()) {
                     if (conexionFutura.getLineas().contains(linea)) {
                         lineasCoincidentes.add(linea);
                     }
@@ -463,7 +544,7 @@ class Mapa {
         orden.add(inicio);
 
         for (Integer i = orden.size() - 1; i >= 0; i--) {
-            ruta.anadirEstacion(extractor.GetEstacion(orden.get(i)));
+            ruta.anadirEstacion(extractor.getEstacion(orden.get(i)));
         }
 
         //VAMOS A CALCULAR LOS TRAMOS DE LÍNEA
@@ -476,7 +557,7 @@ class Mapa {
 
         List<seccionLinea> listaLineas = new ArrayList<seccionLinea>();
 
-        Set<String> lineasDisponibles = new HashSet<String>();
+        Set<Linea> lineasDisponibles = new HashSet<Linea>();
 
         Integer idEstacionOrigenLinea = orden.get(orden.size() - 1);
 
@@ -487,7 +568,7 @@ class Mapa {
             //Vamos a copiar las líneas disponibles para ver si hay en común.
             //Si no hay, entonces tenemos la copia de las que había para añadirlas.
 
-            Set<String> pruebaLineasDisponibles = new HashSet<String>(lineasDisponibles);
+            Set<Linea> pruebaLineasDisponibles = new HashSet<Linea>(lineasDisponibles);
 
             //el método retainAll es equivalente a comprobar los elementos que son comunes.
             //Es decir, devuelve sólo un Set de los elementos comunes.
@@ -495,7 +576,7 @@ class Mapa {
             pruebaLineasDisponibles.retainAll(nodoPrevio.get(orden.get(i)).getLineas());
 
             if (pruebaLineasDisponibles.isEmpty()) {
-                listaLineas.add(new seccionLinea(extractor.GetEstacion(orden.get(i)), extractor.GetEstacion(idEstacionOrigenLinea), (String) lineasDisponibles.toArray()[0]));
+                listaLineas.add(new seccionLinea(extractor.getEstacion(orden.get(i)), extractor.getEstacion(idEstacionOrigenLinea), (String) lineasDisponibles.toArray()[0]));
                 lineasDisponibles.clear();
                 lineasDisponibles.addAll(nodoPrevio.get(orden.get(i)).getLineas());
 
@@ -508,7 +589,7 @@ class Mapa {
 
         //cuando llegamos a la estación inicial, tenemos que añadir con ella una nueva línea hasta ella.
 
-        listaLineas.add(new seccionLinea(extractor.GetEstacion(orden.get(orden.size() - 1)), extractor.GetEstacion(idEstacionOrigenLinea), (String) lineasDisponibles.toArray()[0]));
+        listaLineas.add(new seccionLinea(extractor.getEstacion(orden.get(orden.size() - 1)), extractor.getEstacion(idEstacionOrigenLinea), (String) lineasDisponibles.toArray()[0]));
 
         for (Integer i = listaLineas.size() - 1; i >= 0; i--) {
             ruta.anadirSeccionLinea(listaLineas.get(i));
