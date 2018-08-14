@@ -25,4 +25,5 @@
     <string name="descripcionError">No route has been found between the selected stations</string>
     <string name="buttonCalcular">Find my route</string>
     <string name="calcularOtraButton">Find another route</string>
+    <string name="estacionRedTDM">TDM Network station</string>
 </resources>

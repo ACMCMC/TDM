@@ -24,4 +24,5 @@
     <string name="descripcionError">Nula ruut trouved</string>
     <string name="buttonCalcular">Calcul ihr ruut</string>
     <string name="calcularOtraButton">Trouv altre ruut</string>
+    <string name="estacionRedTDM">TDM Network station</string>
 </resources>
