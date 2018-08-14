@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="linea1">#FF0000</color>
-    <color name="linea2">#A20000</color>
-    <color name="linea3">#00CDB5</color>
-    <color name="linea4">#FF0000</color>
-    <color name="linea5">#A20000</color>
-    <color name="linea6">#00CDB5</color>
-    <color name="linea7">#FF0000</color>
-    <color name="linea7A">#A20000</color>
-    <color name="linea7B">#00CDB5</color>
-    <color name="linea8">#00CDB5</color>
-    <color name="lineaC">#FF0000</color>
-    <color name="lineaF">#A20000</color>
-    <color name="lineaT">#00CDB5</color>
+    <color name="linea1">#0000ff</color>
+    <color name="linea2">#ffc400</color>
+    <color name="linea3">#6400c8</color>
+    <color name="linea4">#ff00ff</color>
+    <color name="linea5">#00ff00</color>
+    <color name="linea6">#FF0000</color>
+    <color name="linea7">#00ffff</color>
+    <color name="linea7A">#00ffff</color>
+    <color name="linea7B">#00ffff</color>
+    <color name="linea8">#00dcb4</color>
+    <color name="lineaC">#ff5500</color>
+    <color name="lineaF">#737373</color>
+    <color name="lineaT">#a4ff54</color>
 </resources>

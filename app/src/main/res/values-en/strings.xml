@@ -26,4 +26,5 @@
     <string name="buttonCalcular">Find my route</string>
     <string name="calcularOtraButton">Find another route</string>
     <string name="estacionRedTDM">TDM Network station</string>
+    <string name="conexionCon">connection with</string>
 </resources>

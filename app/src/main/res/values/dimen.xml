@@ -6,4 +6,9 @@
     <dimen name="estacionWidth">24dp</dimen>
     <dimen name="estacionHeight">24dp</dimen>
     <dimen name="marginEstacion">12dp</dimen>
+
+    <dimen name="paddingLineaHorizontal">8dp</dimen>
+    <dimen name="paddingLineaVertical">4dp</dimen>
+    <dimen name="marginLineaHorizontal">4dp</dimen>
+    <dimen name="marginLineaVertical">8dp</dimen>
 </resources>
