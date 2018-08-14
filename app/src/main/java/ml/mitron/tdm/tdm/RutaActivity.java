@@ -1,7 +1,9 @@
 package ml.mitron.tdm.tdm;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +26,8 @@ import static ml.mitron.tdm.tdm.R.layout.ruta;
 
 public class RutaActivity extends AppCompatActivity {
 
+    Ruta ruta;
+
     DBExtractor extractor;
 
     @Override
@@ -35,7 +39,7 @@ public class RutaActivity extends AppCompatActivity {
 
         extractor = new DBExtractor(this);
 
-        setContentView(ruta);
+        setContentView(R.layout.ruta);
 
         setRuta(inicio,destino,this,extractor);
 
@@ -43,9 +47,26 @@ public class RutaActivity extends AppCompatActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                finishAfterTransition();
             }
         });
+
+        LinearLayout layoutRuta = (LinearLayout) findViewById(R.id.layoutRuta);
+
+        for (int i = 0; i < layoutRuta.getChildCount(); i++) {
+            final View view = layoutRuta.getChildAt(i);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(RutaActivity.this, EstacionActivity.class);
+                    TextView textViewEstacion = ((TextView) ((LinearLayout) ((LinearLayout) v).getChildAt(0)).getChildAt(1));
+                    textViewEstacion.setTransitionName("nombreEstacion");
+                    intent.putExtra("nombreEstacion", textViewEstacion.getText());
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(RutaActivity.this, textViewEstacion, "nombreEstacion");
+                    startActivity(intent, options.toBundle());
+                }
+            });
+        }
     }
 
     void setRuta(Integer inicio, Integer destino, Context contexto, DBExtractor extractor) {
@@ -54,7 +75,7 @@ public class RutaActivity extends AppCompatActivity {
             extractor.OpenDB();
         }
 
-        Ruta ruta;
+
 
         try {
             ruta = Busqueda.Busqueda(inicio, destino, extractor);
@@ -99,26 +120,17 @@ public class RutaActivity extends AppCompatActivity {
         texto.setText(texto.getText().toString() + ": " + minutos.toString() + " min " + segundos.toString() + " s");
 
         for (Estacion estacion : ruta.getEstacionesRuta()) {
-            /*if (ruta.getEstacionesRuta().indexOf(estacion) == 0) {
 
+            //El layoutInstruccion incluye el texto de la instrucción; y el nombre de la estación con el icono.
 
-                //colocamos la primera estación
-                texto = (TextView) findViewById(R.id.estacionOrigen);
-                texto.setText(ruta.getNombresRuta().get(0));
-
-                //colocamos la primera línea
-                texto = (TextView) findViewById(R.id.textViewLineas1);
-                texto.setText(texto.getText().toString() + " " + ruta.getLineas().get(0).nombre);
-                try {
-                    texto.setText(getResources().getText(R.string.tomarLinea) + " " + ruta.getLineas().get(0).getNombre() + " / " + ruta.getLineas().get(0).getNombrePropio(contexto));
-                } catch (NoSuchElementException e) {
-                    texto.setText(getResources().getText(R.string.tomarLinea) + " " + ruta.getLineas().get(0).getNombre());
-                }
-            } else {*/
+            LinearLayout layoutInstruccion = new LinearLayout(contexto);
+            layoutInstruccion.setOrientation(LinearLayout.VERTICAL);
 
                 LinearLayout layoutEstacion = new LinearLayout(contexto);
                 layoutEstacion.setOrientation(LinearLayout.HORIZONTAL);
-                layoutRuta.addView(layoutEstacion);
+
+            layoutInstruccion.addView(layoutEstacion);
+            layoutRuta.addView(layoutInstruccion);
                 LinearLayout.LayoutParams parametros;
 
                 TextView nombreEstacion = new TextView(this);
@@ -138,12 +150,6 @@ public class RutaActivity extends AppCompatActivity {
                     icono.setImageResource(R.drawable.ic_estacion);
                 }
 
-            //icono.setLayoutParams(new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.estacionHeight), (int) getResources().getDimension(R.dimen.estacionWidth)));
-            //icono.setLayoutParams(new LinearLayout.MarginLayoutParams((ViewGroup.MarginLayoutParams) findViewById(R.id.iconoEstacion).getLayoutParams()));
-            /*la de arriba es una solución cutrilla. Solo copia los parámetros de margen del primer icono (iconoEstacion), que ya está definido en el XML.
-            Pero no los genera en el propio código, porque no sé cómo. Lo intenté con la línea de abajo, pero da error:*/
-                //icono.setLayoutParams(new LinearLayout.MarginLayoutParams((int) getResources().getDimension(R.dimen.marginEstacion),(int) getResources().getDimension(R.dimen.marginEstacion)));
-
             parametros = new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.estacionWidth), (int) getResources().getDimension(R.dimen.estacionHeight));
                 parametros.leftMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
                 parametros.rightMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
@@ -161,7 +167,7 @@ public class RutaActivity extends AppCompatActivity {
                         TextView textoLinea = new TextView(this);
                         try {
                             textoLinea.setText(getResources().getText(R.string.tomarLinea) + " " + linea.getNombre() + " / " + linea.getNombrePropio(contexto));
-                        } catch (NoSuchElementException e) {
+                        } catch (NoSuchElementException | Resources.NotFoundException e) {
                             textoLinea.setText(getResources().getText(R.string.tomarLinea) + " " + linea.getNombre());
                         }
                         parametros = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -170,12 +176,11 @@ public class RutaActivity extends AppCompatActivity {
                         parametros.topMargin = (int) getResources().getDimension(R.dimen.marginLineaTop);
                         parametros.bottomMargin = (int) getResources().getDimension(R.dimen.marginLineaBottom);
                         textoLinea.setLayoutParams(parametros);
-                        layoutRuta.addView(textoLinea);
+                        layoutInstruccion.addView(textoLinea);
                     } else {
 
                     }
                 }
-            //}
 
         }
     }

@@ -1,7 +1,6 @@
 package ml.mitron.tdm.tdm;
 
 import android.content.Context;
-import android.graphics.Color;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -21,94 +20,14 @@ public class Busqueda {
     }
 }
 
-class Linea {
-    Color color;
-    String id;
-    String nombrePropio;
-
-    Linea(String id) {
-        this.id = id;
-        color = null;
-        nombrePropio = null;
-    }
-
-
-    Linea(String id, Context contexto) {
-        this.id = id;
-
-        switch (id) {
-            case "1": {
-                nombrePropio = (String) contexto.getResources().getText(R.string.l1);
-                break;
-            }
-            case "2": {
-                nombrePropio = (String) contexto.getResources().getText(R.string.l2);
-                break;
-            }
-            case "3": {
-                nombrePropio = (String) contexto.getResources().getText(R.string.l3);
-                break;
-            }
-            case "4": {
-                nombrePropio = (String) contexto.getResources().getText(R.string.l4);
-                break;
-            }
-            case "5": {
-                nombrePropio = (String) contexto.getResources().getText(R.string.l5);
-                break;
-            }
-            case "6": {
-                nombrePropio = (String) contexto.getResources().getText(R.string.l6);
-                break;
-            }
-            case "7": {
-                nombrePropio = (String) contexto.getResources().getText(R.string.l7);
-                break;
-            }
-            case "7A": {
-                nombrePropio = (String) contexto.getResources().getText(R.string.l7A);
-                break;
-            }
-            case "7B": {
-                nombrePropio = (String) contexto.getResources().getText(R.string.l7B);
-                break;
-            }
-            case "8": {
-                nombrePropio = (String) contexto.getResources().getText(R.string.l8);
-                break;
-            }
-            case "T": {
-                nombrePropio = (String) contexto.getResources().getText(R.string.T);
-                break;
-            }
-            case "C": {
-                nombrePropio = (String) contexto.getResources().getText(R.string.C);
-                break;
-            }
-            case "F": {
-                nombrePropio = (String) contexto.getResources().getText(R.string.F);
-                break;
-            }
-            default: {
-                nombrePropio = null;
-                throw new NoSuchElementException();
-            }
-        }
-    }
-
-    String getIDLinea() {
-        return (id);
-    }
-}
-
 //la clase Estacion representa una estacion completa
 class Estacion {
     private Integer id;
     private String nombre;
-    private List<Linea> lineas;
+    private List<String> lineas;
     private List<Conexion> conexiones;
 
-    public Estacion(Integer id, String nombre, List<Linea> lineas, List<Conexion> conexiones) {
+    public Estacion(Integer id, String nombre, List<String> lineas, List<Conexion> conexiones) {
         this.id = id;
         this.nombre = nombre;
         this.lineas = lineas;
@@ -131,7 +50,7 @@ class Estacion {
         return (conexiones);
     }
 
-    List<Linea> getLineas() {
+    List<String> getLineas() {
         return (lineas);
     }
 }
@@ -141,22 +60,22 @@ class Conexion implements Comparable<Conexion> {
     private Integer origen;
     private Integer destino;
     private Integer distancia;
-    private List<Linea> lineas;
+    private List<String> lineas;
 
-    Conexion(Integer IDDestino, Integer distancia, List<Linea> lineas) {
+    Conexion(Integer IDDestino, Integer distancia, List<String> lineas) {
         this.destino = IDDestino;
         this.distancia = distancia;
         this.lineas = lineas;
     }
 
-    Conexion(Integer IDOrigen, Integer IDDestino, Integer distancia, List<Linea> lineas) {
+    Conexion(Integer IDOrigen, Integer IDDestino, Integer distancia, List<String> lineas) {
         this.origen = IDOrigen;
         this.destino = IDDestino;
         this.distancia = distancia;
         this.lineas = lineas;
     }
 
-    List<Linea> getLineas() {
+    List<String> getLineas() {
         return(lineas);
     }
 
@@ -347,16 +266,16 @@ class Ruta {
         Estacion lastEstacion = estaciones.get(0);
 
         //Usamos un Set para las líneas disponibles
-        Set<Linea> lineasDisponibles = new HashSet<Linea>();
+        Set<String> lineasDisponibles = new HashSet<String>();
 
         //debemos usar el removeStack porque si no, estamos editando el Set mientras estamos en un bucle for.
-        List<Linea> removeStack = new ArrayList<Linea>();
+        List<String> removeStack = new ArrayList<String>();
         lineasDisponibles.addAll(estaciones.get(0).getLineas());
         for (Estacion estacionActual : estaciones) {
 
             contenido = false;
 
-            for (Linea linea : lineasDisponibles) {
+            for (String linea : lineasDisponibles) {
                 if (estacionActual.getLineas().contains(linea)) {
                     contenido = true;
                     break;
@@ -366,7 +285,7 @@ class Ruta {
                 lineas.add(new seccionLinea(lastEstacion, estaciones.get(estaciones.indexOf(estacionActual) - 1), lineasDisponibles.toArray()[0].toString()));
                 lineasDisponibles.clear();
                 lineasDisponibles.addAll(estaciones.get(estaciones.indexOf(estacionActual) - 1).getLineas());
-                for (Linea linea : lineasDisponibles) {
+                for (String linea : lineasDisponibles) {
                     if (!estacionActual.getLineas().contains(linea)) {
                         removeStack.add(linea);
                     }
@@ -377,7 +296,7 @@ class Ruta {
             } else {
 
                 //es aquí donde estaríamos editando el Set mientras estamos en un bucle for
-                for (Linea linea : lineasDisponibles) {
+                for (String linea : lineasDisponibles) {
                     if (!estacionActual.getLineas().contains(linea)) {
                         removeStack.add(linea);
                     }
@@ -386,7 +305,7 @@ class Ruta {
                 removeStack.clear();
             }
         }
-        for (Linea linea : lineasDisponibles) {
+        for (String linea : lineasDisponibles) {
             if (!estaciones.get(estaciones.size() - 1).getLineas().contains(linea)) {
                 removeStack.add(linea);
             }
@@ -435,7 +354,7 @@ class Mapa {
         Así que para eso vamos a mantener un registro de las líneas también.
         */
 
-        Set<Linea> lineasCoincidentes = new HashSet<Linea>();
+        Set<String> lineasCoincidentes = new HashSet<String>();
 
         //VAMOS A COMENZAR EL PROCESO DE BÚSQUEDA
 
@@ -489,7 +408,7 @@ class Mapa {
 
                 Integer distanciaAEstacion;
 
-                for (Linea linea : conexionANodo.getLineas()) {
+                for (String linea : conexionANodo.getLineas()) {
                     if (conexionFutura.getLineas().contains(linea)) {
                         lineasCoincidentes.add(linea);
                     }
@@ -557,7 +476,7 @@ class Mapa {
 
         List<seccionLinea> listaLineas = new ArrayList<seccionLinea>();
 
-        Set<Linea> lineasDisponibles = new HashSet<Linea>();
+        Set<String> lineasDisponibles = new HashSet<String>();
 
         Integer idEstacionOrigenLinea = orden.get(orden.size() - 1);
 
@@ -568,7 +487,7 @@ class Mapa {
             //Vamos a copiar las líneas disponibles para ver si hay en común.
             //Si no hay, entonces tenemos la copia de las que había para añadirlas.
 
-            Set<Linea> pruebaLineasDisponibles = new HashSet<Linea>(lineasDisponibles);
+            Set<String> pruebaLineasDisponibles = new HashSet<String>(lineasDisponibles);
 
             //el método retainAll es equivalente a comprobar los elementos que son comunes.
             //Es decir, devuelve sólo un Set de los elementos comunes.
