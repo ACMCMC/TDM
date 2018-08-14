@@ -7,6 +7,8 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Explode;
+import android.transition.Slide;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,7 +114,7 @@ public class RutaActivity extends AppCompatActivity {
 
         //colocamos el tiempo de ruta
         TextView texto = (TextView) findViewById(R.id.tiempoRuta);
-        Integer segundos = ruta.tiempo;
+        Integer segundos = ruta.getTiempo();
         //añadimos el 7% al tiempo de viaje estimado
         segundos = Double.valueOf(segundos.doubleValue() * 1.07).intValue();
         Integer minutos = segundos / 60;

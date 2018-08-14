@@ -9,6 +9,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.ChangeBounds;
+import android.transition.ChangeTransform;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +25,9 @@ public class EstacionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //activamos la transición
+        getWindow().setEnterTransition(new Fade());
 
         //Obtenemos el nombre de la estación
         CharSequence charSequenceNombre = getIntent().getCharSequenceExtra("nombreEstacion");
@@ -48,8 +56,11 @@ public class EstacionActivity extends AppCompatActivity {
                     (int) getResources().getDimension(R.dimen.marginLineaVertical));
             layoutConexion.setLayoutParams(parametros);
 
-            for (String linea : conexion.getLineas()) {
-                TextView idLinea = new TextView(this);
+            for (String idLinea : conexion.getLineas()) {
+
+                Linea linea = new Linea(idLinea,this);
+
+                TextView textViewIDLinea = new TextView(this);
 
                 parametros = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 //parametros.width = (int) getResources().getDimension(R.dimen.paddingLinea);
@@ -59,22 +70,22 @@ public class EstacionActivity extends AppCompatActivity {
                         (int) getResources().getDimension(R.dimen.marginLineaHorizontal),
                         0);
 
-                idLinea.setLayoutParams(parametros);
-                idLinea.setPadding(
+                textViewIDLinea.setLayoutParams(parametros);
+                textViewIDLinea.setPadding(
                         (int) getResources().getDimension(R.dimen.paddingLineaHorizontal),
                         (int) getResources().getDimension(R.dimen.paddingLineaVertical),
                         (int) getResources().getDimension(R.dimen.paddingLineaHorizontal),
                         (int) getResources().getDimension(R.dimen.paddingLineaVertical));
 
-                idLinea.setBackgroundColor(Color.parseColor("#000000"));
-                idLinea.setTextColor(Color.parseColor("#FFFFFF"));
+                textViewIDLinea.setBackgroundColor(linea.getColor());
+                textViewIDLinea.setTextColor(Color.parseColor("#FFFFFF"));
 
-                idLinea.setText((CharSequence) linea);
+                textViewIDLinea.setText((CharSequence) idLinea);
 
                 //ponemos el texto en negrita
-                idLinea.setTypeface(Typeface.DEFAULT_BOLD);
+                textViewIDLinea.setTypeface(Typeface.DEFAULT_BOLD);
 
-                layoutConexion.addView(idLinea);
+                layoutConexion.addView(textViewIDLinea);
             }
 
             TextView idConexion = new TextView(this);

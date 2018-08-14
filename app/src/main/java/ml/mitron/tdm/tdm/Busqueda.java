@@ -1,6 +1,8 @@
 package ml.mitron.tdm.tdm;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Set;
+
+import static android.support.v4.content.ContextCompat.getColor;
 
 public class Busqueda {
     //este código se ejecuta al pulsar el botón
@@ -53,6 +57,161 @@ class Estacion {
     List<String> getLineas() {
         return (lineas);
     }
+}
+
+class Linea {
+    private String id;
+    private String nombrePropio;
+    private int color;
+
+    Linea(String id) {
+        this.id = id;
+        nombrePropio = null;
+        color = 0;
+    }
+
+    Linea(String id, Context contexto) {
+        this.id = id;
+        calcularNombrePropio(contexto);
+        calcularColor(contexto);
+    }
+
+    Linea(String id, String nombrePropio, int color) {
+        this.id = id;
+        this.nombrePropio = nombrePropio;
+        this.color = color;
+    }
+
+    void calcularNombrePropio(Context contexto) throws NoSuchElementException {
+        switch (id) {
+            case "1": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l1);
+                break;
+            }
+            case "2": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l2);
+                break;
+            }
+            case "3": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l3);
+                break;
+            }
+            case "4": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l4);
+                break;
+            }
+            case "5": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l5);
+                break;
+            }
+            case "6": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l6);
+                break;
+            }
+            case "7": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l7);
+                break;
+            }
+            case "7A": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l7A);
+                break;
+            }
+            case "7B": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l7B);
+                break;
+            }
+            case "8": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.l8);
+                break;
+            }
+            case "T": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.T);
+                break;
+            }
+            case "C": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.C);
+                break;
+            }
+            case "F": {
+                nombrePropio = (String) contexto.getResources().getText(R.string.F);
+                break;
+            }
+            default: {
+                nombrePropio = null;
+                throw new NoSuchElementException();
+            }
+        }
+    }
+
+    String getNombrePropio() {
+        return(nombrePropio);
+    }
+
+    void calcularColor(Context contexto) throws NoSuchElementException {
+        switch (id) {
+            case "1": {
+                color = ContextCompat.getColor(contexto, R.color.linea1);
+                break;
+            }
+            case "2": {
+                color = ContextCompat.getColor(contexto, R.color.linea2);
+                break;
+            }
+            case "3": {
+                color = ContextCompat.getColor(contexto, R.color.linea3);
+                break;
+            }
+            case "4": {
+                color = ContextCompat.getColor(contexto, R.color.linea4);
+                break;
+            }
+            case "5": {
+                color = ContextCompat.getColor(contexto, R.color.linea5);
+                break;
+            }
+            case "6": {
+                color = ContextCompat.getColor(contexto, R.color.linea6);
+                break;
+            }
+            case "7": {
+                color = ContextCompat.getColor(contexto, R.color.linea7);
+                break;
+            }
+            case "7A": {
+                color = ContextCompat.getColor(contexto, R.color.linea7A);
+                break;
+            }
+            case "7B": {
+                color = ContextCompat.getColor(contexto, R.color.linea7B);
+                break;
+            }
+            case "8": {
+                color = ContextCompat.getColor(contexto, R.color.linea8);
+                break;
+            }
+            case "T": {
+                color = ContextCompat.getColor(contexto, R.color.lineaT);
+                break;
+            }
+            case "C": {
+                color = ContextCompat.getColor(contexto, R.color.lineaC);
+                break;
+            }
+            case "F": {
+                color = ContextCompat.getColor(contexto, R.color.lineaF);
+                break;
+            }
+            default: {
+                color = 0;
+                throw new NoSuchElementException();
+            }
+        }
+    }
+
+    int getColor() {
+        return(color);
+    }
+
 }
 
 //la clase Distancia solo sirve para representar conexiones, como un vector
@@ -109,10 +268,10 @@ class Conexion implements Comparable<Conexion> {
 
 
 class seccionLinea {
-    Estacion origen;
-    Estacion fin;
-    String nombre;
-    String nombrePropio;
+    private Estacion origen;
+    private Estacion fin;
+    private String nombre;
+    private String nombrePropio;
 
     seccionLinea(Estacion origen, Estacion fin, String nombreLinea) {
         this.origen = origen;
@@ -207,9 +366,9 @@ class seccionLinea {
 
 
 class Ruta {
-    List<Estacion> estaciones;
-    List<seccionLinea> lineas;
-    Integer tiempo;
+    private List<Estacion> estaciones;
+    private List<seccionLinea> lineas;
+    private Integer tiempo;
 
     Ruta() {
         estaciones = new ArrayList<Estacion>();
@@ -318,6 +477,8 @@ class Ruta {
     void setTiempo(Integer tiempo) {
         this.tiempo = tiempo;
     }
+
+    Integer getTiempo() {return(tiempo);}
 }
 
 class Mapa {
