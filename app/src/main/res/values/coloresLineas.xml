@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="linea1">#FF0000</color>
+    <color name="linea2">#A20000</color>
+    <color name="linea3">#00CDB5</color>
+    <color name="linea4">#FF0000</color>
+    <color name="linea5">#A20000</color>
+    <color name="linea6">#00CDB5</color>
+    <color name="linea7">#FF0000</color>
+    <color name="linea7A">#A20000</color>
+    <color name="linea7B">#00CDB5</color>
+    <color name="linea8">#00CDB5</color>
+    <color name="lineaC">#FF0000</color>
+    <color name="lineaF">#A20000</color>
+    <color name="lineaT">#00CDB5</color>
+</resources>
