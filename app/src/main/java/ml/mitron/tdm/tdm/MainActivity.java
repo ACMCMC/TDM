@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         ;
         String[] nombres = new String[count];
         for (int i = 1; i <= count && count != 0; i++) {
-            nombres[i - 1] = (extractor.GetEstacion(i).getNombre());
+            nombres[i - 1] = (extractor.getEstacion(i).getNombre());
         }
         spinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, nombres));
 
@@ -81,14 +81,14 @@ public class MainActivity extends AppCompatActivity {
                 final Spinner spinnerDestino = (Spinner) findViewById(R.id.spinnerDestino);
 
                 for (int i = extractor.GetEstacionCount(); i > 0; i--) {
-                    if (spinnerOrigen.getSelectedItem().toString().equals(extractor.GetEstacion((Integer) i).getNombre())) {
+                    if (spinnerOrigen.getSelectedItem().toString().equals(extractor.getEstacion((Integer) i).getNombre())) {
                         inicio = i;
                         break;
                     }
                 }
 
                 for (int i = extractor.GetEstacionCount(); i > 0; i--) {
-                    if (spinnerDestino.getSelectedItem().toString().equals(extractor.GetEstacion((Integer) i).getNombre())) {
+                    if (spinnerDestino.getSelectedItem().toString().equals(extractor.getEstacion((Integer) i).getNombre())) {
                         destino = i;
                         break;
                     }

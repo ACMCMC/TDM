@@ -359,7 +359,7 @@ class Mapa {
         //VAMOS A COMENZAR EL PROCESO DE BÚSQUEDA
 
         //La estación de origen está a 0 de la estación de origen
-        pilaConexiones.add(new Conexion(inicio, inicio, 0, extractor.GetEstacion(inicio).getLineas()));
+        pilaConexiones.add(new Conexion(inicio, inicio, 0, extractor.getEstacion(inicio).getLineas()));
         distancias.put(inicio, 0);
 
         //Repetimos este bucle mientras haya conexiones en la pila para analizar. Si nos quedamos sin estaciones, no hay ruta posible.
@@ -372,7 +372,7 @@ class Mapa {
             }
 
             //hacemos un List de las conexiones
-            List<Conexion> conexiones = extractor.GetEstacion(conexionANodo.getIDDestino()).getConexiones();
+            List<Conexion> conexiones = extractor.getEstacion(conexionANodo.getIDDestino()).getConexiones();
 
             //vamos a borrar la distancia que apunta al nodo del que venimos, ya que no tiene sentido analizarla.
             for (Conexion conexionRedundante : conexiones) {
@@ -463,7 +463,7 @@ class Mapa {
         orden.add(inicio);
 
         for (Integer i = orden.size() - 1; i >= 0; i--) {
-            ruta.anadirEstacion(extractor.GetEstacion(orden.get(i)));
+            ruta.anadirEstacion(extractor.getEstacion(orden.get(i)));
         }
 
         //VAMOS A CALCULAR LOS TRAMOS DE LÍNEA
@@ -495,7 +495,7 @@ class Mapa {
             pruebaLineasDisponibles.retainAll(nodoPrevio.get(orden.get(i)).getLineas());
 
             if (pruebaLineasDisponibles.isEmpty()) {
-                listaLineas.add(new seccionLinea(extractor.GetEstacion(orden.get(i)), extractor.GetEstacion(idEstacionOrigenLinea), (String) lineasDisponibles.toArray()[0]));
+                listaLineas.add(new seccionLinea(extractor.getEstacion(orden.get(i)), extractor.getEstacion(idEstacionOrigenLinea), (String) lineasDisponibles.toArray()[0]));
                 lineasDisponibles.clear();
                 lineasDisponibles.addAll(nodoPrevio.get(orden.get(i)).getLineas());
 
@@ -508,7 +508,7 @@ class Mapa {
 
         //cuando llegamos a la estación inicial, tenemos que añadir con ella una nueva línea hasta ella.
 
-        listaLineas.add(new seccionLinea(extractor.GetEstacion(orden.get(orden.size() - 1)), extractor.GetEstacion(idEstacionOrigenLinea), (String) lineasDisponibles.toArray()[0]));
+        listaLineas.add(new seccionLinea(extractor.getEstacion(orden.get(orden.size() - 1)), extractor.getEstacion(idEstacionOrigenLinea), (String) lineasDisponibles.toArray()[0]));
 
         for (Integer i = listaLineas.size() - 1; i >= 0; i--) {
             ruta.anadirSeccionLinea(listaLineas.get(i));
