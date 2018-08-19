@@ -20,53 +20,54 @@
         android:layout_height="wrap_content"
         android:text="@string/tiempoRuta" />
 
-    <ScrollView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:id="@+id/layoutRuta">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/layoutRuta"
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="0dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/iconoEstacion"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_margin="12dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_adjust_black_24dp" />
-
-                <TextView
-                    android:id="@+id/estacionOrigen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="Avinguda Picasso Noord"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/iconoEstacion"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_adjust_black_24dp" />
 
             <TextView
-                android:id="@+id/textViewLineas1"
-                android:layout_width="match_parent"
+                android:id="@+id/estacionOrigen"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="-12dp"
-                android:paddingLeft="48dp"
-                android:text="@string/tomarLinea" />-->
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="Avinguda Picasso Noord"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
         </LinearLayout>
 
-    </ScrollView>
+        <TextView
+            android:id="@+id/textViewLineas1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="-12dp"
+            android:paddingLeft="48dp"
+            android:text="@string/tomarLinea" />
+        </LinearLayout>-->
+
+    </android.support.v7.widget.RecyclerView>
 
     <Button
         android:id="@+id/nuevoCalculoButton"

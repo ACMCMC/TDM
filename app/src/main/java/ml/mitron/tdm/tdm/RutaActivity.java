@@ -1,26 +1,33 @@
 package ml.mitron.tdm.tdm;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Explode;
-import android.transition.Slide;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
-import static ml.mitron.tdm.tdm.R.layout.ruta;
+import static android.content.ContentValues.TAG;
+import static ml.mitron.tdm.tdm.R.layout.estacion;
 
 /**
  * Created by acmc on 11/07/2018.
@@ -28,22 +35,26 @@ import static ml.mitron.tdm.tdm.R.layout.ruta;
 
 public class RutaActivity extends AppCompatActivity {
 
-    Ruta ruta;
+    private Ruta ruta;
 
-    DBExtractor extractor;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter recyclerAdapter;
+    private RecyclerView.LayoutManager recyclerLayoutManager;
+
+    private DBExtractor extractor;
 
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        Integer inicio = intent.getIntExtra("inicio",1);
-        Integer destino = intent.getIntExtra("destino",1);
+        Intent incomingIntent = getIntent();
+        Integer inicio = incomingIntent.getIntExtra("inicio", 1);
+        Integer destino = incomingIntent.getIntExtra("destino", 1);
 
         extractor = new DBExtractor(this);
 
         setContentView(R.layout.ruta);
 
-        setRuta(inicio,destino,this,extractor);
+        //setRuta(inicio, destino, this, extractor);
 
         Button boton = (Button) findViewById(R.id.nuevoCalculoButton);
         boton.setOnClickListener(new View.OnClickListener() {
@@ -53,10 +64,38 @@ public class RutaActivity extends AppCompatActivity {
             }
         });
 
-        LinearLayout layoutRuta = (LinearLayout) findViewById(R.id.layoutRuta);
 
-        for (int i = 0; i < layoutRuta.getChildCount(); i++) {
-            final View view = layoutRuta.getChildAt(i);
+        //OBTENEMOS LA RUTA
+        if (!extractor.isOpen()) {
+            extractor.OpenDB();
+        }
+
+        try {
+            ruta = Busqueda.Busqueda(inicio, destino, extractor);
+        } catch (IllegalArgumentException e) {
+            Intent intent = new Intent(this, ErrorActivity.class);
+            startActivity(incomingIntent);
+            finish();
+            return;
+        }
+
+        extractor.CloseDB();
+
+
+        //CREAMOS EL RECYCLERVIEW
+        recyclerView = (RecyclerView) findViewById(R.id.layoutRuta);
+
+        // use a linear layout manager
+        recyclerLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(recyclerLayoutManager);
+
+        // specify an adapter (see also next example)
+        recyclerAdapter = new EstacionAdapter(ruta,this);
+        recyclerView.setAdapter(recyclerAdapter);
+
+
+        /*for (int i = 0; i < recyclerView.getChildCount(); i++) {
+            final View view = recyclerView.getChildAt(i);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -68,7 +107,7 @@ public class RutaActivity extends AppCompatActivity {
                     startActivity(intent, options.toBundle());
                 }
             });
-        }
+        }*/
     }
 
     void setRuta(Integer inicio, Integer destino, Context contexto, DBExtractor extractor) {
@@ -78,11 +117,10 @@ public class RutaActivity extends AppCompatActivity {
         }
 
 
-
         try {
             ruta = Busqueda.Busqueda(inicio, destino, extractor);
         } catch (IllegalArgumentException e) {
-            Intent intent = new Intent(contexto,ErrorActivity.class);
+            Intent intent = new Intent(contexto, ErrorActivity.class);
             startActivity(intent);
             finish();
             return;
@@ -128,62 +166,154 @@ public class RutaActivity extends AppCompatActivity {
             LinearLayout layoutInstruccion = new LinearLayout(contexto);
             layoutInstruccion.setOrientation(LinearLayout.VERTICAL);
 
-                LinearLayout layoutEstacion = new LinearLayout(contexto);
-                layoutEstacion.setOrientation(LinearLayout.HORIZONTAL);
+            LinearLayout layoutEstacion = new LinearLayout(contexto);
+            layoutEstacion.setOrientation(LinearLayout.HORIZONTAL);
 
             layoutInstruccion.addView(layoutEstacion);
             layoutRuta.addView(layoutInstruccion);
-                LinearLayout.LayoutParams parametros;
+            LinearLayout.LayoutParams parametros;
 
-                TextView nombreEstacion = new TextView(this);
-                nombreEstacion.setText(estacion.getNombre());
-                parametros = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                parametros.gravity = Gravity.CENTER_VERTICAL;
-                nombreEstacion.setLayoutParams(parametros);
-                nombreEstacion.setTextAppearance(android.R.style.TextAppearance_Material_Subhead);
+            TextView nombreEstacion = new TextView(this);
+            nombreEstacion.setText(estacion.getNombre());
+            parametros = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            parametros.gravity = Gravity.CENTER_VERTICAL;
+            nombreEstacion.setLayoutParams(parametros);
+            nombreEstacion.setTextAppearance(android.R.style.TextAppearance_Material_Subhead);
 
 
-                ImageView icono = new ImageView(this);
-                if (ruta.getEstacionesRuta().indexOf(estacion) == ruta.getEstacionesRuta().size() - 1) {
-                    icono.setImageResource(R.drawable.ic_place_black_24dp);
-                } else if (ruta.getEstacionesRuta().indexOf(estacion) == 0) {
-                    icono.setImageResource(R.drawable.ic_adjust_black_24dp);
-                } else {
-                    icono.setImageResource(R.drawable.ic_estacion);
-                }
+            ImageView icono = new ImageView(this);
+            if (ruta.getEstacionesRuta().indexOf(estacion) == ruta.getEstacionesRuta().size() - 1) {
+                icono.setImageResource(R.drawable.ic_place_black_24dp);
+            } else if (ruta.getEstacionesRuta().indexOf(estacion) == 0) {
+                icono.setImageResource(R.drawable.ic_adjust_black_24dp);
+            } else {
+                icono.setImageResource(R.drawable.ic_estacion);
+            }
 
             parametros = new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.estacionWidth), (int) getResources().getDimension(R.dimen.estacionHeight));
-                parametros.leftMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
-                parametros.rightMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
-                parametros.topMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
-                parametros.bottomMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
-                icono.setLayoutParams(parametros);
+            parametros.leftMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
+            parametros.rightMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
+            parametros.topMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
+            parametros.bottomMargin = (int) getResources().getDimension(R.dimen.marginEstacion);
+            icono.setLayoutParams(parametros);
 
-                layoutEstacion.addView(icono);
-                layoutEstacion.addView(nombreEstacion);
+            layoutEstacion.addView(icono);
+            layoutEstacion.addView(nombreEstacion);
 
-                //Ponemos el texto de las líneas
+            //Ponemos el texto de las líneas
 
-                for (seccionLinea linea : ruta.getLineas()) {
-                    if (linea.checkInicioLinea(estacion)) {
-                        TextView textoLinea = new TextView(this);
-                        try {
-                            textoLinea.setText(getResources().getText(R.string.tomarLinea) + " " + linea.getNombre() + " / " + linea.getNombrePropio(contexto));
-                        } catch (NoSuchElementException | Resources.NotFoundException e) {
-                            textoLinea.setText(getResources().getText(R.string.tomarLinea) + " " + linea.getNombre());
-                        }
-                        parametros = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                        parametros.gravity = Gravity.CENTER_VERTICAL;
-                        parametros.leftMargin = (int) getResources().getDimension(R.dimen.marginLineaLeft);
-                        parametros.topMargin = (int) getResources().getDimension(R.dimen.marginLineaTop);
-                        parametros.bottomMargin = (int) getResources().getDimension(R.dimen.marginLineaBottom);
-                        textoLinea.setLayoutParams(parametros);
-                        layoutInstruccion.addView(textoLinea);
-                    } else {
-
+            for (seccionLinea linea : ruta.getLineas()) {
+                if (linea.checkInicioLinea(estacion)) {
+                    TextView textoLinea = new TextView(this);
+                    try {
+                        textoLinea.setText(getResources().getText(R.string.tomarLinea) + " " + linea.getNombre() + " / " + linea.getNombrePropio(contexto));
+                    } catch (NoSuchElementException | Resources.NotFoundException e) {
+                        textoLinea.setText(getResources().getText(R.string.tomarLinea) + " " + linea.getNombre());
                     }
+                    parametros = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    parametros.gravity = Gravity.CENTER_VERTICAL;
+                    parametros.leftMargin = (int) getResources().getDimension(R.dimen.marginLineaLeft);
+                    parametros.topMargin = (int) getResources().getDimension(R.dimen.marginLineaTop);
+                    parametros.bottomMargin = (int) getResources().getDimension(R.dimen.marginLineaBottom);
+                    textoLinea.setLayoutParams(parametros);
+                    layoutInstruccion.addView(textoLinea);
+                } else {
+
                 }
+            }
 
         }
     }
+}
+
+class EstacionAdapter extends RecyclerView.Adapter<EstacionAdapter.HolderEstacion> {
+
+    private Ruta ruta;
+    private Context contexto;
+
+    public EstacionAdapter(Ruta ruta,Context contexto) {
+        this.ruta = ruta;
+        this.contexto = contexto;
+    }
+
+    @Override
+    public HolderEstacion onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(contexto).inflate(R.layout.fila_estacion,parent,false);
+        HolderEstacion holder = new HolderEstacion(view);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(HolderEstacion holder, int position) {
+        Log.d(TAG, "onBindViewHolder: creado.");
+
+
+        //ponemos el icono
+        if (position == 0) {
+            holder.icono.setImageResource(R.drawable.ic_adjust_black_24dp);
+        } else if (position == getItemCount() - 1) {
+            holder.icono.setImageResource(R.drawable.ic_place_black_24dp);
+        } else {
+            holder.icono.setImageResource(R.drawable.ic_estacion);
+        }
+
+        //ponemos el nombre de la estación
+        holder.nombre.setText(ruta.getEstacionesRuta().get(position).getNombre());
+
+        //ponemos la instrucción, si hace falta.
+        seccionLinea checkInstruccion = null;
+
+        for (seccionLinea linea : ruta.getLineas()) {
+            if (linea.checkInicioLinea(ruta.getEstacionesRuta().get(position))) {
+                checkInstruccion = linea;
+                break;
+            }
+        }
+
+        if (checkInstruccion != null) {
+            try {
+                holder.instruccion.setText(contexto.getResources().getText(R.string.tomarLinea) + " " + checkInstruccion.getNombre() + " / " + checkInstruccion.getNombrePropio(contexto));
+            } catch (NoSuchElementException | Resources.NotFoundException e) {
+                holder.instruccion.setText(contexto.getResources().getText(R.string.tomarLinea) + " " + checkInstruccion.getNombre());
+            }
+        } else  {
+            holder.instruccion.setVisibility(View.GONE);
+        }
+
+        //ponemos un OnClickListener
+        holder.layoutEstacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), EstacionActivity.class);
+                TextView textViewEstacion = (TextView) ((RelativeLayout) v).getChildAt(1);
+                textViewEstacion.setTransitionName("nombreEstacion");
+                intent.putExtra("nombreEstacion", textViewEstacion.getText());
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) v.getContext(), textViewEstacion, "nombreEstacion");
+                v.getContext().startActivity(intent, options.toBundle());
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return ruta.getEstacionesRuta().size();
+    }
+
+    static class HolderEstacion extends RecyclerView.ViewHolder {
+
+        private ImageView icono;
+        private TextView nombre;
+        private TextView instruccion;
+        private RelativeLayout layoutEstacion;
+
+        public HolderEstacion(View itemView) {
+            super(itemView);
+
+            icono = (ImageView) itemView.findViewById(R.id.iconoEstacion);
+            nombre = (TextView) itemView.findViewById(R.id.nombreEstacion);
+            instruccion = (TextView) itemView.findViewById(R.id.instruccionRuta);
+            layoutEstacion = (RelativeLayout) itemView.findViewById(R.id.layoutFilaEstacion);
+        }
+    }
+
 }
