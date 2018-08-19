@@ -65,7 +65,8 @@ public class EstacionActivity extends AppCompatActivity {
                 parametros = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 //parametros.width = (int) getResources().getDimension(R.dimen.paddingLinea);
                 parametros.setMargins(
-                        (int) getResources().getDimension(R.dimen.marginLineaHorizontal),
+                        0,
+                        //(int) getResources().getDimension(R.dimen.marginLineaHorizontal),
                         0,
                         (int) getResources().getDimension(R.dimen.marginLineaHorizontal),
                         0);
