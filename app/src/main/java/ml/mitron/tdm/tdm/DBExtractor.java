@@ -11,6 +11,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static android.os.Build.VERSION_CODES.M;
+import static ml.mitron.tdm.tdm.R.id.nombreEstacion;
+
 /**
  * Created by acmc on 10/07/2018.
  */
@@ -34,10 +37,10 @@ public final class DBExtractor {
     }
 
     Boolean isOpen() {
-        if (database != null){
-            return(database.isOpen());
+        if (database != null) {
+            return (database.isOpen());
         } else {
-            return(false);
+            return (false);
         }
     }
 
@@ -57,16 +60,16 @@ public final class DBExtractor {
         }
     }
 
-    Integer GetEstacionCount() throws SQLiteException {
+    Integer getEstacionCount() throws SQLiteException {
         if (!database.isOpen()) {
             throw new SQLiteException("La conexión con la base de datos no está abierta");
         }
 
         Cursor cursor;
 
-        cursor = database.query(true,ContratoSQL.TablaEstaciones.NombreTabla, null,null,null, null, null, null, null);
+        cursor = database.query(true, ContratoSQL.TablaEstaciones.NombreTabla, null, null, null, null, null, null, null);
 
-        return((Integer) cursor.getCount());
+        return ((Integer) cursor.getCount());
     }
 
 
@@ -99,7 +102,7 @@ public final class DBExtractor {
         cursor.moveToFirst();
 
 
-        while(cursor.getCount() != 0) {
+        while (cursor.getCount() != 0) {
 
             lineasConexion.addAll(Arrays.asList(cursor.getString(4).split(",")));
             /*for (String linea : Arrays.asList(cursor.getString(4).split(","))) {
@@ -190,7 +193,7 @@ public final class DBExtractor {
         cursor.moveToFirst();
 
 
-        while(cursor.getCount() != 0) {
+        while (cursor.getCount() != 0) {
 
             lineasConexion.addAll(Arrays.asList(cursor.getString(4).split(",")));
             /*for (String linea : Arrays.asList(cursor.getString(4).split(","))) {
@@ -216,7 +219,7 @@ public final class DBExtractor {
 
         cursor.close();
 
-        return (new Estacion(IDEstacion,nombreEstacion,lineasEstacion,conexiones));
+        return (new Estacion(IDEstacion, nombreEstacion, lineasEstacion, conexiones));
     }
 
     Estacion getEstacion(String nombreEstacion) throws SQLiteException {
@@ -312,4 +315,107 @@ public final class DBExtractor {
         return (new Estacion(IDEstacion, nombre, lineasEstacion, conexiones));
     }
 
+    List<Estacion> searchEstacion(String searchQuery) {
+        List<Estacion> estaciones = new ArrayList<Estacion>();
+
+        if (!database.isOpen()) {
+            throw new SQLiteException("La conexión con la base de datos no está abierta");
+        }
+
+        Cursor cursor;
+        Cursor cursorConexiones;
+        Integer IDEstacion;
+        String nombre;
+
+        searchQuery = "'%" + searchQuery + "%'";
+
+        cursor = database.rawQuery("SELECT DISTINCT * FROM " + ContratoSQL.TablaEstaciones.NombreTabla + " WHERE " + ContratoSQL.TablaEstaciones.NombreColumnaNombreEstacion + " LIKE " + searchQuery,
+                null);
+
+        cursor.moveToFirst();
+
+        while (!cursor.isLast() && cursor.getCount() != 0) {
+
+        /*Una estación tiene 4 cosas:
+
+        - Integer id
+        - String nombre
+        - List<String> lineas
+        - List<Distancia> distancias
+
+        IMPORTANTE PARA ENTENDER LO DE LAS DISTANCIAS: cuando usamos distancia Nodo, es la distancia DE lA ESTACIÓN DE INICIO A LA ESTACIÓN ACTUAL.
+         */
+
+            //obtenemos el nombre de la estación
+
+            nombre = cursor.getString(1);
+
+            IDEstacion = cursor.getInt(0);
+
+            //obtenemos las líneas de la estación
+
+            List<String> lineasEstacion = new ArrayList<>();
+
+            lineasEstacion.addAll(Arrays.asList(cursor.getString(2).split(",")));
+
+        /*for (String linea : Arrays.asList(cursor.getString(2).split(","))) {
+            lineasEstacion.add(new String(linea));
+        }*/
+
+        /*Vamos a obtener las conexiones.
+
+        Las concexiones, en la base de datos, están definidas con
+        - origen
+        - destino
+        - distancia entre ellos
+        - líneas que operan la conexión
+
+        Las conexiones son reversibles. Es decir, conexion(A,B) = conexion(B,A).
+
+        Entonces, vamos a tener que buscar la estación cuando figura como origen pero también como destino.
+        */
+
+
+            List<Conexion> conexiones = new ArrayList<Conexion>();
+            Set<Conexion> setConexiones = new HashSet<Conexion>();
+            List<String> lineasConexion = new ArrayList<String>();
+
+            cursorConexiones = database.query(true, ContratoSQL.TablaConexiones.NombreTabla, null, ContratoSQL.TablaConexiones.NombreColumnaIDOrigen + " = ? OR " + ContratoSQL.TablaConexiones.NombreColumnaIDDestino + " = ?", new String[]{IDEstacion.toString(), IDEstacion.toString()}, null, null, null, null);
+
+            cursorConexiones.moveToFirst();
+
+
+            while (cursorConexiones.getCount() != 0) {
+
+                lineasConexion.addAll(Arrays.asList(cursorConexiones.getString(4).split(",")));
+            /*for (String linea : Arrays.asList(cursor.getString(4).split(","))) {
+                lineasConexion.add(new String(linea));
+            }*/
+
+                if (cursorConexiones.getInt(1) == IDEstacion) {
+                    setConexiones.add(new Conexion(IDEstacion, cursorConexiones.getInt(2), cursorConexiones.getInt(3), new ArrayList<>(lineasConexion)));
+                } else if (cursorConexiones.getInt(2) == IDEstacion) {
+                    setConexiones.add(new Conexion(IDEstacion, cursorConexiones.getInt(1), cursorConexiones.getInt(3), new ArrayList<>(lineasConexion)));
+                }
+
+                if (cursorConexiones.isLast()) {
+                    break;
+                }
+
+                lineasConexion.clear();
+                cursorConexiones.moveToNext();
+            }
+
+            cursorConexiones.close();
+
+            conexiones.addAll(setConexiones);
+
+            estaciones.add(new Estacion(IDEstacion, nombre, lineasEstacion, conexiones));
+
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return estaciones;
+    }
 }

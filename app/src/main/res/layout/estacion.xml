@@ -9,13 +9,22 @@
     android:orientation="vertical">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="Detalles de estación"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:transitionName="nombreEstacion" />
+
+    <TextView
         android:id="@+id/nombreEstacion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:text="Nombre de la estación"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:transitionName="nombreEstacion" />
+        android:textAppearance="@style/nombre_estacion"
+        android:transitionName="nombreEstacion"
+        android:textSize="@dimen/textoBold"/>
 
     <TextView
         android:id="@+id/textView2"

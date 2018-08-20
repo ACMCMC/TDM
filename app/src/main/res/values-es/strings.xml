@@ -27,4 +27,5 @@
     <string name="calcularOtraButton">Encontrar otra ruta</string>
     <string name="estacionRedTDM">Estación de la Red TDM</string>
     <string name="conexionCon">hacia</string>
+    <string name="buscarEstacion">Buscar una estación</string>
 </resources>

@@ -288,6 +288,8 @@ class EstacionAdapter extends RecyclerView.Adapter<EstacionAdapter.HolderEstacio
                 TextView textViewEstacion = (TextView) ((RelativeLayout) v).getChildAt(1);
                 textViewEstacion.setTransitionName("nombreEstacion");
                 intent.putExtra("nombreEstacion", textViewEstacion.getText());
+                intent.putExtra("textSize", textViewEstacion.getTextSize());
+
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) v.getContext(), textViewEstacion, "nombreEstacion");
                 v.getContext().startActivity(intent, options.toBundle());
             }

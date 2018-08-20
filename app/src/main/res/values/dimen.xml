@@ -12,4 +12,11 @@
     <dimen name="paddingLineaVertical">4dp</dimen>
     <dimen name="marginLineaHorizontal">8dp</dimen>
     <dimen name="marginLineaVertical">8dp</dimen>
+
+    <dimen name="textoBold">16sp</dimen>
+
+    <dimen name="radiusCard">8dp</dimen>
+    <dimen name="elevationCard">1dp</dimen>
+    <dimen name="cardPadding">16dp</dimen>
+    <dimen name="cardMargin">16dp</dimen>
 </resources>

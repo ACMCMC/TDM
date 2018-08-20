@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/marginEstacion"
+    android:padding="@dimen/marginEstacion"
     android:id="@+id/layoutFilaEstacion">
 
     <ImageView
@@ -26,12 +26,12 @@
         android:textAppearance="@style/nombre_estacion"
         android:textSize="@dimen/textoBold"/>
 
-    <TextView
-        android:id="@+id/instruccionRuta"
+    <!--<TextView
+        android:id="@+id/descripcionTexto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/nombreEstacion"
         android:layout_toRightOf="@id/iconoEstacion"
-        android:text="Tome la ruta X en dirección Y"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+        android:text="Líneas"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />-->
 </RelativeLayout>

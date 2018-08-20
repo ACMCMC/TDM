@@ -19,6 +19,17 @@
         <activity android:name=".RutaActivity" />
         <activity android:name=".ErrorActivity" />
         <activity android:name=".EstacionActivity" />
+        <activity android:name=".SearchableActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <meta-data
+            android:name="android.app.default_searchable"
+            android:value=".SearchableActivity" />
     </application>
 
 </manifest>

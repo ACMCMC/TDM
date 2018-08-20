@@ -1,9 +1,15 @@
 package ml.mitron.tdm.tdm;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.SearchView;
+import android.transition.Scene;
+import android.transition.Transition;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,10 +17,16 @@ import android.widget.Spinner;
 import android.database.sqlite.SQLiteException;
 import java.io.IOException;
 
+import static ml.mitron.tdm.tdm.R.id.searchDestino;
+
 public class MainActivity extends AppCompatActivity {
 
-    public Context contexto;
-    public DBExtractor extractor;
+    Context contexto;
+    DBExtractor extractor;
+
+    private Scene escena1, escena2;
+
+    private Transition transicion;
 
 
     @Override
@@ -38,34 +50,25 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Spinner spinner = (Spinner) findViewById(R.id.spinnerOrigen);
-
-
-        //vamos a obtener los nombres de las estaciones
-
-        int count;
-        try {
-            extractor = new DBExtractor(contexto);
-        } catch (Exception e) {
-            count = 0;
-        }
-        try {
-            count = extractor.GetEstacionCount();
-        } catch (SQLiteException e) {
-            extractor.CloseDB();
-            count = 0;
-        }
-        ;
-        String[] nombres = new String[count];
-        for (int i = 1; i <= count && count != 0; i++) {
-            nombres[i - 1] = (extractor.getEstacion(i).getNombre());
-        }
-        spinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, nombres));
-
-        Spinner spinner2 = (Spinner) findViewById(R.id.spinnerDestino);
-        spinner2.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, nombres));
 
         //TextView valueTV = new TextView(this);
+
+        SearchView searchOrigen = (SearchView) findViewById(R.id.searchOrigen);
+        SearchView searchDestino = (SearchView) findViewById(R.id.searchDestino);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchOrigen.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchDestino.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        searchOrigen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),SearchableActivity.class);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) v.getContext(), (SearchView) ((Activity) v.getContext()).findViewById(R.id.searchOrigen), "searchField");
+                v.getContext().startActivity(intent,options.toBundle());
+            }
+        });
+
 
         Button botonBusqueda = (Button) findViewById(R.id.botonBusqueda);
         botonBusqueda.setOnClickListener(new View.OnClickListener() {
@@ -77,18 +80,18 @@ public class MainActivity extends AppCompatActivity {
 
                 Integer inicio = Integer.valueOf(0);
                 Integer destino = Integer.valueOf(0);
-                final Spinner spinnerOrigen = (Spinner) findViewById(R.id.spinnerOrigen);
-                final Spinner spinnerDestino = (Spinner) findViewById(R.id.spinnerDestino);
+                final SearchView searchOrigen = (SearchView) findViewById(R.id.searchOrigen);
+                final SearchView searchDestino = (SearchView) findViewById(R.id.searchDestino);
 
-                for (int i = extractor.GetEstacionCount(); i > 0; i--) {
-                    if (spinnerOrigen.getSelectedItem().toString().equals(extractor.getEstacion((Integer) i).getNombre())) {
+                for (int i = extractor.getEstacionCount(); i > 0; i--) {
+                    if (searchOrigen.getQuery().toString().equals(extractor.getEstacion((Integer) i).getNombre())) {
                         inicio = i;
                         break;
                     }
                 }
 
-                for (int i = extractor.GetEstacionCount(); i > 0; i--) {
-                    if (spinnerDestino.getSelectedItem().toString().equals(extractor.getEstacion((Integer) i).getNombre())) {
+                for (int i = extractor.getEstacionCount(); i > 0; i--) {
+                    if (searchDestino.getQuery().toString().equals(extractor.getEstacion((Integer) i).getNombre())) {
                         destino = i;
                         break;
                     }
