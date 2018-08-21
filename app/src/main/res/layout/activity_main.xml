@@ -62,6 +62,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/icono_estacionOrigen"
+                    android:transitionName="icono_estacionOrigen"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_margin="12dp"
@@ -69,6 +71,7 @@
                     android:src="@drawable/ic_adjust_black_24dp" />
 
                 <TextView
+                    android:transitionName="estacionOrigen"
                     android:id="@+id/searchOrigen"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -101,6 +104,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/icono_estacionDestino"
+                    android:transitionName="icono_estacionDestino"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_margin="12dp"
@@ -108,6 +113,7 @@
                     android:src="@drawable/ic_place_black_24dp" />
 
                 <TextView
+                    android:transitionName="estacionDestino"
                     android:id="@+id/searchDestino"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"

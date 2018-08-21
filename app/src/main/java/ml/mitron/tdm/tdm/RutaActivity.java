@@ -248,12 +248,19 @@ class EstacionAdapter extends RecyclerView.Adapter<EstacionAdapter.HolderEstacio
     public void onBindViewHolder(HolderEstacion holder, int position) {
         Log.d(TAG, "onBindViewHolder: creado.");
 
+        if (position == 0) {
+            holder.nombre.setTransitionName("estacionOrigen");
+        } else if (position == getItemCount() - 1) {
+            holder.nombre.setTransitionName("estacionDestino");
+        }
 
         //ponemos el icono
         if (position == 0) {
             holder.icono.setImageResource(R.drawable.ic_adjust_black_24dp);
+            holder.icono.setTransitionName("icono_estacionOrigen");
         } else if (position == getItemCount() - 1) {
             holder.icono.setImageResource(R.drawable.ic_place_black_24dp);
+            holder.icono.setTransitionName("icono_estacionDestino");
         } else {
             holder.icono.setImageResource(R.drawable.ic_estacion);
         }

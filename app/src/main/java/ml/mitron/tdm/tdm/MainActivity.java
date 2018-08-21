@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.util.Pair;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
 import android.widget.EditText;
@@ -138,14 +139,37 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                RutaActivity rutaActivity = new RutaActivity();
+                /*
+
+                REVISAR
+
+                POR QUE NO FUNCIONA
+
+                Pair<View,String> pair1 = Pair.create(findViewById(R.id.searchOrigen),findViewById(R.id.searchOrigen).getTransitionName());
+
+                Y EN CAMBIO
+
+                Pair<View,String> pair1 = Pair.create(findViewById(R.id.searchOrigen),"estacionOrigen");
+
+                SI QUE FUNCIONA?
+
+                 */
+
+                Pair<View,String> pair1 = Pair.create(findViewById(R.id.searchOrigen),"estacionOrigen");
+                //Pair<View,String> pair1 = Pair.create(findViewById(R.id.searchOrigen),findViewById(R.id.searchOrigen).getTransitionName());
+                Pair<View,String> pair2 = Pair.create(findViewById(R.id.searchDestino),"estacionDestino");
+                //Pair<View,String> pair2 = Pair.create(findViewById(R.id.searchDestino),findViewById(R.id.searchDestino).getTransitionName());
+                Pair<View,String> pair3 = Pair.create(findViewById(R.id.icono_estacionOrigen),findViewById(R.id.icono_estacionOrigen).getTransitionName());
+                Pair<View,String> pair4 = Pair.create(findViewById(R.id.icono_estacionDestino),findViewById(R.id.icono_estacionDestino).getTransitionName());
+
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,pair1,pair2,pair3,pair4);
 
                 Intent intent = new Intent(contexto,RutaActivity.class);
 
                 intent.putExtra("inicio",inicio);
                 intent.putExtra("destino",destino);
 
-                startActivity(intent);
+                startActivity(intent,options.toBundle());
             }
         });
     }
