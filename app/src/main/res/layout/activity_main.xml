@@ -68,12 +68,14 @@
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_adjust_black_24dp" />
 
-                <SearchView
+                <TextView
                     android:id="@+id/searchOrigen"
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:iconifiedByDefault="false"/>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/estacionOrigen"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem" />
 
 
             </LinearLayout>
@@ -105,13 +107,14 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_place_black_24dp" />
 
-                <EditText
-                    android:transitionName="searchField"
+                <TextView
                     android:id="@+id/searchDestino"
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:iconifiedByDefault="false"/>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/estacionDestino"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem" />
 
             </LinearLayout>
 

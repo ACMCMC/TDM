@@ -1,5 +1,6 @@
 package ml.mitron.tdm.tdm;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,10 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.KeyListener;
+import android.widget.EditText;
 import android.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,17 +41,58 @@ public class SearchableActivity extends AppCompatActivity {
         setContentView(R.layout.search);
 
         Intent intent = getIntent();
+
+        extractor = new DBExtractor(this);
+
+        final EditText searchField = (EditText) findViewById(R.id.search);
+
+        if (intent.getStringExtra("searchValue") != null) {
+            if (!intent.getStringExtra("searchValue").contentEquals(getResources().getString(R.string.estacionOrigen)) && !intent.getStringExtra("searchValue").contentEquals(getResources().getString(R.string.estacionDestino))) {
+                searchField.setText(intent.getStringExtra("searchValue"));
+                searchField.setSelection(searchField.getText().length());
+            }
+        }
+
+        searchQuery = searchField.getText().toString();
+
+        adapter = new SearchAdapter(extractor.searchEstacion(searchQuery), this);
+
+        listaEstaciones = (ListView) findViewById(R.id.listaEstaciones);
+        listaEstaciones.setAdapter(adapter);
+
+        searchField.setText(searchQuery);
+
+        searchField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchQuery = s.toString();
+
+                adapter = new SearchAdapter(extractor.searchEstacion(searchQuery), SearchableActivity.this);
+
+                listaEstaciones = (ListView) findViewById(R.id.listaEstaciones);
+                listaEstaciones.setAdapter(adapter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         if (intent.ACTION_SEARCH.equals(intent.getAction())) {
             searchQuery = intent.getStringExtra(SearchManager.QUERY);
-            extractor = new DBExtractor(this);
 
             adapter = new SearchAdapter(extractor.searchEstacion(searchQuery), this);
 
             listaEstaciones = (ListView) findViewById(R.id.listaEstaciones);
             listaEstaciones.setAdapter(adapter);
 
-            SearchView searchField = (SearchView) findViewById(R.id.search);
-            searchField.setQuery(searchQuery,false);
+            searchField.setText(searchQuery);
         }
     }
 }
@@ -79,7 +125,7 @@ class SearchAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ResultadoViewHolder viewHolder = new ResultadoViewHolder();
+        final ResultadoViewHolder viewHolder = new ResultadoViewHolder();
         if (convertView == null) {
             convertView = LayoutInflater.from(contexto).inflate(R.layout.fila_busqueda, parent, false);
         }
@@ -87,6 +133,19 @@ class SearchAdapter extends BaseAdapter {
         //viewHolder.descripcionTexto = (TextView) convertView.findViewById(R.id.descripcionTexto);
 
         viewHolder.nombreEstacion.setText(estaciones.get(position).getNombre());
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent resultado = new Intent();
+                resultado.putExtra("seleccion",viewHolder.nombreEstacion.getText());
+                resultado.putExtra("seleccionInicio",((Activity) v.getContext()).getIntent().getBooleanExtra("seleccionInicio",false));
+                //((Activity) v.getContext()).setResult(MainActivity.SEARCH_REQUEST_CODE,resultado);
+                ((Activity) v.getContext()).setResult(Activity.RESULT_OK,resultado);
+                ((Activity) v.getContext()).finishAfterTransition();
+            }
+        });
+
         return convertView;
     }
 
