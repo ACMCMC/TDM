@@ -26,6 +26,8 @@ public final class DBExtractor {
     private DBReaderHelper miReaderHelper;
     private SQLiteDatabase database;
 
+    private static DBExtractor instancia = null;
+
     DBExtractor(Context contexto) throws SQLiteException {
         miReaderHelper = new DBReaderHelper(contexto);
         try {
@@ -34,6 +36,13 @@ public final class DBExtractor {
             throw (e);
         }
         this.contexto = contexto;
+    }
+
+    static DBExtractor getExtractor(Context contexto) {
+        if(instancia == null) {
+            instancia = new DBExtractor(contexto.getApplicationContext());
+        }
+        return instancia;
     }
 
     Boolean isOpen() {
@@ -46,9 +55,7 @@ public final class DBExtractor {
 
     void CloseDB() {
         database.close();
-        database = null;
         miReaderHelper.close();
-        miReaderHelper = null;
     }
 
     void OpenDB() throws SQLiteException {

@@ -50,7 +50,7 @@ public class RutaActivity extends AppCompatActivity {
         Integer inicio = incomingIntent.getIntExtra("inicio", 1);
         Integer destino = incomingIntent.getIntExtra("destino", 1);
 
-        extractor = new DBExtractor(this);
+        extractor = DBExtractor.getExtractor(this);
 
         setContentView(R.layout.ruta);
 
@@ -74,7 +74,7 @@ public class RutaActivity extends AppCompatActivity {
             ruta = Busqueda.Busqueda(inicio, destino, extractor);
         } catch (IllegalArgumentException e) {
             Intent intent = new Intent(this, ErrorActivity.class);
-            startActivity(incomingIntent);
+            startActivity(intent);
             finish();
             return;
         }
@@ -116,6 +116,7 @@ public class RutaActivity extends AppCompatActivity {
             extractor.OpenDB();
         }
 
+        Log.d(TAG, "setRuta: Iniciada la búsqueda de rutas");
 
         try {
             ruta = Busqueda.Busqueda(inicio, destino, extractor);

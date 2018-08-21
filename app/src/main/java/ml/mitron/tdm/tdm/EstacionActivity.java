@@ -2,6 +2,7 @@ package ml.mitron.tdm.tdm;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import static android.R.attr.textSize;
+import static ml.mitron.tdm.tdm.R.layout.estacion;
 import static ml.mitron.tdm.tdm.R.string.C;
 
 public class EstacionActivity extends AppCompatActivity {
@@ -38,8 +40,17 @@ public class EstacionActivity extends AppCompatActivity {
         CharSequence charSequenceNombre = getIntent().getCharSequenceExtra("nombreEstacion");
 
         //Obtenemos los detalles de la estación
-        DBExtractor extractor = new DBExtractor(this);
-        Estacion estacion = extractor.getEstacion(charSequenceNombre.toString());
+
+        DBExtractor extractor = DBExtractor.getExtractor(this);
+
+        Estacion estacion;
+
+        try {
+            estacion = extractor.getEstacion(charSequenceNombre.toString());
+        } catch (SQLiteException e) {
+            extractor.OpenDB();
+            estacion = extractor.getEstacion(charSequenceNombre.toString());
+        }
 
         //Ponemos el layout visible
         setContentView(R.layout.estacion);

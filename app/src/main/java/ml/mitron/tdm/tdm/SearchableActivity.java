@@ -42,7 +42,7 @@ public class SearchableActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        extractor = new DBExtractor(this);
+        extractor = DBExtractor.getExtractor(this);
 
         final EditText searchField = (EditText) findViewById(R.id.search);
 
@@ -142,6 +142,7 @@ class SearchAdapter extends BaseAdapter {
                 resultado.putExtra("seleccionInicio",((Activity) v.getContext()).getIntent().getBooleanExtra("seleccionInicio",false));
                 //((Activity) v.getContext()).setResult(MainActivity.SEARCH_REQUEST_CODE,resultado);
                 ((Activity) v.getContext()).setResult(Activity.RESULT_OK,resultado);
+                ((EditText)((Activity) v.getContext()).findViewById(R.id.search)).setText(viewHolder.nombreEstacion.getText());
                 ((Activity) v.getContext()).finishAfterTransition();
             }
         });

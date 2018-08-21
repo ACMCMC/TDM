@@ -7,6 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
+import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -108,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (extractor == null) {
-                    extractor = new DBExtractor(MainActivity.this);
+                    extractor = DBExtractor.getExtractor(contexto);
                 }
 
                 if (!extractor.isOpen()) {
@@ -134,8 +138,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                extractor.CloseDB();
-
                 RutaActivity rutaActivity = new RutaActivity();
 
                 Intent intent = new Intent(contexto,RutaActivity.class);
@@ -152,14 +154,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
+
+                ViewGroup group = (ViewGroup) findViewById(R.id.cardSeleccion);
+                Transition revealTransition = new AutoTransition();
+                //revealTransition.setDuration(1500);
+                revealTransition.setInterpolator(new BounceInterpolator());
+
                 if(data.getBooleanExtra("seleccionInicio",false)) {
                     ((TextView) findViewById(R.id.searchOrigen)).setText(data.getStringExtra("seleccion"));
                     if (findViewById(R.id.seleccionDestino).getVisibility() == View.GONE) {
+
+                        TransitionManager.beginDelayedTransition(group,revealTransition);
                         findViewById(R.id.seleccionDestino).setVisibility(View.VISIBLE);
                     }
                 } else {
                     ((TextView) findViewById(R.id.searchDestino)).setText(data.getStringExtra("seleccion"));
                     if(findViewById(R.id.botonBusqueda).getVisibility() == View.GONE) {
+                        TransitionManager.beginDelayedTransition(group,revealTransition);
                         findViewById(R.id.botonBusqueda).setVisibility(View.VISIBLE);
                     }
                 }
