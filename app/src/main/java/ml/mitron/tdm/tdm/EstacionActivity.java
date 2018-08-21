@@ -1,31 +1,14 @@
 package ml.mitron.tdm.tdm;
 
-import android.app.Activity;
-import android.content.res.Resources;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.SharedElementCallback;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.ChangeBounds;
-import android.transition.ChangeTransform;
-import android.transition.Explode;
 import android.transition.Fade;
-import android.transition.Slide;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.util.List;
-
-import static android.R.attr.textSize;
-import static ml.mitron.tdm.tdm.R.layout.estacion;
-import static ml.mitron.tdm.tdm.R.string.C;
 
 public class EstacionActivity extends AppCompatActivity {
 

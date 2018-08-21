@@ -20,14 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import static android.content.ContentValues.TAG;
-import static ml.mitron.tdm.tdm.R.layout.estacion;
 
 /**
  * Created by acmc on 11/07/2018.

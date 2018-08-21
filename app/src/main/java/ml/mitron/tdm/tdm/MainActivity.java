@@ -2,8 +2,6 @@ package ml.mitron.tdm.tdm;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
-import android.app.Application;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -13,24 +11,12 @@ import android.transition.TransitionManager;
 import android.util.Pair;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.SearchView;
 import android.transition.Scene;
 import android.transition.Transition;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
-import android.database.sqlite.SQLiteException;
 import android.widget.TextView;
-
-import java.io.IOException;
-
-import static android.icu.lang.UCharacter.JoiningGroup.E;
-import static ml.mitron.tdm.tdm.R.id.searchDestino;
-import static ml.mitron.tdm.tdm.R.id.searchOrigen;
 
 public class MainActivity extends AppCompatActivity {
 
