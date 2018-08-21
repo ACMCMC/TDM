@@ -110,6 +110,8 @@ public class RutaActivity extends AppCompatActivity {
         }*/
     }
 
+
+    @Deprecated
     void setRuta(Integer inicio, Integer destino, Context contexto, DBExtractor extractor) {
 
         if (!extractor.isOpen()) {
