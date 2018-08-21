@@ -2,6 +2,7 @@ package ml.mitron.tdm.tdm;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.Application;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +32,6 @@ import static android.icu.lang.UCharacter.JoiningGroup.E;
 import static ml.mitron.tdm.tdm.R.id.searchDestino;
 import static ml.mitron.tdm.tdm.R.id.searchOrigen;
 
-
 public class MainActivity extends AppCompatActivity {
 
     static final int SEARCH_REQUEST_CODE = 1;
@@ -48,23 +48,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
+
         contexto = getApplicationContext();
 
-        DBReaderHelper myDbHelper = new DBReaderHelper(contexto);
-
-        try {
-
-            myDbHelper.createDataBase(contexto);
-
-        } catch (IOException ioe) {
-
-            throw new Error("Unable to create database");
-
-        }
-
-        myDbHelper.close();
-
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //TextView valueTV = new TextView(this);

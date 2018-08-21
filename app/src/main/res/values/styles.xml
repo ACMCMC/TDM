@@ -14,7 +14,13 @@
     <style
         name="nombre_estacion"
         parent="Base.TextAppearance.AppCompat.Body1">
-        <item name="android:textColor">@color/cardview_dark_background</item>
+        <item name="android:textColor">@color/negro</item>
+    </style>
+    <style
+        name="dark"
+        parent="AppTheme">
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:background">@color/negro</item>
     </style>
 
 </resources>

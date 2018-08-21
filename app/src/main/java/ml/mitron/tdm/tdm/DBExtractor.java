@@ -59,11 +59,13 @@ public final class DBExtractor {
     }
 
     void OpenDB() throws SQLiteException {
-        miReaderHelper = new DBReaderHelper(contexto);
-        try {
-            database = miReaderHelper.getReadableDatabase();
-        } catch (SQLiteException e) {
-            throw (e);
+        if (!isOpen()) {
+            miReaderHelper = new DBReaderHelper(contexto);
+            try {
+                database = miReaderHelper.getReadableDatabase();
+            } catch (SQLiteException e) {
+                throw (e);
+            }
         }
     }
 
