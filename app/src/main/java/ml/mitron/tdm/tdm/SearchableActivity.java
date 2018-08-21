@@ -44,6 +44,8 @@ public class SearchableActivity extends AppCompatActivity {
 
         extractor = DBExtractor.getExtractor(this);
 
+        extractor.OpenDB();
+
         final EditText searchField = (EditText) findViewById(R.id.search);
 
         if (intent.getStringExtra("searchValue") != null) {
@@ -60,7 +62,7 @@ public class SearchableActivity extends AppCompatActivity {
         listaEstaciones = (ListView) findViewById(R.id.listaEstaciones);
         listaEstaciones.setAdapter(adapter);
 
-        searchField.setText(searchQuery);
+        //searchField.setText(searchQuery);
 
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
