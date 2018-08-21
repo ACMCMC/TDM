@@ -189,4 +189,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("visibility_seleccionDestino",findViewById(R.id.seleccionDestino).getVisibility());
+        bundle.putInt("visibility_botonBusqueda",findViewById(R.id.botonBusqueda).getVisibility());
+
+        bundle.putCharSequence("texto_searchOrigen",((TextView) findViewById(R.id.searchOrigen)).getText());
+        bundle.putCharSequence("texto_searchDestino",((TextView) findViewById(R.id.searchDestino)).getText());
+
+        outState.putAll(bundle);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState.getInt("visibility_seleccionDestino",View.GONE) == View.VISIBLE) {
+            findViewById(R.id.seleccionDestino).setVisibility(View.VISIBLE);
+        }
+        if (savedInstanceState.getInt("visibility_botonBusqueda",View.GONE) == View.VISIBLE) {
+            findViewById(R.id.botonBusqueda).setVisibility(View.VISIBLE);
+        }
+
+        ((TextView) findViewById(R.id.searchOrigen)).setText(savedInstanceState.getCharSequence("texto_searchOrigen"));
+        ((TextView) findViewById(R.id.searchDestino)).setText(savedInstanceState.getCharSequence("texto_searchDestino"));
+    }
 }
