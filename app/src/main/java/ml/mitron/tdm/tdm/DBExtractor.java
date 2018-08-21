@@ -341,7 +341,7 @@ public final class DBExtractor {
 
         cursor.moveToFirst();
 
-        while (!cursor.isLast() && cursor.getCount() != 0) {
+        while (cursor.getCount() != 0) {
 
         /*Una estación tiene 4 cosas:
 
@@ -418,6 +418,10 @@ public final class DBExtractor {
             conexiones.addAll(setConexiones);
 
             estaciones.add(new Estacion(IDEstacion, nombre, lineasEstacion, conexiones));
+
+            if(cursor.isLast()) {
+                break;
+            }
 
             cursor.moveToNext();
         }
