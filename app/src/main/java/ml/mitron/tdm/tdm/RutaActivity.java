@@ -76,6 +76,15 @@ public class RutaActivity extends AppCompatActivity {
 
         extractor.CloseDB();
 
+        //colocamos el tiempo de ruta
+        TextView texto = (TextView) findViewById(R.id.tiempoRuta);
+        Integer segundos = ruta.getTiempo();
+        //añadimos el 7% al tiempo de viaje estimado
+        segundos = Double.valueOf(segundos.doubleValue() * 1.07).intValue();
+        Integer minutos = segundos / 60;
+        segundos = segundos % 60;
+        texto.setText(texto.getText().toString() + ": " + minutos.toString() + " min " + segundos.toString() + " s");
+
 
         //CREAMOS EL RECYCLERVIEW
         recyclerView = (RecyclerView) findViewById(R.id.layoutRuta);

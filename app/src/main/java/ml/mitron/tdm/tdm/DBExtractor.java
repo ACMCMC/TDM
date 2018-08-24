@@ -11,9 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static android.os.Build.VERSION_CODES.M;
-import static ml.mitron.tdm.tdm.R.id.nombreEstacion;
-
 /**
  * Created by acmc on 10/07/2018.
  */
