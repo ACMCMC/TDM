@@ -46,12 +46,16 @@ public class SearchableActivity extends AppCompatActivity {
 
         final EditText searchField = (EditText) findViewById(R.id.search);
 
-        if (intent.getStringExtra("searchValue") != null) {
+
+        //LA SIGUIENTE SECCIÓN DE CÓDIGO PONDRÍA EL NOMBRE DE LA ESTACIÓN SI YA ESTABA SELECCIONADA.
+        //PERO LO HE DESAHILITADO, PORQUE ¿PARA QUÉ LO QUEREMOS?
+
+        /*if (intent.getStringExtra("searchValue") != null) {
             if (!intent.getStringExtra("searchValue").contentEquals(getResources().getString(R.string.estacionOrigen)) && !intent.getStringExtra("searchValue").contentEquals(getResources().getString(R.string.estacionDestino))) {
                 searchField.setText(intent.getStringExtra("searchValue"));
                 searchField.setSelection(searchField.getText().length());
             }
-        }
+        }*/
 
         searchQuery = searchField.getText().toString();
 
