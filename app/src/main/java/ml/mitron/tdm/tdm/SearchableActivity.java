@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +59,10 @@ public class SearchableActivity extends AppCompatActivity {
 
         listaEstaciones = (ListView) findViewById(R.id.listaEstaciones);
         listaEstaciones.setAdapter(adapter);
+
+        searchField.requestFocus();
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         //searchField.setText(searchQuery);
 
