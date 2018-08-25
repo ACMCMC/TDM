@@ -145,6 +145,10 @@ class SearchAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditText searchField = (EditText) ((Activity) v.getContext()).findViewById(R.id.search);
+
+                searchField.setText(viewHolder.nombreEstacion.getText());
+
                 Intent resultado = new Intent();
                 resultado.putExtra("seleccion",viewHolder.nombreEstacion.getText());
                 resultado.putExtra("seleccionInicio",((Activity) v.getContext()).getIntent().getBooleanExtra("seleccionInicio",false));
