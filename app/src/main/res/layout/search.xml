@@ -5,7 +5,7 @@
     android:padding="24dp">
 
     <EditText
-        android:inputType="text"
+        android:inputType="textNoSuggestions"
         android:maxLines="1"
         android:transitionName="searchField"
         android:id="@+id/search"
