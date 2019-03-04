@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="predeterminado" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -11,16 +11,28 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Bold">
+    </style>
+
+    <style name="Bold.Button" parent="Widget.AppCompat.Button.Borderless"></style>
+
+    <style name="Bold.Background">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="Bold.Headline" parent="TextAppearance.AppCompat.Display1">
+        <item name="android:textColor">@color/blanco</item>
+
+    </style>
+    
+    <style name="Bold.Text">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style
         name="nombre_estacion"
         parent="Base.TextAppearance.AppCompat.Body1">
         <item name="android:textColor">@color/negro</item>
-    </style>
-    <style
-        name="dark"
-        parent="AppTheme">
-        <item name="android:textColor">@color/blanco</item>
-        <item name="android:background">@color/negro</item>
     </style>
 
 </resources>
