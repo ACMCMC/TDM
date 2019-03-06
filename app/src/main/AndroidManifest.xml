@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ml.mitron.tdm.tdm">
 
+    <uses-permission android:name="android.permission.NFC" />
+
     <application
         android:name=".MyApplicationClass"
         android:allowBackup="true"
@@ -20,7 +22,15 @@
         <activity android:name=".RutaActivity" />
         <activity android:name=".ErrorActivity" />
         <activity android:name=".EstacionActivity" />
-        <activity android:name=".TDMCardActivity" />
+        <activity android:name=".TDMCardActivity">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="http"
+                    android:host="tdm.mitron.ml"
+                    />
+            </intent-filter>
+        </activity>
         <activity android:name=".SearchableActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -32,6 +42,9 @@
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".SearchableActivity" />
+
     </application>
+
+
 
 </manifest>

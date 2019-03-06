@@ -1,5 +1,8 @@
 package ml.mitron.tdm.tdm;
 
+import android.content.Intent;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -41,5 +44,11 @@ public class TDMCardActivity extends AppCompatActivity {
 
 
         //tdmCard.setLayoutParams(new ViewGroup.LayoutParams(tdmCard.getMeasuredWidth(),tdmCard.getMeasuredWidth()*53/85));
+    }
+
+    @Override
+    protected void onNewIntent (Intent intent) {
+        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        Log.d(TAG, tag.getTechList()[0]);
     }
 }
