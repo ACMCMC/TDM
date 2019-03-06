@@ -24,9 +24,15 @@
         <item name="android:textColor">@color/blanco</item>
 
     </style>
+
+    <style name="Bold.Display2" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/blanco</item>
+
+    </style>
     
     <style name="Bold.Text">
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/blanco</item>
     </style>
 
     <style

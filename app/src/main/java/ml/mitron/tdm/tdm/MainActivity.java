@@ -1,9 +1,16 @@
 package ml.mitron.tdm.tdm;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.transition.AutoTransition;
@@ -11,12 +18,15 @@ import android.transition.TransitionManager;
 import android.util.Pair;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.transition.Scene;
 import android.transition.Transition;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         TextView searchOrigen = (TextView) findViewById(R.id.searchOrigen);
         TextView searchDestino = (TextView) findViewById(R.id.searchDestino);
 
-        LinearLayout seleccionDestino = (LinearLayout) findViewById(R.id.seleccionDestino);
+        ConstraintLayout seleccionDestino = (ConstraintLayout) findViewById(R.id.seleccionDestino);
         seleccionDestino.setVisibility(View.GONE);
 
         //SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -145,6 +155,54 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent,options.toBundle());
             }
         });
+
+        final Handler handler = new Handler();
+
+        Runnable noriaChange = new Runnable() {
+            @Override
+            public void run() {
+
+                TextView nombreEstacionNoria = (TextView) findViewById(R.id.nombreEstacionNoria);
+                ObjectAnimator animatorNoria = ObjectAnimator.ofFloat(nombreEstacionNoria, View.ALPHA, 1f,0f);
+                animatorNoria.setDuration(1000);
+                animatorNoria.start();
+
+                animatorNoria.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(final Animator animation) {
+                        super.onAnimationEnd(animation);
+
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (extractor == null) {
+                                    extractor = DBExtractor.getExtractor(contexto);
+                                }
+
+                                if (!extractor.isOpen()) {
+                                    extractor.OpenDB();
+                                }
+
+                                Integer idNoria;
+                                Random noriaRandom = new Random();
+                                idNoria = new Integer(noriaRandom.nextInt(extractor.getEstacionCount()) + 1);
+                                TextView nombreEstacionNoria = (TextView) findViewById(R.id.nombreEstacionNoria);
+                                nombreEstacionNoria.setText(extractor.getEstacion(idNoria).getNombre());
+
+                                ObjectAnimator animatorNoria = ObjectAnimator.ofFloat(nombreEstacionNoria, View.ALPHA, 0f,1f);
+                                animatorNoria.setDuration(1000);
+                                animatorNoria.start();
+                            }
+                        });
+
+                    }
+                });
+
+                handler.postDelayed(this, 3000);
+            }
+        };
+
+        handler.postDelayed(noriaChange, 2000);
     }
 
     @Override
