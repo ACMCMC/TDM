@@ -16,6 +16,7 @@
     <dimen name="textoBold">16sp</dimen>
 
     <dimen name="radiusCard">16dp</dimen>
+    <dimen name="radiusCardNegative">-16dp</dimen>
     <dimen name="elevationCard">8dp</dimen>
     <dimen name="cardPadding">8dp</dimen>
     <dimen name="cardMargin">24dp</dimen>

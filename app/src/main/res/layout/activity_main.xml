@@ -1,137 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="ml.mitron.tdm.tdm.MainActivity"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    tools:context="ml.mitron.tdm.tdm.MainActivity">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/background" />
+    <TextView
+        android:id="@+id/nombreEstacionNoria"
+        style="@style/Bold.Display2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Altas Montañas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_busqueda"
+        android:textColor="@color/colorPrimary"/>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardSeleccion"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_margin="@dimen/cardMargin"
-        android:layout_centerVertical="true"
+    <FrameLayout
+        android:id="@+id/tdm_card_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        >
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/tdm_card_hidden"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/radiusCardNegative"
+            android:layout_marginTop="@dimen/elevationCard"
+            android:layout_marginLeft="@dimen/elevationCard"
+            android:layout_marginRight="@dimen/elevationCard"
+            android:backgroundTint="@color/colorPrimary"
+            app:cardCornerRadius="@dimen/radiusCard"
+            app:cardElevation="@dimen/elevationCard"
+            app:contentPadding="16dp"
+            app:contentPaddingBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            >
+
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/Bold.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My TDM" />
+        </android.support.v7.widget.CardView>
+    </FrameLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout_busqueda"
+        style="@style/Bold.Background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="@dimen/radiusCard"
-        card_view:cardElevation="@dimen/elevationCard"
-        card_view:contentPadding="@dimen/cardPadding"
-        card_view:cardUseCompatPadding="true">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:id="@+id/layoutSeleccion"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cardSeleccion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textoPresentacion">
 
-            <!--
-
-            <TextView
-                android:id="@+id/textoBienvenida"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:text="@string/encontrarRuta"
-                android:textAlignment="center"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
-
-
-
-            <TextView
-                android:id="@+id/textoOrigen"
-                android:layout_below="@id/textoBienvenida"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/estacionOrigen"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
-
-                -->
-
-            <LinearLayout
-                android:layout_alignParentTop="true"
-                android:id="@+id/seleccionOrigen"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_seleccion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/icono_estacionOrigen"
-                    android:transitionName="icono_estacionOrigen"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_margin="12dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_adjust_black_24dp" />
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/seleccionOrigen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/marginEstacion"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:transitionName="estacionOrigen"
-                    android:id="@+id/searchOrigen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/estacionOrigen"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem" />
+                    <ImageView
+                        android:id="@+id/icono_estacionOrigen"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="@string/estacionOrigen"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_adjust_black_24dp"
+                        android:tint="@color/blanco"
+                        android:transitionName="icono_estacionOrigen"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
+                    <TextView
+                        android:id="@+id/searchOrigen"
+                        style="@style/Bold.Text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/marginIcEstacion"
+                        android:text="@string/estacionOrigen"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
+                        android:transitionName="estacionOrigen"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/icono_estacionOrigen"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+                </android.support.constraint.ConstraintLayout>
 
-            <!--
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/seleccionDestino"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/marginEstacion"
+                    app:layout_constraintTop_toBottomOf="@id/seleccionOrigen">
 
-            <TextView
-                android:layout_below="@id/seleccionOrigen"
-                android:id="@+id/textoDestino"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/estacionDestino"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+                    <ImageView
+                        android:id="@+id/icono_estacionDestino"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="@string/estacionDestino"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_place_black_24dp"
+                        android:tint="@color/blanco"
+                        android:transitionName="icono_estacionDestino"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                -->
+                    <TextView
+                        android:id="@+id/searchDestino"
+                        style="@style/Bold.Text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/marginIcEstacion"
+                        android:text="@string/estacionDestino"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
+                        android:transitionName="estacionDestino"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/icono_estacionDestino"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/seleccionDestino"
-                android:layout_below="@id/seleccionOrigen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                </android.support.constraint.ConstraintLayout>
 
-                <ImageView
-                    android:id="@+id/icono_estacionDestino"
-                    android:transitionName="icono_estacionDestino"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_margin="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_place_black_24dp" />
-
-                <TextView
-                    android:transitionName="estacionDestino"
-                    android:id="@+id/searchDestino"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/estacionDestino"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem" />
-
-            </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
 
             <Button
                 android:id="@+id/botonBusqueda"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="@style/Bold.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/seleccionDestino"
-                android:text="@string/buttonCalcular" />
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
+                android:layout_marginTop="8dp"
+                android:text="@string/buttonCalcular"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_seleccion" />
 
-</RelativeLayout>
+        </android.support.constraint.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textoPresentacion"
+            style="@style/Bold.Headline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:text="Encuentra tu ruta. En tres simples pasos."
+            app:layout_constraintBottom_toTopOf="@id/cardSeleccion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>
