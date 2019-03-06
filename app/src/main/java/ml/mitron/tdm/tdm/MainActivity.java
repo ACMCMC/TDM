@@ -69,26 +69,26 @@ public class MainActivity extends AppCompatActivity {
         searchOrigen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),SearchableActivity.class);
-                intent.putExtra("seleccionInicio",true);
+                Intent intent = new Intent(v.getContext(), SearchableActivity.class);
+                intent.putExtra("seleccionInicio", true);
                 TextView searchField = (TextView) v;
                 v.setTransitionName("searchField");
-                intent.putExtra("searchValue",searchField.getText());
+                intent.putExtra("searchValue", searchField.getText());
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) v.getContext(), searchField, "searchField");
-                ((Activity) v.getContext()).startActivityForResult(intent,SEARCH_REQUEST_CODE,options.toBundle());
+                ((Activity) v.getContext()).startActivityForResult(intent, SEARCH_REQUEST_CODE, options.toBundle());
             }
         });
 
         searchDestino.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),SearchableActivity.class);
-                intent.putExtra("seleccionInicio",false);
+                Intent intent = new Intent(v.getContext(), SearchableActivity.class);
+                intent.putExtra("seleccionInicio", false);
                 TextView searchField = (TextView) v;
                 v.setTransitionName("searchField");
-                intent.putExtra("searchValue",searchField.getText());
+                intent.putExtra("searchValue", searchField.getText());
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) v.getContext(), searchField, "searchField");
-                ((Activity) v.getContext()).startActivityForResult(intent,SEARCH_REQUEST_CODE,options.toBundle());
+                ((Activity) v.getContext()).startActivityForResult(intent, SEARCH_REQUEST_CODE, options.toBundle());
             }
         });
 
@@ -142,21 +142,21 @@ public class MainActivity extends AppCompatActivity {
 
                  */
 
-                Pair<View,String> pair1 = Pair.create(findViewById(R.id.searchOrigen),"estacionOrigen");
+                Pair<View, String> pair1 = Pair.create(findViewById(R.id.searchOrigen), "estacionOrigen");
                 //Pair<View,String> pair1 = Pair.create(findViewById(R.id.searchOrigen),findViewById(R.id.searchOrigen).getTransitionName());
-                Pair<View,String> pair2 = Pair.create(findViewById(R.id.searchDestino),"estacionDestino");
+                Pair<View, String> pair2 = Pair.create(findViewById(R.id.searchDestino), "estacionDestino");
                 //Pair<View,String> pair2 = Pair.create(findViewById(R.id.searchDestino),findViewById(R.id.searchDestino).getTransitionName());
-                Pair<View,String> pair3 = Pair.create(findViewById(R.id.icono_estacionOrigen),findViewById(R.id.icono_estacionOrigen).getTransitionName());
-                Pair<View,String> pair4 = Pair.create(findViewById(R.id.icono_estacionDestino),findViewById(R.id.icono_estacionDestino).getTransitionName());
+                Pair<View, String> pair3 = Pair.create(findViewById(R.id.icono_estacionOrigen), findViewById(R.id.icono_estacionOrigen).getTransitionName());
+                Pair<View, String> pair4 = Pair.create(findViewById(R.id.icono_estacionDestino), findViewById(R.id.icono_estacionDestino).getTransitionName());
 
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,pair1,pair2,pair3,pair4);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pair1, pair2, pair3, pair4);
 
-                Intent intent = new Intent(contexto,RutaActivity.class);
+                Intent intent = new Intent(contexto, RutaActivity.class);
 
-                intent.putExtra("inicio",inicio);
-                intent.putExtra("destino",destino);
+                intent.putExtra("inicio", inicio);
+                intent.putExtra("destino", destino);
 
-                startActivity(intent,options.toBundle());
+                startActivity(intent, options.toBundle());
             }
         });
 
@@ -165,13 +165,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Pair<View,String> pair1 = Pair.create(findViewById(R.id.tdm_card_hidden),"card");
+                Pair<View, String> pair1 = Pair.create(findViewById(R.id.tdm_card_hidden), "card");
 
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,pair1);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pair1);
 
-                Intent intent = new Intent(contexto,TDMCardActivity.class);
+                Intent intent = new Intent(contexto, TDMCardActivity.class);
 
-                startActivity(intent,options.toBundle());
+                startActivity(intent, options.toBundle());
             }
         });
 
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 TextView nombreEstacionNoria = (TextView) findViewById(R.id.nombreEstacionNoria);
-                ObjectAnimator animatorNoria = ObjectAnimator.ofFloat(nombreEstacionNoria, View.ALPHA, 1f,0f);
+                ObjectAnimator animatorNoria = ObjectAnimator.ofFloat(nombreEstacionNoria, View.ALPHA, 1f, 0f);
                 animatorNoria.setDuration(1000);
                 animatorNoria.start();
 
@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
                                 TextView nombreEstacionNoria = (TextView) findViewById(R.id.nombreEstacionNoria);
                                 nombreEstacionNoria.setText(extractor.getEstacion(idNoria).getNombre());
 
-                                ObjectAnimator animatorNoria = ObjectAnimator.ofFloat(nombreEstacionNoria, View.ALPHA, 0f,1f);
+                                ObjectAnimator animatorNoria = ObjectAnimator.ofFloat(nombreEstacionNoria, View.ALPHA, 0f, 1f);
                                 animatorNoria.setDuration(1000);
                                 animatorNoria.start();
                             }
@@ -225,26 +225,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
 
                 ViewGroup group = (ViewGroup) findViewById(R.id.cardSeleccion);
                 Transition revealTransition = new AutoTransition();
                 //revealTransition.setDuration(1500);
                 revealTransition.setInterpolator(new BounceInterpolator());
 
-                if(data.getBooleanExtra("seleccionInicio",false)) {
+                if (data.getBooleanExtra("seleccionInicio", false)) {
                     ((TextView) findViewById(R.id.searchOrigen)).setText(data.getStringExtra("seleccion"));
                     if (findViewById(R.id.seleccionDestino).getVisibility() == View.GONE) {
 
-                        TransitionManager.beginDelayedTransition(group,revealTransition);
+                        TransitionManager.beginDelayedTransition(group, revealTransition);
                         findViewById(R.id.seleccionDestino).setVisibility(View.VISIBLE);
                     }
                 } else {
                     ((TextView) findViewById(R.id.searchDestino)).setText(data.getStringExtra("seleccion"));
-                    if(findViewById(R.id.botonBusqueda).getVisibility() == View.GONE) {
-                        TransitionManager.beginDelayedTransition(group,revealTransition);
+                    if (findViewById(R.id.botonBusqueda).getVisibility() == View.GONE) {
+                        TransitionManager.beginDelayedTransition(group, revealTransition);
                         findViewById(R.id.botonBusqueda).setVisibility(View.VISIBLE);
                     }
                 }
@@ -257,11 +257,11 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         Bundle bundle = new Bundle();
-        bundle.putInt("visibility_seleccionDestino",findViewById(R.id.seleccionDestino).getVisibility());
-        bundle.putInt("visibility_botonBusqueda",findViewById(R.id.botonBusqueda).getVisibility());
+        bundle.putInt("visibility_seleccionDestino", findViewById(R.id.seleccionDestino).getVisibility());
+        bundle.putInt("visibility_botonBusqueda", findViewById(R.id.botonBusqueda).getVisibility());
 
-        bundle.putCharSequence("texto_searchOrigen",((TextView) findViewById(R.id.searchOrigen)).getText());
-        bundle.putCharSequence("texto_searchDestino",((TextView) findViewById(R.id.searchDestino)).getText());
+        bundle.putCharSequence("texto_searchOrigen", ((TextView) findViewById(R.id.searchOrigen)).getText());
+        bundle.putCharSequence("texto_searchDestino", ((TextView) findViewById(R.id.searchDestino)).getText());
 
         outState.putAll(bundle);
     }
@@ -277,10 +277,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        if (savedInstanceState.getInt("visibility_seleccionDestino",View.GONE) == View.VISIBLE) {
+        if (savedInstanceState.getInt("visibility_seleccionDestino", View.GONE) == View.VISIBLE) {
             findViewById(R.id.seleccionDestino).setVisibility(View.VISIBLE);
         }
-        if (savedInstanceState.getInt("visibility_botonBusqueda",View.GONE) == View.VISIBLE) {
+        if (savedInstanceState.getInt("visibility_botonBusqueda", View.GONE) == View.VISIBLE) {
             findViewById(R.id.botonBusqueda).setVisibility(View.VISIBLE);
         }
 
