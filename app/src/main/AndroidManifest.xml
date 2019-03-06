@@ -20,6 +20,7 @@
         <activity android:name=".RutaActivity" />
         <activity android:name=".ErrorActivity" />
         <activity android:name=".EstacionActivity" />
+        <activity android:name=".TDMCardActivity" />
         <activity android:name=".SearchableActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

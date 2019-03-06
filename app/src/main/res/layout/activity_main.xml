@@ -33,7 +33,7 @@
         >
 
         <android.support.v7.widget.CardView
-            android:id="@+id/tdm_card"
+            android:id="@+id/tdm_card_hidden"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/radiusCardNegative"
@@ -98,6 +98,7 @@
                         android:id="@+id/icono_estacionOrigen"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:contentDescription="@string/estacionOrigen"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_adjust_black_24dp"
                         android:tint="@color/blanco"
@@ -109,13 +110,14 @@
                     <TextView
                         android:id="@+id/searchOrigen"
                         style="@style/Bold.Text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/marginIcEstacion"
+                        android:layout_marginStart="@dimen/marginIcEstacion"
                         android:text="@string/estacionOrigen"
                         android:textAppearance="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
                         android:transitionName="estacionOrigen"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/icono_estacionOrigen"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -132,6 +134,7 @@
                         android:id="@+id/icono_estacionDestino"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:contentDescription="@string/estacionDestino"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_place_black_24dp"
                         android:tint="@color/blanco"
@@ -143,13 +146,14 @@
                     <TextView
                         android:id="@+id/searchDestino"
                         style="@style/Bold.Text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/marginIcEstacion"
+                        android:layout_marginStart="@dimen/marginIcEstacion"
                         android:text="@string/estacionDestino"
                         android:textAppearance="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
                         android:transitionName="estacionDestino"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/icono_estacionDestino"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -178,6 +182,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:text="Encuentra tu ruta. En tres simples pasos."
+            app:layout_constraintBottom_toTopOf="@id/cardSeleccion"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

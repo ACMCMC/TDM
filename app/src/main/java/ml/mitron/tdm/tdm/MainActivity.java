@@ -13,9 +13,11 @@ import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.util.Pair;
+import android.view.DragEvent;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     Context contexto;
     DBExtractor extractor;
+
+    private Handler myHandler;
 
     private Scene escena1, escena2;
 
@@ -156,7 +160,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final Handler handler = new Handler();
+        CardView tdmCard = (CardView) findViewById(R.id.tdm_card_hidden);
+        tdmCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Pair<View,String> pair1 = Pair.create(findViewById(R.id.tdm_card_hidden),"card");
+
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,pair1);
+
+                Intent intent = new Intent(contexto,TDMCardActivity.class);
+
+                startActivity(intent,options.toBundle());
+            }
+        });
+
+        myHandler = new Handler();
 
         Runnable noriaChange = new Runnable() {
             @Override
@@ -172,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onAnimationEnd(final Animator animation) {
                         super.onAnimationEnd(animation);
 
-                        handler.post(new Runnable() {
+                        myHandler.post(new Runnable() {
                             @Override
                             public void run() {
                                 if (extractor == null) {
@@ -198,11 +217,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                handler.postDelayed(this, 3000);
+                myHandler.postDelayed(this, 3000);
             }
         };
 
-        handler.postDelayed(noriaChange, 2000);
+        myHandler.postDelayed(noriaChange, 2000);
     }
 
     @Override
@@ -245,6 +264,13 @@ public class MainActivity extends AppCompatActivity {
         bundle.putCharSequence("texto_searchDestino",((TextView) findViewById(R.id.searchDestino)).getText());
 
         outState.putAll(bundle);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        myHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
