@@ -28,4 +28,5 @@
     <string name="estacionRedTDM">Estación de la Red TDM</string>
     <string name="conexionCon">hacia</string>
     <string name="buscarEstacion">Buscar una estación</string>
+    <string name="textoBienvenida">Encuentra tu ruta. En tres pasos.</string>
 </resources>

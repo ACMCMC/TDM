@@ -27,4 +27,5 @@
     <string name="estacionRedTDM">TDM Network station</string>
     <string name="conexionCon">naar</string>
     <string name="buscarEstacion">Trouver Station</string>
+    <string name="textoBienvenida">Trouv tuhr Route. Dans trierd Steps.</string>
 </resources>
