@@ -65,7 +65,7 @@
 
     <style name="TDMCard"></style>
     <style name="TDMCard.CardText">
-        <item name="android:fontFamily">@font/robotoMono-Bold</item>
+        <item name="android:fontFamily">@font/roboto_mono_medium</item>
         <item name="android:textColor">@color/blanco</item>
         <item name="android:textStyle">bold</item>
     </style>
