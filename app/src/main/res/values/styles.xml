@@ -45,14 +45,29 @@
 
     </style>
 
-    <style name="Card.Card"
-        >
+    <style name="Card.Card">
+        <item name="android:layout_marginTop">@dimen/cardMargin</item>
+        <item name="android:layout_marginLeft">@dimen/cardMargin</item>
+        <item name="android:layout_marginRight">@dimen/cardMargin</item>
+        <item name="android:layout_marginBottom">@dimen/cardMargin</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:backgroundTint">@color/colorPrimary</item>
-        <item name="android:elevation">@dimen/elevationCard</item>
         <item name="cardCornerRadius">@dimen/radiusCard</item>
-        <item name="cardElevation">@dimen/elevationCard</item>
-        <item name="contentPadding">16dp</item>
-        <item name="android:layout_margin">@dimen/cardMargin</item>
+        <item name="android:translationZ">-1dp</item>
+        <item name="contentPaddingTop">16dp</item>
+        <item name="contentPaddingBottom">16dp</item>
+        <item name="contentPaddingLeft">16dp</item>
+        <item name="contentPaddingRight">16dp</item>
+
+
+    </style>
+
+    <style name="TDMCard"></style>
+    <style name="TDMCard.CardText">
+        <item name="android:fontFamily">@font/robotoMono-Bold</item>
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>
