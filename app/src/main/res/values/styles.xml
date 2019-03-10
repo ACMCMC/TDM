@@ -55,10 +55,12 @@
         <item name="android:backgroundTint">@color/colorPrimary</item>
         <item name="cardCornerRadius">@dimen/radiusCard</item>
         <item name="android:translationZ">-1dp</item>
+        <!--
         <item name="contentPaddingTop">16dp</item>
         <item name="contentPaddingBottom">16dp</item>
         <item name="contentPaddingLeft">16dp</item>
         <item name="contentPaddingRight">16dp</item>
+        -->
 
 
     </style>
