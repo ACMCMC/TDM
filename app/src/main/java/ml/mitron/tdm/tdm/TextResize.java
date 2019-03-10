@@ -16,29 +16,29 @@ package ml.mitron.tdm.tdm;
  * limitations under the License.
  */
 
-        import android.animation.Animator;
-        import android.animation.AnimatorListenerAdapter;
-        import android.animation.ArgbEvaluator;
-        import android.animation.ObjectAnimator;
-        import android.animation.PropertyValuesHolder;
-        import android.content.Context;
-        import android.content.res.ColorStateList;
-        import android.graphics.Bitmap;
-        import android.graphics.Canvas;
-        import android.graphics.Color;
-        import android.graphics.ColorFilter;
-        import android.graphics.Paint;
-        import android.graphics.PixelFormat;
-        import android.graphics.PorterDuff;
-        import android.graphics.drawable.Drawable;
-        import android.transition.Transition;
-        import android.transition.TransitionValues;
-        import android.util.AttributeSet;
-        import android.util.TypedValue;
-        import android.view.Gravity;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.TextView;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.transition.Transition;
+import android.transition.TransitionValues;
+import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * Transitions a TextView from one font size to another. This does not
@@ -74,6 +74,38 @@ public class TextResize extends Transition {
     public TextResize(Context context, AttributeSet attrs) {
         super(context, attrs);
         addTarget(TextView.class);
+    }
+
+    private static void setTextViewData(TextView view, TextResizeData data, float fontSize) {
+        view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
+        view.setPadding(data.paddingLeft, data.paddingTop, data.paddingRight, data.paddingBottom);
+        view.setRight(view.getLeft() + data.width);
+        view.setBottom(view.getTop() + data.height);
+        view.setTextColor(data.textColor);
+        int widthSpec = View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY);
+        int heightSpec = View.MeasureSpec.makeMeasureSpec(view.getHeight(), View.MeasureSpec.EXACTLY);
+        view.measure(widthSpec, heightSpec);
+        view.layout(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+    }
+
+    private static Bitmap captureTextBitmap(TextView textView) {
+        Drawable background = textView.getBackground();
+        textView.setBackground(null);
+        int width = textView.getWidth() - textView.getPaddingLeft() - textView.getPaddingRight();
+        int height = textView.getHeight() - textView.getPaddingTop() - textView.getPaddingBottom();
+        if (width == 0 || height == 0) {
+            return null;
+        }
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.translate(-textView.getPaddingLeft(), -textView.getPaddingTop());
+        textView.draw(canvas);
+        textView.setBackground(background);
+        return bitmap;
+    }
+
+    private static float interpolate(float start, float end, float fraction) {
+        return start + (fraction * (end - start));
     }
 
     @Override
@@ -221,38 +253,6 @@ public class TextResize extends Transition {
         return animator;
     }
 
-    private static void setTextViewData(TextView view, TextResizeData data, float fontSize) {
-        view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
-        view.setPadding(data.paddingLeft, data.paddingTop, data.paddingRight, data.paddingBottom);
-        view.setRight(view.getLeft() + data.width);
-        view.setBottom(view.getTop() + data.height);
-        view.setTextColor(data.textColor);
-        int widthSpec = View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY);
-        int heightSpec = View.MeasureSpec.makeMeasureSpec(view.getHeight(), View.MeasureSpec.EXACTLY);
-        view.measure(widthSpec, heightSpec);
-        view.layout(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
-    }
-
-    private static Bitmap captureTextBitmap(TextView textView) {
-        Drawable background = textView.getBackground();
-        textView.setBackground(null);
-        int width = textView.getWidth() - textView.getPaddingLeft() - textView.getPaddingRight();
-        int height = textView.getHeight() - textView.getPaddingTop() - textView.getPaddingBottom();
-        if (width == 0 || height == 0) {
-            return null;
-        }
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        canvas.translate(-textView.getPaddingLeft(), -textView.getPaddingTop());
-        textView.draw(canvas);
-        textView.setBackground(background);
-        return bitmap;
-    }
-
-    private static float interpolate(float start, float end, float fraction) {
-        return start + (fraction * (end - start));
-    }
-
     /**
      * This Drawable is used to scale the start and end bitmaps and switch between them
      * at the appropriate progress.
@@ -296,24 +296,10 @@ public class TextResize extends Transition {
         }
 
         /**
-         * Sets the font size that the text should be displayed at.
-         *
-         * @param fontSize The font size in pixels of the scaled bitmap text.
+         * @return The left side of the text.
          */
-        public void setFontSize(float fontSize) {
-            this.fontSize = fontSize;
-            invalidateSelf();
-        }
-
-        /**
-         * Sets the color of the text to be displayed.
-         *
-         * @param textColor The color of the text to be displayed.
-         */
-        public void setTextColor(int textColor) {
-            this.textColor = textColor;
-            setColorFilter(textColor, PorterDuff.Mode.SRC_IN);
-            invalidateSelf();
+        public float getLeft() {
+            return left;
         }
 
         /**
@@ -327,6 +313,13 @@ public class TextResize extends Transition {
         }
 
         /**
+         * @return The top of the text.
+         */
+        public float getTop() {
+            return top;
+        }
+
+        /**
          * Sets the top of the text. This should be the same as the top padding.
          *
          * @param top The top of the text in pixels.
@@ -334,6 +327,13 @@ public class TextResize extends Transition {
         public void setTop(float top) {
             this.top = top;
             invalidateSelf();
+        }
+
+        /**
+         * @return The right side of the text.
+         */
+        public float getRight() {
+            return right;
         }
 
         /**
@@ -347,6 +347,13 @@ public class TextResize extends Transition {
         }
 
         /**
+         * @return The bottom of the text.
+         */
+        public float getBottom() {
+            return bottom;
+        }
+
+        /**
          * Sets the bottom of the drawable.
          *
          * @param bottom The bottom pixel of the drawn area.
@@ -357,34 +364,6 @@ public class TextResize extends Transition {
         }
 
         /**
-         * @return The left side of the text.
-         */
-        public float getLeft() {
-            return left;
-        }
-
-        /**
-         * @return The top of the text.
-         */
-        public float getTop() {
-            return top;
-        }
-
-        /**
-         * @return The right side of the text.
-         */
-        public float getRight() {
-            return right;
-        }
-
-        /**
-         * @return The bottom of the text.
-         */
-        public float getBottom() {
-            return bottom;
-        }
-
-        /**
          * @return The font size of the text in the displayed bitmap.
          */
         public float getFontSize() {
@@ -392,10 +371,31 @@ public class TextResize extends Transition {
         }
 
         /**
+         * Sets the font size that the text should be displayed at.
+         *
+         * @param fontSize The font size in pixels of the scaled bitmap text.
+         */
+        public void setFontSize(float fontSize) {
+            this.fontSize = fontSize;
+            invalidateSelf();
+        }
+
+        /**
          * @return The color of the text being displayed.
          */
         public int getTextColor() {
             return textColor;
+        }
+
+        /**
+         * Sets the color of the text to be displayed.
+         *
+         * @param textColor The color of the text to be displayed.
+         */
+        public void setTextColor(int textColor) {
+            this.textColor = textColor;
+            setColorFilter(textColor, PorterDuff.Mode.SRC_IN);
+            invalidateSelf();
         }
 
         @Override
@@ -406,7 +406,7 @@ public class TextResize extends Transition {
             // algorithm ensures that null bitmaps (font size = 0) are never used.
             final float threshold = startFontSize / (startFontSize + endFontSize);
             final float fontSize = getFontSize();
-            final float progress = (fontSize - startFontSize)/(endFontSize - startFontSize);
+            final float progress = (fontSize - startFontSize) / (endFontSize - startFontSize);
 
             // The drawn text width is a more accurate scale than font size. This avoids
             // jump when switching bitmaps.
@@ -454,7 +454,7 @@ public class TextResize extends Transition {
             switch (gravity) {
                 case Gravity.CENTER_HORIZONTAL:
                 case Gravity.CENTER_VERTICAL:
-                    return ((start + end) - (dim * scale))/2f;
+                    return ((start + end) - (dim * scale)) / 2f;
                 case Gravity.RIGHT:
                 case Gravity.BOTTOM:
                     return end - (dim * scale);

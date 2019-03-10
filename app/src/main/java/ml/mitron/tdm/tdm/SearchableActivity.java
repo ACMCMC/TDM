@@ -9,12 +9,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -150,11 +150,11 @@ class SearchAdapter extends BaseAdapter {
                 searchField.setText(viewHolder.nombreEstacion.getText());
 
                 Intent resultado = new Intent();
-                resultado.putExtra("seleccion",viewHolder.nombreEstacion.getText());
-                resultado.putExtra("seleccionInicio",((Activity) v.getContext()).getIntent().getBooleanExtra("seleccionInicio",false));
+                resultado.putExtra("seleccion", viewHolder.nombreEstacion.getText());
+                resultado.putExtra("seleccionInicio", ((Activity) v.getContext()).getIntent().getBooleanExtra("seleccionInicio", false));
                 //((Activity) v.getContext()).setResult(MainActivity.SEARCH_REQUEST_CODE,resultado);
-                ((Activity) v.getContext()).setResult(Activity.RESULT_OK,resultado);
-                ((EditText)((Activity) v.getContext()).findViewById(R.id.search)).setText(viewHolder.nombreEstacion.getText());
+                ((Activity) v.getContext()).setResult(Activity.RESULT_OK, resultado);
+                ((EditText) ((Activity) v.getContext()).findViewById(R.id.search)).setText(viewHolder.nombreEstacion.getText());
                 ((Activity) v.getContext()).finishAfterTransition();
             }
         });

@@ -1,7 +1,6 @@
 package ml.mitron.tdm.tdm;
 
 import android.animation.ObjectAnimator;
-import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -36,7 +35,7 @@ public class TDMCardActivity extends AppCompatActivity {
 
         adaptador = NfcAdapter.getDefaultAdapter(this);
 
-        pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         IntentFilter ndefFilter = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
 
         try {
@@ -45,11 +44,11 @@ public class TDMCardActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        filters = new IntentFilter[] {
+        filters = new IntentFilter[]{
                 ndefFilter,
         };
 
-        techListsArray = new String[][] { new String[] { IsoDep.class.getName() } };
+        techListsArray = new String[][]{new String[]{IsoDep.class.getName()}};
 
         final CardView tdmCard = (CardView) findViewById(R.id.tdm_card);
 
@@ -74,13 +73,13 @@ public class TDMCardActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onNewIntent (Intent intent) {
+    protected void onNewIntent(Intent intent) {
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         Log.d(TAG, "TECNOLOGIAS: " + tag.getTechList()[0]);
 
         CardView tdmCard = (CardView) findViewById(R.id.tdm_card);
 
-        ObjectAnimator animatorRise = ObjectAnimator.ofFloat(tdmCard, View.TRANSLATION_Z,tdmCard.getTranslationZ(),64);
+        ObjectAnimator animatorRise = ObjectAnimator.ofFloat(tdmCard, View.TRANSLATION_Z, tdmCard.getTranslationZ(), 64);
         animatorRise.setDuration(2000);
         animatorRise.setRepeatCount(1);
         animatorRise.setRepeatMode(ValueAnimator.REVERSE);

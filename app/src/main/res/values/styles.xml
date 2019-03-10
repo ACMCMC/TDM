@@ -11,8 +11,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Bold">
-    </style>
+    <style name="Bold"></style>
 
     <style name="Bold.Button" parent="Widget.AppCompat.Button.Borderless"></style>
 
@@ -29,15 +28,13 @@
         <item name="android:textColor">@color/blanco</item>
 
     </style>
-    
+
     <style name="Bold.Text">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/blanco</item>
     </style>
 
-    <style
-        name="nombre_estacion"
-        parent="Base.TextAppearance.AppCompat.Body1">
+    <style name="nombre_estacion" parent="Base.TextAppearance.AppCompat.Body1">
         <item name="android:textColor">@color/negro</item>
     </style>
 
@@ -66,6 +63,7 @@
     </style>
 
     <style name="TDMCard"></style>
+
     <style name="TDMCard.CardText">
         <item name="android:fontFamily">@font/roboto_mono_medium</item>
         <item name="android:textColor">@color/blanco</item>

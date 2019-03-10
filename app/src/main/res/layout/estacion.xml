@@ -23,8 +23,8 @@
         android:layout_weight="0"
         android:text="Nombre de la estación"
         android:textAppearance="@style/nombre_estacion"
-        android:transitionName="nombreEstacion"
-        android:textSize="@dimen/textoBold"/>
+        android:textSize="@dimen/textoBold"
+        android:transitionName="nombreEstacion" />
 
     <TextView
         android:id="@+id/textView2"

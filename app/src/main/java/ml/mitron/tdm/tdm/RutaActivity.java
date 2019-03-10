@@ -94,7 +94,7 @@ public class RutaActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(recyclerLayoutManager);
 
         // specify an adapter (see also next example)
-        recyclerAdapter = new EstacionAdapter(ruta,this);
+        recyclerAdapter = new EstacionAdapter(ruta, this);
         recyclerView.setAdapter(recyclerAdapter);
 
 
@@ -238,14 +238,14 @@ class EstacionAdapter extends RecyclerView.Adapter<EstacionAdapter.HolderEstacio
     private Ruta ruta;
     private Context contexto;
 
-    public EstacionAdapter(Ruta ruta,Context contexto) {
+    public EstacionAdapter(Ruta ruta, Context contexto) {
         this.ruta = ruta;
         this.contexto = contexto;
     }
 
     @Override
     public HolderEstacion onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(contexto).inflate(R.layout.fila_estacion,parent,false);
+        View view = LayoutInflater.from(contexto).inflate(R.layout.fila_estacion, parent, false);
         HolderEstacion holder = new HolderEstacion(view);
         return holder;
     }
@@ -290,7 +290,7 @@ class EstacionAdapter extends RecyclerView.Adapter<EstacionAdapter.HolderEstacio
             } catch (NoSuchElementException | Resources.NotFoundException e) {
                 holder.instruccion.setText(contexto.getResources().getText(R.string.tomarLinea) + " " + checkInstruccion.getNombre());
             }
-        } else  {
+        } else {
             holder.instruccion.setVisibility(View.GONE);
         }
 

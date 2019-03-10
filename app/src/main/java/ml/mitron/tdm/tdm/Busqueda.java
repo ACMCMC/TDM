@@ -1,19 +1,16 @@
 package ml.mitron.tdm.tdm;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Set;
-
-import static android.support.v4.content.ContextCompat.getColor;
 
 public class Busqueda {
     //este código se ejecuta al pulsar el botón
@@ -144,7 +141,7 @@ class Linea {
     }
 
     String getNombrePropio() {
-        return(nombrePropio);
+        return (nombrePropio);
     }
 
     void calcularColor(Context contexto) throws NoSuchElementException {
@@ -209,7 +206,7 @@ class Linea {
     }
 
     int getColor() {
-        return(color);
+        return (color);
     }
 
 }
@@ -235,7 +232,7 @@ class Conexion implements Comparable<Conexion> {
     }
 
     List<String> getLineas() {
-        return(lineas);
+        return (lineas);
     }
 
     Integer getIDDestino() {
@@ -478,7 +475,9 @@ class Ruta {
         this.tiempo = tiempo;
     }
 
-    Integer getTiempo() {return(tiempo);}
+    Integer getTiempo() {
+        return (tiempo);
+    }
 }
 
 class Mapa {
@@ -613,7 +612,7 @@ class Mapa {
 
         List<Integer> orden = new ArrayList<Integer>();
 
-        if(!nodoPrevio.containsKey(fin)) {
+        if (!nodoPrevio.containsKey(fin)) {
             throw new IllegalArgumentException();
         }
 

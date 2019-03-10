@@ -47,7 +47,7 @@ public class EstacionActivity extends AppCompatActivity {
         for (Conexion conexion : estacion.getConexiones()) {
             LinearLayout layoutConexion = new LinearLayout(this);
             layoutConexion.setOrientation(LinearLayout.HORIZONTAL);
-            LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutConexion.setPadding(
                     0,
                     (int) getResources().getDimension(R.dimen.marginLineaVertical),
@@ -57,7 +57,7 @@ public class EstacionActivity extends AppCompatActivity {
 
             for (String idLinea : conexion.getLineas()) {
 
-                Linea linea = new Linea(idLinea,this);
+                Linea linea = new Linea(idLinea, this);
 
                 TextView textViewIDLinea = new TextView(this);
 

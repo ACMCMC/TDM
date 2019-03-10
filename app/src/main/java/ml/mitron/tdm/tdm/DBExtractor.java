@@ -36,7 +36,7 @@ public final class DBExtractor {
     }
 
     static DBExtractor getExtractor(Context contexto) {
-        if(instancia == null) {
+        if (instancia == null) {
             instancia = new DBExtractor(contexto.getApplicationContext());
         }
         return instancia;
@@ -418,7 +418,7 @@ public final class DBExtractor {
 
             estaciones.add(new Estacion(IDEstacion, nombre, lineasEstacion, conexiones));
 
-            if(cursor.isLast()) {
+            if (cursor.isLast()) {
                 break;
             }
 

@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutFilaEstacion"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/marginEstacion"
-    android:id="@+id/layoutFilaEstacion">
+    android:padding="@dimen/marginEstacion">
 
     <ImageView
         android:id="@+id/iconoEstacion"
         android:layout_width="@dimen/estacionWidth"
         android:layout_height="@dimen/estacionHeight"
-        app:srcCompat="@drawable/ic_adjust_black_24dp"
         android:layout_marginRight="@dimen/marginIcEstacion"
-        />
+        app:srcCompat="@drawable/ic_adjust_black_24dp" />
 
     <TextView
         android:id="@+id/nombreEstacion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/iconoEstacion"
         android:layout_alignTop="@id/iconoEstacion"
+        android:layout_alignBottom="@id/iconoEstacion"
         android:layout_toRightOf="@id/iconoEstacion"
         android:gravity="center_vertical"
         android:text="Nombre de la estación"
         android:textAppearance="@style/nombre_estacion"
-        android:textSize="@dimen/textoBold"/>
+        android:textSize="@dimen/textoBold" />
 
     <!--<TextView
         android:id="@+id/descripcionTexto"
