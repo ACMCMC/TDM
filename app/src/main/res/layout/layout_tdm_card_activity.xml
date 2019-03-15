@@ -45,7 +45,7 @@ android:clipToPadding="false"
             style="@style/Card.Card"
             android:translationZ="-1dp"
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="150dp">
 
             <include layout="@layout/tdm_card_standard" />
 
