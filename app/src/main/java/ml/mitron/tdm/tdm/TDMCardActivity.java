@@ -71,7 +71,7 @@ public class TDMCardActivity extends AppCompatActivity {
                 public void onGlobalLayout() {
                     tdmCard.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     Log.d(TAG, "Width de la tarjeta: " + Integer.valueOf(tdmCard.getMeasuredWidth()).toString());
-                    Log.d(TAG, "Height de la tarjeta: " + Integer.valueOf(tdmCard.getMeasuredWidth() * 85 / 53).toString());
+                    Log.d(TAG, "Height de la tarjeta: " + Integer.valueOf(tdmCard.getMeasuredWidth() * 53 / 85).toString());
                     tdmCard.setLayoutParams(new CardView.LayoutParams(tdmCard.getLayoutParams().width, tdmCard.getMeasuredWidth() * 53 / 85));
                 }
             });

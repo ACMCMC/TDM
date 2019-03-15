@@ -49,7 +49,6 @@
         <item name="android:layout_marginBottom">@dimen/cardMargin</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:backgroundTint">@color/colorPrimary</item>
         <item name="cardCornerRadius">@dimen/radiusCard</item>
         <item name="android:translationZ">-1dp</item>
         <!--
