@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ml.mitron.tdm.tdm">
+    package="ml.mitron.tdm">
 
     <uses-permission android:name="android.permission.NFC" />
 
@@ -26,8 +26,8 @@
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="http"
-                    android:host="tdm.mitron.ml"
+                <data android:scheme="tdm"
+                    android:host="card"
                     />
             </intent-filter>
         </activity>
