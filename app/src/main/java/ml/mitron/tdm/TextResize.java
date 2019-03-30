@@ -1,4 +1,4 @@
-package ml.mitron.tdm.tdm;
+package ml.mitron.tdm;
 
 /*
  * Copyright (C) 2016 The Android Open Source Project

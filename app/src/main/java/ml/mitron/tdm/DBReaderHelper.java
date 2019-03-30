@@ -1,4 +1,4 @@
-package ml.mitron.tdm.tdm;
+package ml.mitron.tdm;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

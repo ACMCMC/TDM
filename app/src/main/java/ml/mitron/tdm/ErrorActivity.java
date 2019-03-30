@@ -1,4 +1,4 @@
-package ml.mitron.tdm.tdm;
+package ml.mitron.tdm;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

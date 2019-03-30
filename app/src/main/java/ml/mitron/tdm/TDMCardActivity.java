@@ -1,15 +1,14 @@
-package ml.mitron.tdm.tdm;
+package ml.mitron.tdm;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.nfc.*;
 import android.nfc.tech.IsoDep;
 import android.nfc.tech.Ndef;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -17,13 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class TDMCardActivity extends AppCompatActivity {
@@ -95,6 +90,29 @@ public class TDMCardActivity extends AppCompatActivity {
             messages.add((NdefMessage) parcelable);
         }
 
+        //
+
+        Ndef ndefTag = Ndef.get(tag);
+
+        NdefRecord[] record = new NdefRecord[2];
+        record[0] = NdefRecord.createUri("tdm://card");
+        NdefRecord cardNumber = NdefRecord.createExternal("tdm.mitron.ml", "cardId", new byte[]{0,1,2,3,4,5,6,7,8,9});
+
+        record[1] = cardNumber;
+
+        NdefMessage message = new NdefMessage(record);
+
+        try {
+            ndefTag.connect();
+            ndefTag.writeNdefMessage(message);
+            ndefTag.close();
+        } catch (IOException e){
+
+        } catch (FormatException e) {
+
+        }
+        //
+
         CardView tdmCard = (CardView) findViewById(R.id.tdm_card);
 
         Animator animationRise = AnimatorInflater.loadAnimator(this, R.animator.incoming_animator);
@@ -124,58 +142,4 @@ public class TDMCardActivity extends AppCompatActivity {
 
     }
 
-    private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
-
-        @Override
-        protected String doInBackground(Tag... params) {
-            Tag tag = params[0];
-
-            Ndef ndef = Ndef.get(tag);
-            if (ndef == null) {
-                // NDEF is not supported by this Tag.
-                return null;
-            }
-
-            NdefMessage ndefMessage = ndef.getCachedNdefMessage();
-
-            NdefRecord[] records = ndefMessage.getRecords();
-            for (NdefRecord ndefRecord : records) {
-                if (ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN && Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)) {
-                    try {
-                        return readText(ndefRecord);
-                    } catch (UnsupportedEncodingException e) {
-                        Log.e(TAG, "Unsupported Encoding", e);
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        private String readText(NdefRecord record) throws UnsupportedEncodingException {
-            /*
-             * See NFC forum specification for "Text Record Type Definition" at 3.2.1
-             *
-             * http://www.nfc-forum.org/specs/
-             *
-             * bit_7 defines encoding
-             * bit_6 reserved for future use, must be 0
-             * bit_5..0 length of IANA language code
-             */
-
-            byte[] payload = record.getPayload();
-
-            // Get the Text Encoding
-            String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
-
-            // Get the Language Code
-            int languageCodeLength = payload[0] & 0063;
-
-            // String languageCode = new String(payload, 1, languageCodeLength, "US-ASCII");
-            // e.g. "en"
-
-            // Get the Text
-            return new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
-        }
-    }
 }
