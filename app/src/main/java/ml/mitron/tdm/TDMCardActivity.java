@@ -2,6 +2,8 @@ package ml.mitron.tdm;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -15,10 +17,18 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.util.Property;
+import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TDMCardActivity extends AppCompatActivity {
@@ -74,11 +84,16 @@ public class TDMCardActivity extends AppCompatActivity {
         }
 
 
-        //tdmCard.setLayoutParams(new ViewGroup.LayoutParams(tdmCard.getMeasuredWidth(),tdmCard.getMeasuredWidth()*53/85));
+        if (getIntent().getAction() != null) {
+            if (getIntent().getAction().equals(NfcAdapter.ACTION_NDEF_DISCOVERED)) {
+                onNewIntent(getIntent());
+            }
+        }
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
+
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         Log.d(TAG, "DESCUBIERTO " + tag.toString());
 
@@ -94,23 +109,14 @@ public class TDMCardActivity extends AppCompatActivity {
 
         Ndef ndefTag = Ndef.get(tag);
 
-        NdefRecord[] record = new NdefRecord[2];
-        record[0] = NdefRecord.createUri("tdm://card");
-        NdefRecord cardNumber = NdefRecord.createExternal("tdm.mitron.ml", "cardId", new byte[]{0,1,2,3,4,5,6,7,8,9});
+        TDMCard tarjeta = new TDMCard(ndefTag);
 
-        record[1] = cardNumber;
+        ((TextView) findViewById(R.id.numeroCard)).setText(tarjeta.getHiddenCardNumber());
+        ((TextView) findViewById(R.id.nombreCard)).setText(tarjeta.getCardHolderName());
 
-        NdefMessage message = new NdefMessage(record);
+        TDMCard nuevaTarjeta = new TDMCard( new byte[] {0,0,0, (byte) (tarjeta.getCardNumber()[3] + 1),1,1,1,1,2,2,2,2,3,3,3,3}, "Name Surname", (float) (Math.random() * 100));
+        nuevaTarjeta.writeToCard(ndefTag);
 
-        try {
-            ndefTag.connect();
-            ndefTag.writeNdefMessage(message);
-            ndefTag.close();
-        } catch (IOException e){
-
-        } catch (FormatException e) {
-
-        }
         //
 
         CardView tdmCard = (CardView) findViewById(R.id.tdm_card);
@@ -119,12 +125,23 @@ public class TDMCardActivity extends AppCompatActivity {
         animationRise.setTarget(tdmCard);
         animationRise.start();
 
-        /*ObjectAnimator animatorRise = ObjectAnimator.ofFloat(tdmCard, View.TRANSLATION_Z, tdmCard.getTranslationZ(), 64);
-        animatorRise.setDuration(2000);
-        animatorRise.setRepeatCount(1);
-        animatorRise.setRepeatMode(ValueAnimator.REVERSE);
-        animatorRise.setInterpolator(new AccelerateDecelerateInterpolator());
-        animatorRise.start();*/
+        TextView balanceTextView = (TextView) findViewById(R.id.balanceTextView);
+        TextView nfcPrompt = (TextView) findViewById(R.id.nfcPrompt);
+        ImageView nfcIcon = (ImageView) findViewById(R.id.nfcIcon);
+
+        balanceTextView.setText(NumberFormat.getInstance().format(tarjeta.getBalance()));
+
+        ObjectAnimator animator1 = ObjectAnimator.ofFloat(nfcPrompt, View.ALPHA,0);
+        animator1.setDuration(500);
+        ObjectAnimator animator2 = ObjectAnimator.ofFloat(nfcIcon, View.ALPHA,0);
+        animator2.setDuration(500);
+
+        ObjectAnimator animator3 = ObjectAnimator.ofFloat(balanceTextView, View.ALPHA,1);
+        animator3.setDuration(500);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(animator1).with(animator2).before(animator3);
+        animatorSet.start();
     }
 
     @Override

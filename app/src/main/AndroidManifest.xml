@@ -26,8 +26,8 @@
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="tdm"
-                    android:host="card"
+                <data android:scheme="card"
+                    android:host="ml.mitron.tdm"
                     />
             </intent-filter>
         </activity>
