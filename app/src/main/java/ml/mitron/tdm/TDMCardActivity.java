@@ -7,8 +7,9 @@ import android.animation.ObjectAnimator;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
-import android.nfc.*;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
 import android.nfc.tech.Ndef;
 import android.os.Bundle;
@@ -17,18 +18,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.util.Property;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class TDMCardActivity extends AppCompatActivity {
@@ -114,7 +110,7 @@ public class TDMCardActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.numeroCard)).setText(tarjeta.getHiddenCardNumber());
         ((TextView) findViewById(R.id.nombreCard)).setText(tarjeta.getCardHolderName());
 
-        TDMCard nuevaTarjeta = new TDMCard( new byte[] {0,0,0, (byte) (tarjeta.getCardNumber()[3] + 1),1,1,1,1,2,2,2,2,3,3,3,3}, "Name Surname", (float) (Math.random() * 100));
+        TDMCard nuevaTarjeta = new TDMCard(new byte[]{0, 0, 0, (byte) (tarjeta.getCardNumber()[3] + 1), 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3}, "Name Surname", (float) (Math.random() * 100));
         nuevaTarjeta.writeToCard(ndefTag);
 
         //
@@ -131,12 +127,12 @@ public class TDMCardActivity extends AppCompatActivity {
 
         balanceTextView.setText(NumberFormat.getInstance().format(tarjeta.getBalance()));
 
-        ObjectAnimator animator1 = ObjectAnimator.ofFloat(nfcPrompt, View.ALPHA,0);
+        ObjectAnimator animator1 = ObjectAnimator.ofFloat(nfcPrompt, View.ALPHA, 0);
         animator1.setDuration(500);
-        ObjectAnimator animator2 = ObjectAnimator.ofFloat(nfcIcon, View.ALPHA,0);
+        ObjectAnimator animator2 = ObjectAnimator.ofFloat(nfcIcon, View.ALPHA, 0);
         animator2.setDuration(500);
 
-        ObjectAnimator animator3 = ObjectAnimator.ofFloat(balanceTextView, View.ALPHA,1);
+        ObjectAnimator animator3 = ObjectAnimator.ofFloat(balanceTextView, View.ALPHA, 1);
         animator3.setDuration(500);
 
         AnimatorSet animatorSet = new AnimatorSet();

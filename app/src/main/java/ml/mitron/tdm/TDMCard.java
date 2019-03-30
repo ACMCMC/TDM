@@ -4,14 +4,11 @@ import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.tech.Ndef;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class TDMCard {
@@ -42,7 +39,7 @@ public class TDMCard {
         this.balance = balance;
     }
 
-    TDMCard(Ndef ndefTag){
+    TDMCard(Ndef ndefTag) {
         NdefMessage message = null;
         try {
             ndefTag.connect();
@@ -108,7 +105,7 @@ public class TDMCard {
     public String getHiddenCardNumber() {
         String hiddenNumber = new String();
         for (int i = 0; i < 4; i++) {
-            hiddenNumber = hiddenNumber.concat( Integer.toString((int) cardNumber[i]));
+            hiddenNumber = hiddenNumber.concat(Integer.toString((int) cardNumber[i]));
         }
         hiddenNumber = hiddenNumber.concat(" ····");
 
