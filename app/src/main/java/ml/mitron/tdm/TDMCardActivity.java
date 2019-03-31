@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -92,15 +93,7 @@ public class TDMCardActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
 
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        Log.d(TAG, "DESCUBIERTO " + tag.toString());
-
-        Parcelable[] rawMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-
-        List<NdefMessage> messages = new ArrayList<>();
-
-        for (Parcelable parcelable : rawMessages) {
-            messages.add((NdefMessage) parcelable);
-        }
+        Log.v(TAG, "DESCUBIERTO " + tag.toString());
 
         //
 
@@ -114,7 +107,8 @@ public class TDMCardActivity extends AppCompatActivity {
             startActivityForResult(new Intent(this,TDMCardErrorActivity.class),1);
             tarjeta = new TDMCard(new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Trying", (float)0);
         } catch (NullPointerException e) {
-            tarjeta = new TDMCard(new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Null", (float)0);
+            tarjeta = new TDMCard(new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "?", (float)0);
+            Toast.makeText(this, "Lectura incompleta", Toast.LENGTH_SHORT).show();
         }
 
 
