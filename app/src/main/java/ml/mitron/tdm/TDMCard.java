@@ -48,7 +48,7 @@ public class TDMCard {
             ndefTag.close();
 
         } catch (IOException e) {
-
+            Log.d(TAG, "Error de lectura");
         } catch (FormatException e) {
 
         }

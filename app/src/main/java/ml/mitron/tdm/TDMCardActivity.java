@@ -15,6 +15,7 @@ import android.nfc.tech.Ndef;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -105,14 +106,23 @@ public class TDMCardActivity extends AppCompatActivity {
 
         Ndef ndefTag = Ndef.get(tag);
 
-        TDMCard tarjeta = new TDMCard(ndefTag);
+        TDMCard tarjeta = null;
+        try {
+            tarjeta = new TDMCard(ndefTag);
+        } catch (IllegalArgumentException e) {
+            Log.e(TAG, "La tarjeta no es válida.");
+            startActivityForResult(new Intent(this,TDMCardErrorActivity.class),1);
+            tarjeta = new TDMCard(new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Trying", (float)0);
+        }
+
 
         ((TextView) findViewById(R.id.numeroCard)).setText(tarjeta.getHiddenCardNumber());
         ((TextView) findViewById(R.id.nombreCard)).setText(tarjeta.getCardHolderName());
 
-        TDMCard nuevaTarjeta = new TDMCard(new byte[]{0, 0, 0, (byte) (tarjeta.getCardNumber()[3] + 1), 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3}, "Name Surname", (float) (Math.random() * 100));
-        nuevaTarjeta.writeToCard(ndefTag);
+        //
 
+        tarjeta = new TDMCard(new byte[]{0, 0, 0, (byte) (tarjeta.getCardNumber()[3] + 1), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, tarjeta.getCardHolderName(), (float)tarjeta.getBalance());
+        tarjeta.writeToCard(ndefTag);
         //
 
         CardView tdmCard = (CardView) findViewById(R.id.tdm_card);
@@ -121,11 +131,9 @@ public class TDMCardActivity extends AppCompatActivity {
         animationRise.setTarget(tdmCard);
         animationRise.start();
 
-        TextView balanceTextView = (TextView) findViewById(R.id.balanceTextView);
+        ConstraintLayout balanceTextView = (ConstraintLayout) findViewById(R.id.constraintLayoutCardData);
         TextView nfcPrompt = (TextView) findViewById(R.id.nfcPrompt);
         ImageView nfcIcon = (ImageView) findViewById(R.id.nfcIcon);
-
-        balanceTextView.setText(NumberFormat.getInstance().format(tarjeta.getBalance()));
 
         ObjectAnimator animator1 = ObjectAnimator.ofFloat(nfcPrompt, View.ALPHA, 0);
         animator1.setDuration(500);

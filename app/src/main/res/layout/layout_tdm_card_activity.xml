@@ -25,40 +25,60 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/frameLayout" />
 
-    <TextView
-        android:id="@+id/balanceTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="5T"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayoutCardData"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:alpha="0"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/frameLayout" />
+        app:layout_constraintTop_toBottomOf="@id/frameLayout">
+
+        <TextView
+            android:id="@+id/balanceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="5"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/decimalBalanceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="99"
+            app:layout_constraintStart_toEndOf="@id/balanceTextView"
+            app:layout_constraintTop_toTopOf="@id/balanceTextView" />
+    </android.support.constraint.ConstraintLayout>
 
     <FrameLayout
-        android:padding="16dp"
-android:clipToPadding="false"
         android:id="@+id/frameLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:clipToPadding="false"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.CardView
-            android:alpha="0"
             android:id="@+id/tdm_card"
-            android:translationY="16dp"
             style="@style/Card.Card"
-            android:translationZ="-1dp"
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="150dp"
+            android:alpha="0"
+            android:translationY="16dp"
+            android:translationZ="-1dp">
 
-            <include layout="@layout/tdm_card_standard" />
+            <include layout="@layout/tdm_card_infinity" />
 
         </android.support.v7.widget.CardView>
     </FrameLayout>

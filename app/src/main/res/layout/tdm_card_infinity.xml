@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back_card_default" />
+        app:srcCompat="@drawable/back_card_infinity" />
 
     <ImageView
         android:id="@+id/imageView2"

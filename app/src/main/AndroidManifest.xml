@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
         android:theme="@style/predeterminado">
+        <activity android:name=".TDMCardErrorActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,27 +25,28 @@
         <activity android:name=".EstacionActivity" />
         <activity android:name=".TDMCardActivity">
             <intent-filter>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="card"
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
                     android:host="ml.mitron.tdm"
-                    />
+                    android:scheme="card" />
             </intent-filter>
         </activity>
         <activity android:name=".SearchableActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".SearchableActivity" />
-
     </application>
-
-
 
 </manifest>

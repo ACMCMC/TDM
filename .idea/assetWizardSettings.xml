@@ -160,11 +160,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="54" />
-                            <entry key="outputName" value="back_card_default" />
+                            <entry key="height" value="153" />
+                            <entry key="outputName" value="back_card_infinity" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\acmc\Google Drive\Mitron\TDM\Fondos tarjeta\Fondo trenes-01.svg" />
-                            <entry key="width" value="86" />
+                            <entry key="sourceFile" value="C:\Users\acmc\Google Drive\Mitron\TDM\Fondos tarjeta\Fonto infinity-01.svg" />
+                            <entry key="width" value="243" />
                           </map>
                         </option>
                       </PersistentState>
