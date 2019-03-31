@@ -53,7 +53,18 @@ public class TDMCard {
 
         }
 
-        NdefRecord[] records = message.getRecords();
+        NdefRecord[] records;
+
+        try {
+            records = message.getRecords();
+        } catch (NullPointerException e) {
+            if (!ndefTag.isConnected()) {
+                Log.e(TAG, "La tarjeta no está conectada");
+                throw new NullPointerException("Lectura de la tarjeta incompleta");
+            } else {
+                throw e;
+            }
+        }
 
         //VAMOS A COMPROBAR SI ESTA ES UNA TARJETA DE TDM
 

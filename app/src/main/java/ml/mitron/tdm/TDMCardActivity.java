@@ -113,6 +113,8 @@ public class TDMCardActivity extends AppCompatActivity {
             Log.e(TAG, "La tarjeta no es válida.");
             startActivityForResult(new Intent(this,TDMCardErrorActivity.class),1);
             tarjeta = new TDMCard(new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Trying", (float)0);
+        } catch (NullPointerException e) {
+            tarjeta = new TDMCard(new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Null", (float)0);
         }
 
 
