@@ -105,7 +105,7 @@ public class TDMCardActivity extends AppCompatActivity {
         } catch (IllegalArgumentException e) {
             Log.e(TAG, "La tarjeta no es válida.");
             startActivityForResult(new Intent(this,TDMCardErrorActivity.class),1);
-            tarjeta = new TDMCard(new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Trying", (float)0);
+            tarjeta = new TDMCard(new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Try again", (float)0);
         } catch (NullPointerException e) {
             tarjeta = new TDMCard(new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "?", (float)0);
             Toast.makeText(this, "Lectura incompleta", Toast.LENGTH_SHORT).show();
