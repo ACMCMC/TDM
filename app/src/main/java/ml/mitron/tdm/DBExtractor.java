@@ -4,6 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,15 +25,77 @@ import java.util.Set;
 
 //ESTA CLASE ES LA QUE VAMOS A USAR PARA LOS DATOS EN CONCRETO.
 
-public final class DBExtractor {
+    public interface DBExtractor {
+
+        Integer getEstacionCount();
+    List<Conexion> getConexiones(Integer IDEstacion);
+    Estacion getEstacion(String nombreEstacion);
+    Estacion getEstacion(Integer IDEstacion);
+    List<Estacion> searchEstacion(String searchQuery);
+
+}
+
+class FirebaseDBExtractor implements DBExtractor {
+
+        private final String TAG = FirebaseDBExtractor.class.getName();
+
+    private DatabaseReference mDatabase;
+
+    private Integer estacionCount;
+
+        FirebaseDBExtractor() {
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+
+            mDatabase.getRoot().child("conexiones").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Log.v(TAG, dataSnapshot.getKey());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+    @Override
+    public Integer getEstacionCount() {
+
+        return estacionCount;
+    }
+
+    @Override
+    public List<Conexion> getConexiones(Integer IDEstacion) {
+        return null;
+    }
+
+    @Override
+    public Estacion getEstacion(String nombreEstacion) {
+        return null;
+    }
+
+    @Override
+    public Estacion getEstacion(Integer IDEstacion) {
+        return null;
+    }
+
+    @Override
+    public List<Estacion> searchEstacion(String searchQuery) {
+        return null;
+    }
+}
+
+@Deprecated
+final class SQLDBExtractor implements DBExtractor {
 
     private final Context contexto;
     private DBReaderHelper miReaderHelper;
     private SQLiteDatabase database;
 
-    private static DBExtractor instancia = null;
+    private static SQLDBExtractor instancia = null;
 
-    DBExtractor(Context contexto) throws SQLiteException {
+    SQLDBExtractor(Context contexto) throws SQLiteException {
         miReaderHelper = new DBReaderHelper(contexto);
         try {
             database = miReaderHelper.getReadableDatabase();
@@ -35,9 +105,9 @@ public final class DBExtractor {
         this.contexto = contexto;
     }
 
-    static DBExtractor getExtractor(Context contexto) {
+    static SQLDBExtractor getExtractor(Context contexto) {
         if (instancia == null) {
-            instancia = new DBExtractor(contexto.getApplicationContext());
+            instancia = new SQLDBExtractor(contexto.getApplicationContext());
         }
         return instancia;
     }
@@ -66,7 +136,7 @@ public final class DBExtractor {
         }
     }
 
-    Integer getEstacionCount() throws SQLiteException {
+    public Integer getEstacionCount() throws SQLiteException {
         if (!database.isOpen()) {
             throw new SQLiteException("La conexión con la base de datos no está abierta");
         }
@@ -78,8 +148,7 @@ public final class DBExtractor {
         return ((Integer) cursor.getCount());
     }
 
-
-    List<Conexion> getConexiones(Integer IDEstacion) throws SQLiteException {
+    public List<Conexion> getConexiones(Integer IDEstacion) throws SQLiteException {
         if (!database.isOpen()) {
             throw new SQLiteException("La conexión con la base de datos no está abierta");
         }
@@ -137,8 +206,7 @@ public final class DBExtractor {
         return (conexiones);
     }
 
-
-    Estacion getEstacion(Integer IDEstacion) throws SQLiteException {
+    public Estacion getEstacion(Integer IDEstacion) throws SQLiteException {
         if (!database.isOpen()) {
             throw new SQLiteException("La conexión con la base de datos no está abierta");
         }
@@ -228,7 +296,7 @@ public final class DBExtractor {
         return (new Estacion(IDEstacion, nombreEstacion, lineasEstacion, conexiones));
     }
 
-    Estacion getEstacion(String nombreEstacion) throws SQLiteException {
+    public Estacion getEstacion(String nombreEstacion) throws SQLiteException {
         if (!database.isOpen()) {
             throw new SQLiteException("La conexión con la base de datos no está abierta");
         }
@@ -321,7 +389,7 @@ public final class DBExtractor {
         return (new Estacion(IDEstacion, nombre, lineasEstacion, conexiones));
     }
 
-    List<Estacion> searchEstacion(String searchQuery) {
+    public List<Estacion> searchEstacion(String searchQuery) {
         List<Estacion> estaciones = new ArrayList<Estacion>();
 
         if (!database.isOpen()) {

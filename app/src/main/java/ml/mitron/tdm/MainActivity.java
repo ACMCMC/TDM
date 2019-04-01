@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     Context contexto;
-    DBExtractor extractor;
+    SQLDBExtractor extractor;
 
     private Handler myHandler;
 
@@ -48,6 +48,16 @@ public class MainActivity extends AppCompatActivity {
         contexto = getApplicationContext();
 
         setContentView(R.layout.activity_main);
+
+        FirebaseDBExtractor firebaseDBExtractor = new FirebaseDBExtractor();
+
+
+
+
+
+
+
+
 
         //TextView valueTV = new TextView(this);
 
@@ -95,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (extractor == null) {
-                    extractor = DBExtractor.getExtractor(contexto);
+                    extractor = SQLDBExtractor.getExtractor(contexto);
                 }
 
                 if (!extractor.isOpen()) {
@@ -190,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 if (extractor == null) {
-                                    extractor = DBExtractor.getExtractor(contexto);
+                                    extractor = SQLDBExtractor.getExtractor(contexto);
                                 }
 
                                 if (!extractor.isOpen()) {

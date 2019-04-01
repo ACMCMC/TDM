@@ -36,7 +36,7 @@ public class RutaActivity extends AppCompatActivity {
     private RecyclerView.Adapter recyclerAdapter;
     private RecyclerView.LayoutManager recyclerLayoutManager;
 
-    private DBExtractor extractor;
+    private SQLDBExtractor extractor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class RutaActivity extends AppCompatActivity {
         Integer inicio = incomingIntent.getIntExtra("inicio", 1);
         Integer destino = incomingIntent.getIntExtra("destino", 1);
 
-        extractor = DBExtractor.getExtractor(this);
+        extractor = SQLDBExtractor.getExtractor(this);
 
         setContentView(R.layout.ruta);
 
@@ -116,7 +116,7 @@ public class RutaActivity extends AppCompatActivity {
 
 
     @Deprecated
-    void setRuta(Integer inicio, Integer destino, Context contexto, DBExtractor extractor) {
+    void setRuta(Integer inicio, Integer destino, Context contexto, SQLDBExtractor extractor) {
 
         if (!extractor.isOpen()) {
             extractor.OpenDB();

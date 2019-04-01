@@ -24,7 +24,7 @@ public class EstacionActivity extends AppCompatActivity {
 
         //Obtenemos los detalles de la estación
 
-        DBExtractor extractor = DBExtractor.getExtractor(this);
+        SQLDBExtractor extractor = SQLDBExtractor.getExtractor(this);
 
         Estacion estacion;
 

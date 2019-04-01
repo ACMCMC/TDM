@@ -29,7 +29,7 @@ import java.util.List;
 public class SearchableActivity extends AppCompatActivity {
 
     private String searchQuery;
-    private DBExtractor extractor;
+    private SQLDBExtractor extractor;
     private ListView listaEstaciones;
     private SearchAdapter adapter;
 
@@ -40,7 +40,7 @@ public class SearchableActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        extractor = DBExtractor.getExtractor(this);
+        extractor = SQLDBExtractor.getExtractor(this);
 
         extractor.OpenDB();
 

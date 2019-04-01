@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class Busqueda {
     //este código se ejecuta al pulsar el botón
-    public static Ruta Busqueda(int inicio, int fin, DBExtractor extractor) throws IllegalArgumentException {
+    public static Ruta Busqueda(int inicio, int fin, SQLDBExtractor extractor) throws IllegalArgumentException {
         Mapa mapa = new Mapa();
 
         return (mapa.obtenerRuta(inicio, fin, extractor));
@@ -497,7 +497,7 @@ class Mapa {
         return (estaciones.get(id));
     }
 
-    public Ruta obtenerRuta(Integer inicio, Integer fin, DBExtractor extractor) throws IllegalArgumentException {
+    public Ruta obtenerRuta(Integer inicio, Integer fin, SQLDBExtractor extractor) throws IllegalArgumentException {
 
         //esta Pila es la que analiza las conexiones a cada estación colindante
         PriorityQueue<Conexion> pilaConexiones = new PriorityQueue<>();
