@@ -5,8 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,13 +45,39 @@ class FirebaseDBExtractor implements DBExtractor {
 
     private Integer estacionCount;
 
+    private List<Estacion> estaciones;
+
         FirebaseDBExtractor() {
+
+            estaciones = new ArrayList<>();
+
+            estacionCount = 0;
+
             mDatabase = FirebaseDatabase.getInstance().getReference();
 
-            mDatabase.getRoot().child("conexiones").addValueEventListener(new ValueEventListener() {
+            mDatabase.child("estaciones").orderByKey().addChildEventListener(new ChildEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Log.v(TAG, dataSnapshot.getKey());
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    Log.v(TAG, "Estacion: " + dataSnapshot.getKey());
+
+                    Estacion estacion = new Estacion(((Long) dataSnapshot.child("_id").getValue()).intValue(), (String) dataSnapshot.child("nombre").getValue(), null, null);
+
+                    estaciones.add(estacion);
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                    estaciones.remove(dataSnapshot.getKey());
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
                 }
 
                 @Override
@@ -62,7 +90,7 @@ class FirebaseDBExtractor implements DBExtractor {
     @Override
     public Integer getEstacionCount() {
 
-        return estacionCount;
+        return estaciones.size();
     }
 
     @Override
