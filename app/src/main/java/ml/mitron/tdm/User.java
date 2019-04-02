@@ -32,8 +32,7 @@ class User {
         mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String key = dataSnapshot.getKey();
-                switch (key) {
+                switch (dataSnapshot.getKey()) {
                     case "nombre":
                         nombre = (String) dataSnapshot.getValue();
                         break;
