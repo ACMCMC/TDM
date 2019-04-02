@@ -51,7 +51,7 @@ class FirebaseDBExtractor implements DBExtractor {
 
             mDatabase = FirebaseDatabase.getInstance().getReference();
 
-            mDatabase.child("estaciones").orderByKey().addChildEventListener(new ChildEventListener() {
+            mDatabase.getRoot().child("map_data").child("estaciones").orderByKey().addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                     Log.v(TAG, "Estacion: " + dataSnapshot.getKey());
@@ -68,7 +68,7 @@ class FirebaseDBExtractor implements DBExtractor {
 
                 @Override
                 public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                    estaciones.remove(dataSnapshot.getKey());
+                    estaciones.remove(((Long) dataSnapshot.child("_id").getValue()).intValue());
                 }
 
                 @Override

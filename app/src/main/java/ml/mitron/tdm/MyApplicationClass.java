@@ -3,6 +3,7 @@ package ml.mitron.tdm;
 import android.app.Application;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
 
@@ -16,6 +17,8 @@ public class MyApplicationClass extends Application {
         super.onCreate();
 
         FirebaseApp.initializeApp(this);
+
+        new User();
 
         /*
 
