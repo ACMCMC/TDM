@@ -43,15 +43,11 @@ class FirebaseDBExtractor implements DBExtractor {
 
     private DatabaseReference mDatabase;
 
-    private Integer estacionCount;
-
     private List<Estacion> estaciones;
 
         FirebaseDBExtractor() {
 
             estaciones = new ArrayList<>();
-
-            estacionCount = 0;
 
             mDatabase = FirebaseDatabase.getInstance().getReference();
 
