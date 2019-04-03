@@ -7,8 +7,8 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
 import android.nfc.tech.Ndef;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 public class TDMCardErrorActivity extends AppCompatActivity {
@@ -26,7 +26,7 @@ public class TDMCardErrorActivity extends AppCompatActivity {
 
                 adaptador = NfcAdapter.getDefaultAdapter(TDMCardErrorActivity.this);
 
-                PendingIntent pendingIntent = PendingIntent.getActivity(TDMCardErrorActivity.this, 0, new Intent(TDMCardErrorActivity.this,TDMCardErrorActivity.this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+                PendingIntent pendingIntent = PendingIntent.getActivity(TDMCardErrorActivity.this, 0, new Intent(TDMCardErrorActivity.this, TDMCardErrorActivity.this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
                 IntentFilter ndefFilter = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
 
                 try {
@@ -52,7 +52,7 @@ public class TDMCardErrorActivity extends AppCompatActivity {
 
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         Ndef ndefTag = Ndef.get(tag);
-        TDMCard tarjeta = new TDMCard(new byte[]{3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Repaired", (float) (Math.random() * 100));
+        TDMCard tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD, new byte[]{3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Repaired", (float) (Math.random() * 100));
         tarjeta.writeToCard(ndefTag);
 
         finishAfterTransition();

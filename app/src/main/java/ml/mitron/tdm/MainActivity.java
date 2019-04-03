@@ -52,13 +52,6 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDBExtractor firebaseDBExtractor = new FirebaseDBExtractor();
 
 
-
-
-
-
-
-
-
         //TextView valueTV = new TextView(this);
 
         TextView searchOrigen = (TextView) findViewById(R.id.searchOrigen);

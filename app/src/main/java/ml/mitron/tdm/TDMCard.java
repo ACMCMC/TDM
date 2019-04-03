@@ -9,32 +9,36 @@ import android.util.Log;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class TDMCard {
 
-    private static final String TAG = TDMCard.class.getName();
-
     static final String CARD_HOST_ID = BuildConfig.APPLICATION_ID;
+    private static final String TAG = TDMCard.class.getName();
     private static final String CARD_SCHEME_ID = "card";
 
+    private static final String CARD_FIELD_TYPE_ID = "card_type";
     private static final String CARD_FIELD_ID = "card_id";
+
+    ;
     private static final int CARD_FIELD_ID_LENGTH = 16;
-
-    private static final String CARD_HOLDER_NAME_ID = "card_holder";
-
-    private static final String CARD_BALANCE_ID = "card_balance";
-
+    private static final String CARD_FIELD_HOLDER_NAME_ID = "card_holder";
+    private static final String CARD_FIELD_BALANCE_ID = "card_balance";
+    CARD_TYPE cardType;
     private byte[] cardNumber;
     private String cardHolderName;
     private Float balance;
-
-    TDMCard(byte[] cardNumber, String cardHolderName, Float balance) {
+    TDMCard(CARD_TYPE cardType, byte[] cardNumber, String cardHolderName, Float balance) {
         if (cardNumber.length == CARD_FIELD_ID_LENGTH) {
             this.cardNumber = cardNumber;
         } else {
             throw new IllegalArgumentException("El largo del número de la tarjeta no es el adecuado. Debería ser de " + CARD_FIELD_ID_LENGTH + " bytes.");
         }
+        this.cardType = cardType;
         this.cardHolderName = cardHolderName;
         this.balance = balance;
     }
@@ -68,11 +72,17 @@ public class TDMCard {
 
         //VAMOS A COMPROBAR SI ESTA ES UNA TARJETA DE TDM
 
-        if ((records[0].getTnf() == NdefRecord.TNF_WELL_KNOWN) && (Arrays.equals(records[0].getType(), NdefRecord.RTD_URI))) {
+        Iterator<NdefRecord> iterator = Arrays.asList(records).iterator();
+
+        NdefRecord record;
+
+        record = iterator.next();
+
+        if ((record.getTnf() == NdefRecord.TNF_WELL_KNOWN) && (Arrays.equals(record.getType(), NdefRecord.RTD_URI))) {
             Log.d(TAG, "El primer registro del mensaje 1 contiene una URI");
-            if ((records[0].toUri().getScheme().equals(CARD_SCHEME_ID)) && (records[0].toUri().getHost().equals(CARD_HOST_ID))) {
+            if ((record.toUri().getScheme().equals(CARD_SCHEME_ID)) && (record.toUri().getHost().equals(CARD_HOST_ID))) {
                 Log.d(TAG, "Esta parece ser una tarjeta de transporte TDM");
-                if (records.length == 4) {
+                if (records.length == 5) {
                     Log.d(TAG, "La tarjeta contiene el número de registros correcto");
                 } else {
                     throw new IllegalArgumentException("La tarjeta está corrupta; no incluye el número correcto de registros");
@@ -87,24 +97,38 @@ public class TDMCard {
 
         //ESTA DEBERÍA SER UNA TARJETA TDM. VAMOS A LEER LOS DATOS DE LA TARJETA AHORA.
 
-        if ((records[1].getTnf() == NdefRecord.TNF_EXTERNAL_TYPE) && (new String(records[1].getType()).equals(CARD_HOST_ID + ":" + CARD_FIELD_ID)) && (records[1].getPayload().length == CARD_FIELD_ID_LENGTH)) {
-            cardNumber = records[1].getPayload();
+        record = iterator.next();
+
+        if ((record.getTnf() == NdefRecord.TNF_EXTERNAL_TYPE) && (new String(record.getType()).equals(CARD_HOST_ID + ":" + CARD_FIELD_TYPE_ID))) {
+            cardType = CARD_TYPE.of(Integer.valueOf(new String(record.getPayload())));
         } else {
             throw new IllegalArgumentException("El segundo registro no está formateado adecuadamente");
         }
 
-        if ((records[2].getTnf() == NdefRecord.TNF_EXTERNAL_TYPE) && (new String(records[2].getType()).equals(CARD_HOST_ID + ":" + CARD_HOLDER_NAME_ID))) {
-            cardHolderName = new String(records[2].getPayload());
+        record = iterator.next();
+
+        if ((record.getTnf() == NdefRecord.TNF_EXTERNAL_TYPE) && (new String(record.getType()).equals(CARD_HOST_ID + ":" + CARD_FIELD_ID)) && (record.getPayload().length == CARD_FIELD_ID_LENGTH)) {
+            cardNumber = record.getPayload();
         } else {
             throw new IllegalArgumentException("El tercer registro no está formateado adecuadamente");
         }
 
-        if ((records[3].getTnf() == NdefRecord.TNF_EXTERNAL_TYPE) && (new String(records[3].getType()).equals(CARD_HOST_ID + ":" + CARD_BALANCE_ID))) {
-            ByteArrayInputStream byteArray = new ByteArrayInputStream(records[3].getPayload());
+        record = iterator.next();
+
+        if ((record.getTnf() == NdefRecord.TNF_EXTERNAL_TYPE) && (new String(record.getType()).equals(CARD_HOST_ID + ":" + CARD_FIELD_HOLDER_NAME_ID))) {
+            cardHolderName = new String(record.getPayload());
+        } else {
+            throw new IllegalArgumentException("El cuarto registro no está formateado adecuadamente");
+        }
+
+        record = iterator.next();
+
+        if ((record.getTnf() == NdefRecord.TNF_EXTERNAL_TYPE) && (new String(record.getType()).equals(CARD_HOST_ID + ":" + CARD_FIELD_BALANCE_ID))) {
+            ByteArrayInputStream byteArray = new ByteArrayInputStream(record.getPayload());
             balance = Float.intBitsToFloat(byteArray.read());
 
         } else {
-            throw new IllegalArgumentException("El tercer registro no está formateado adecuadamente");
+            throw new IllegalArgumentException("El quinto registro no está formateado adecuadamente");
         }
 
     }
@@ -132,16 +156,17 @@ public class TDMCard {
     }
 
     public void writeToCard(Ndef ndefTag) {
-        NdefRecord[] records = new NdefRecord[4];
+        NdefRecord[] records = new NdefRecord[5];
 
         records[0] = NdefRecord.createUri("card://" + CARD_HOST_ID);
-        records[1] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_ID, cardNumber);
-        records[2] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_HOLDER_NAME_ID, cardHolderName.getBytes());
+        records[1] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_TYPE_ID, ByteBuffer.allocate(1).putInt(cardType.getCardTypeId()).array());
+        records[2] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_ID, cardNumber);
+        records[3] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_HOLDER_NAME_ID, cardHolderName.getBytes());
 
         ByteArrayOutputStream balanceArray = new ByteArrayOutputStream();
         balanceArray.write(Float.floatToIntBits(balance));
 
-        records[3] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_BALANCE_ID, balanceArray.toByteArray());
+        records[4] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_BALANCE_ID, balanceArray.toByteArray());
 
         NdefMessage message = new NdefMessage(records);
 
@@ -153,6 +178,35 @@ public class TDMCard {
 
         } catch (FormatException e) {
 
+        }
+    }
+
+    enum CARD_TYPE {
+        STANDARD(0),
+        INFINITY(1),
+        EMERALD(2),
+        DIAMOND(3);
+
+        private static final Map<Integer, CARD_TYPE> map = new HashMap<>();
+
+        static {
+            for (CARD_TYPE type : CARD_TYPE.values()) {
+                map.put(type.getCardTypeId(), type);
+            }
+        }
+
+        private final int typeId;
+
+        CARD_TYPE(int i) {
+            typeId = i;
+        }
+
+        static CARD_TYPE of(int typeId) {
+            return map.get(typeId);
+        }
+
+        int getCardTypeId() {
+            return typeId;
         }
     }
 }
