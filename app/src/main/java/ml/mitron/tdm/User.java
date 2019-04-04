@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,11 +19,12 @@ class User {
 
     private static User user;
     public String nombre;
-    private Map<byte[], TDMCard> tarjetas;
+    private Map<TDMCard.CardNumber, TDMCard> tarjetas;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
     private User() {
+        tarjetas = new HashMap<>();
         mAuth = FirebaseAuth.getInstance();
         mAuth.signInAnonymously();
         mDatabase = FirebaseDatabase.getInstance().getReference("usuarios").child(mAuth.getUid());
@@ -34,7 +36,7 @@ class User {
                         nombre = (String) dataSnapshot.getValue();
                         break;
                     case "tarjetas_tdm":
-                        parseTDMCardList(dataSnapshot);
+                        tarjetas = parseTDMCardList(dataSnapshot);
                         break;
                 }
             }
@@ -62,7 +64,7 @@ class User {
     }
 
     @Deprecated
-    private User(Map<byte[], TDMCard> listTarjetasTDM) {
+    private User(Map<TDMCard.CardNumber, TDMCard> listTarjetasTDM) {
         this();
 
         this.tarjetas = listTarjetasTDM;
@@ -79,8 +81,8 @@ class User {
 
     }
 
-    private Map<byte[], TDMCard> parseTDMCardList(DataSnapshot tarjetasKey) {
-        Map<byte[], TDMCard> tdmCardList = new HashMap<>();
+    private Map<TDMCard.CardNumber, TDMCard> parseTDMCardList(DataSnapshot tarjetasKey) {
+        Map<TDMCard.CardNumber, TDMCard> tdmCardList = new HashMap<>();
 
         Iterator cardIterator = tarjetasKey.getChildren().iterator();
         DataSnapshot currentCard;
@@ -90,7 +92,7 @@ class User {
             for (int i = 0; i < 16; i++) {
                 cardNumber[i] = ((Long) currentCard.child("numero").child(Integer.toString(i)).getValue()).byteValue();
             }
-            tdmCardList.put(cardNumber, new TDMCard(TDMCard.CARD_TYPE.STANDARD, cardNumber, nombre, ((Long) currentCard.child("saldo").getValue()).floatValue()));
+            tdmCardList.put(new TDMCard.CardNumber(cardNumber), new TDMCard(TDMCard.CARD_TYPE.STANDARD, cardNumber, nombre, ((Long) currentCard.child("saldo").getValue()).floatValue()));
         }
         return tdmCardList;
     }
