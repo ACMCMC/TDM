@@ -6,13 +6,17 @@ import android.nfc.NdefRecord;
 import android.nfc.tech.Ndef;
 import android.util.Log;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class TDMCard {
@@ -23,18 +27,52 @@ public class TDMCard {
 
     private static final String CARD_FIELD_TYPE_ID = "card_type";
     private static final String CARD_FIELD_ID = "card_id";
-
-    ;
     private static final int CARD_FIELD_ID_LENGTH = 16;
     private static final String CARD_FIELD_HOLDER_NAME_ID = "card_holder";
     private static final String CARD_FIELD_BALANCE_ID = "card_balance";
-    CARD_TYPE cardType;
-    private byte[] cardNumber;
+
+    private CardNumber cardNumber;
+
+    static class CardNumber {
+
+        private List<Byte> numberList;
+
+        CardNumber(byte[] numberList) {
+            this.numberList = new ArrayList<>();
+            for (byte numero : numberList){
+                this.numberList.add(new Byte(numero));
+            }
+        }
+
+        byte[] getByteArray() {
+            byte[] numberByteArray = new byte[numberList.size()];
+            for (Byte currentByte:numberList) {
+                numberByteArray[numberList.indexOf(currentByte)] = currentByte.byteValue();
+            }
+            return numberByteArray;
+        }
+
+        @Override
+        public boolean equals(@Nullable Object obj) {
+            if (obj.getClass() == TDMCard.CardNumber.class){
+                return Arrays.deepEquals(Arrays.asList(this.getByteArray()).toArray(), Arrays.asList(((TDMCard.CardNumber) obj).getByteArray()).toArray());
+            } else {
+               return super.equals(obj);
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return ByteBuffer.wrap(getByteArray()).getInt();
+        }
+    }
+
+    private CARD_TYPE cardType;
     private String cardHolderName;
     private Float balance;
     TDMCard(CARD_TYPE cardType, byte[] cardNumber, String cardHolderName, Float balance) {
         if (cardNumber.length == CARD_FIELD_ID_LENGTH) {
-            this.cardNumber = cardNumber;
+            this.cardNumber = new CardNumber(cardNumber);
         } else {
             throw new IllegalArgumentException("El largo del número de la tarjeta no es el adecuado. Debería ser de " + CARD_FIELD_ID_LENGTH + " bytes.");
         }
@@ -100,7 +138,7 @@ public class TDMCard {
         record = iterator.next();
 
         if ((record.getTnf() == NdefRecord.TNF_EXTERNAL_TYPE) && (new String(record.getType()).equals(CARD_HOST_ID + ":" + CARD_FIELD_TYPE_ID))) {
-            cardType = CARD_TYPE.of(Integer.valueOf(new String(record.getPayload())));
+            cardType = CARD_TYPE.of(record.getPayload()[0]);
         } else {
             throw new IllegalArgumentException("El segundo registro no está formateado adecuadamente");
         }
@@ -108,7 +146,7 @@ public class TDMCard {
         record = iterator.next();
 
         if ((record.getTnf() == NdefRecord.TNF_EXTERNAL_TYPE) && (new String(record.getType()).equals(CARD_HOST_ID + ":" + CARD_FIELD_ID)) && (record.getPayload().length == CARD_FIELD_ID_LENGTH)) {
-            cardNumber = record.getPayload();
+            cardNumber = new CardNumber(record.getPayload());
         } else {
             throw new IllegalArgumentException("El tercer registro no está formateado adecuadamente");
         }
@@ -133,14 +171,14 @@ public class TDMCard {
 
     }
 
-    public byte[] getCardNumber() {
+    public TDMCard.CardNumber getCardNumber() {
         return cardNumber;
     }
 
     public String getHiddenCardNumber() {
         String hiddenNumber = new String();
         for (int i = 0; i < 4; i++) {
-            hiddenNumber = hiddenNumber.concat(Integer.toString((int) cardNumber[i]));
+            hiddenNumber = hiddenNumber.concat(Integer.toString((int) cardNumber.getByteArray()[i]));
         }
         hiddenNumber = hiddenNumber.concat(" ····");
 
@@ -159,8 +197,8 @@ public class TDMCard {
         NdefRecord[] records = new NdefRecord[5];
 
         records[0] = NdefRecord.createUri("card://" + CARD_HOST_ID);
-        records[1] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_TYPE_ID, ByteBuffer.allocate(1).putInt(cardType.getCardTypeId()).array());
-        records[2] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_ID, cardNumber);
+        records[1] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_TYPE_ID, new byte[] {0});
+        records[2] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_ID, cardNumber.getByteArray());
         records[3] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_HOLDER_NAME_ID, cardHolderName.getBytes());
 
         ByteArrayOutputStream balanceArray = new ByteArrayOutputStream();
