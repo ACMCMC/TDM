@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -24,6 +25,9 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.devs.vectorchildfinder.VectorChildFinder;
+import com.devs.vectorchildfinder.VectorDrawableCompat;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -44,6 +48,16 @@ public class TDMCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.layout_tdm_card_activity);
+
+
+        //CAMBIAMOS EL COLOR DE LAS PARTES DEL ICONO
+        VectorChildFinder iconoCard = new VectorChildFinder(this, R.drawable.ic_card_infinity, (ImageView) findViewById(R.id.ic_card));
+
+        iconoCard.findPathByName("shadow").setFillColor(Color.RED);
+        iconoCard.findPathByName("foreground").setFillColor(Color.BLUE);
+
+        findViewById(R.id.ic_card).invalidate();
+
 
         adaptador = NfcAdapter.getDefaultAdapter(this);
 
@@ -111,13 +125,16 @@ public class TDMCardActivity extends AppCompatActivity {
             Toast.makeText(this, "Lectura incompleta", Toast.LENGTH_SHORT).show();
         }
 
+        if (User.getUser().poseeTarjetaTDM(tarjeta)) {
+            ((TextView) findViewById(R.id.nombreCard)).setText("EXISTING " + tarjeta.getCardHolderName());
+        }
 
         ((TextView) findViewById(R.id.numeroCard)).setText(tarjeta.getHiddenCardNumber());
-        ((TextView) findViewById(R.id.nombreCard)).setText(tarjeta.getCardHolderName());
+
 
         //
 
-        tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD,new byte[]{0, 0, 0, (byte) (tarjeta.getCardNumber()[3] + 1), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, tarjeta.getCardHolderName(), (float)tarjeta.getBalance());
+        tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD,new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, tarjeta.getCardHolderName(), (float)tarjeta.getBalance());
         tarjeta.writeToCard(ndefTag);
         //
 

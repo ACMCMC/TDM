@@ -52,7 +52,7 @@ public class TDMCardErrorActivity extends AppCompatActivity {
 
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         Ndef ndefTag = Ndef.get(tag);
-        TDMCard tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD, new byte[]{3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Repaired", (float) (Math.random() * 100));
+        TDMCard tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD, new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Repaired", (float) (Math.random() * 100));
         tarjeta.writeToCard(ndefTag);
 
         finishAfterTransition();

@@ -21,6 +21,8 @@ public class MyApplicationClass extends Application {
 
         usuario.toString();
 
+        boolean bool = new TDMCard.CardNumber(new byte[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}).equals(new TDMCard.CardNumber(new byte[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}));
+
         /*
 
         ESTO ES PARA LA BASE DE DATOS SQLITE. PERO AHORA VAMOS A USAR REALTIME DATABASE DE FIREBASE.

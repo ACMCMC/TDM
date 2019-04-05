@@ -149,7 +149,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/device/ic_nfc_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_arrow_back_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -159,12 +159,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="153" />
-                            <entry key="outputName" value="back_card_infinity" />
+                            <entry key="outputName" value="ic_arrow_back_black_24dp" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\acmc\Google Drive\Mitron\TDM\Fondos tarjeta\Fonto infinity-01.svg" />
-                            <entry key="width" value="243" />
+                            <entry key="sourceFile" value="C:\Users\acmc\Google Drive\Mitron\TDM\Logos tarjetas\SVG\Asset 2.svg" />
                           </map>
                         </option>
                       </PersistentState>
