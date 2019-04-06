@@ -22,16 +22,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Infinity"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:text="INFINITY"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
                 android:id="@+id/text_view_buy_select_infinity_descripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
                 android:text="Viaja tanto como quieras. Todos los viajes son gratis." />
 
             <ImageView
@@ -46,16 +44,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Element"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:text="ELEMENT"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
                 android:id="@+id/text_view_buy_select_element_descripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
                 android:text="Paga lo justo en cada viaje." />
         </LinearLayout>
 

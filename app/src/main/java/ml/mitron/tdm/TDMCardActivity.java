@@ -8,30 +8,24 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
 import android.nfc.tech.Ndef;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.devs.vectorchildfinder.VectorChildFinder;
-import com.devs.vectorchildfinder.VectorDrawableCompat;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class TDMCardActivity extends AppCompatActivity {
 
@@ -101,6 +95,15 @@ public class TDMCardActivity extends AppCompatActivity {
                 onNewIntent(getIntent());
             }
         }
+
+        //Ajustamos el botón para comprar una nueva tarjeta
+
+        ((Button)findViewById(R.id.button_card_buy)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TDMCardActivity.this, CardBuyActivity.class));
+            }
+        });
     }
 
     @Override
