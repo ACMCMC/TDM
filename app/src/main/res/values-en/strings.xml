@@ -35,4 +35,6 @@
     <string name="infinity_descripcion">Don\'t pay for your trips. Travel without limits.</string>
     <string name="element_descripcion">A card made for simplicity. Pay only for what you use.</string>
     <string name="acreditar_condiciones_especiales">Credit special conditions</string>
+    <string name="aceptar">Accept</string>
+    <string name="cancelar">Cancel</string>
 </resources>

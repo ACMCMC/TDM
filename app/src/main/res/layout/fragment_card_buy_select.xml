@@ -53,7 +53,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/infinity_descripcion"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/cardview_ic_buy_select_infinity"
@@ -89,7 +89,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/element_descripcion"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/cardview_ic_buy_select_element"
@@ -105,7 +105,7 @@
                     app:layout_constraintTop_toTopOf="@id/text_view_buy_select_element"
                     app:cardBackgroundColor="@color/TDMCardBackground"
                     app:cardCornerRadius="@dimen/radiusCard"
-                    app:contentPadding="24dp">
+                    app:contentPadding="20dp">
 
                     <ImageView
                         android:id="@+id/imageView_ic_buy_select_element"
@@ -124,7 +124,7 @@
 
             <Button
                 android:id="@+id/button_buy_select_acreditar_condicion"
-                style="@style/OutlinedButton"
+                style="@style/Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/acreditar_condiciones_especiales" />

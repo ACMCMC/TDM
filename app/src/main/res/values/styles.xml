@@ -8,15 +8,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="Button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="cornerRadius">0dp</item>
+    </style>
+
+    <style name="Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="cornerRadius">0dp</item>
     </style>
 
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/gris</item>
-        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:background">@color/negro</item>
+        <item name="android:alpha">0.12</item>
+        <item name="android:layout_marginTop">7dp</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:layout_marginStart">8dp</item>
         <item name="android:layout_marginEnd">8dp</item>

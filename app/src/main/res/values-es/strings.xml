@@ -35,4 +35,6 @@
     <string name="infinity_descripcion">No pagues por tus viajes. Muévete sin límites.</string>
     <string name="element_descripcion">Una tarjeta hecha para la simplicidad. Paga por lo que uses.</string>
     <string name="acreditar_condiciones_especiales">Acreditar condiciones especiales</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
 </resources>

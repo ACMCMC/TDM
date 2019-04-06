@@ -36,6 +36,8 @@
     <string name="infinity_descripcion">Ne payez plus dans vos Trips</string>
     <string name="element_descripcion">Simplicity verand une Card</string>
     <string name="acreditar_condiciones_especiales">Montrer special Conditions</string>
+    <string name="aceptar">Acepter</string>
+    <string name="cancelar">Canceler</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
