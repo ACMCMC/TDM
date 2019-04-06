@@ -21,21 +21,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:text="INFINITY"
+                    android:text="@string/infinity"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView_ic_buy_select_infinity"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/imageView_ic_buy_select_infinity"
-                    android:layout_width="0dp"
-                    android:layout_height="36dp"
-                    app:layout_constraintBottom_toBottomOf="@id/text_view_buy_select_infinity_descripcion"
-                    app:layout_constraintEnd_toStartOf="@id/text_view_buy_select_infinity_descripcion"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/text_view_buy_select_infinity"
-                    app:srcCompat="@drawable/ic_card_infinity" />
 
                 <TextView
                     android:id="@+id/text_view_buy_select_infinity_descripcion"
@@ -43,10 +33,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
-                    android:text="Viaja tanto como quieras."
+                    android:text="@string/infinity_descripcion"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imageView_ic_buy_select_infinity"
                     app:layout_constraintTop_toBottomOf="@id/text_view_buy_select_infinity" />
+
+                <ImageView
+                    android:id="@+id/imageView_ic_buy_select_infinity"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:contentDescription="@string/infinity"
+                    app:layout_constraintBottom_toBottomOf="@id/text_view_buy_select_infinity_descripcion"
+                    app:layout_constraintEnd_toStartOf="@id/text_view_buy_select_infinity_descripcion"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/text_view_buy_select_infinity"
+                    app:srcCompat="@drawable/ic_card_infinity" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
@@ -66,7 +68,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:text="ELEMENT"
+                    android:text="@string/element"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView_ic_buy_select_element"
@@ -78,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
-                    android:text="Paga lo justo en cada viaje."
+                    android:text="@string/element_descripcion"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imageView_ic_buy_select_element"
                     app:layout_constraintTop_toBottomOf="@id/text_view_buy_select_element" />
@@ -87,6 +89,7 @@
                     android:id="@+id/imageView_ic_buy_select_element"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
+                    android:contentDescription="@string/element"
                     app:layout_constraintBottom_toBottomOf="@id/text_view_buy_select_element_descripcion"
                     app:layout_constraintEnd_toStartOf="@id/text_view_buy_select_element_descripcion"
                     app:layout_constraintStart_toStartOf="parent"
@@ -98,6 +101,13 @@
                 style="@style/Divider"
                 android:layout_marginStart="0dp"
                 android:layout_marginEnd="0dp" />
+
+            <Button
+                android:id="@+id/button_buy_select_acreditar_condicion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/acreditar_condiciones_especiales" />
 
         </LinearLayout>
 
