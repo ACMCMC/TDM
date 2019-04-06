@@ -7,13 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 public class CardBuyActivity extends AppCompatActivity {
 
@@ -88,25 +86,10 @@ public class CardBuyActivity extends AppCompatActivity {
                 setStepOnStepper(1);
                 break;
             case 2:
+                cardBuyConfirmFragment.setCardType(cardType);
                 if (isForwardStep) {
                     fragmentManager.beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out).replace(R.id.fragment, cardBuyConfirmFragment).addToBackStack(null).commit();
                 }
-                int resId = 0;
-                switch (cardType) {
-                    case INFINITY:
-                        resId = R.drawable.ic_card_infinity;
-                        break;
-                    case ELEMENT:
-                        resId = R.drawable.ic_card_element;
-                        break;
-                    case STANDARD:
-                        resId = R.drawable.ic_card_element;
-                        break;
-                    case DISCOUNT:
-                        resId = R.drawable.ic_card_discount;
-                        break;
-                }
-                ((ImageView) findViewById(R.id.ic_card)).setImageDrawable(VectorDrawableCompat.create(getResources(), resId, null));
                 setStepOnStepper(2);
                 break;
             case 3:
