@@ -20,7 +20,7 @@
             android:id="@+id/frameLayout1"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@color/colorAccent"
+            android:background="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="@id/nombre_paso_compra_1"
             app:layout_constraintStart_toStartOf="@id/nombre_paso_compra_1"
             app:layout_constraintTop_toTopOf="parent">
@@ -51,7 +51,7 @@
             android:id="@+id/frameLayout2"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/gris"
             app:layout_constraintEnd_toEndOf="@id/nombre_paso_compra_2"
             app:layout_constraintStart_toStartOf="@id/nombre_paso_compra_2"
             app:layout_constraintTop_toTopOf="parent">
@@ -61,8 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="2"
-                android:textColor="@color/blanco" />
+                android:text="2" />
         </FrameLayout>
 
         <TextView
@@ -82,7 +81,7 @@
             android:id="@+id/frameLayout3"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/gris"
             app:layout_constraintEnd_toEndOf="@id/nombre_paso_compra_3"
             app:layout_constraintStart_toStartOf="@id/nombre_paso_compra_3"
             app:layout_constraintTop_toTopOf="parent">
@@ -92,8 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="3"
-                android:textColor="@color/blanco" />
+                android:text="3" />
         </FrameLayout>
 
         <TextView
@@ -135,11 +133,10 @@
         android:id="@+id/fragment"
         android:name="ml.mitron.tdm.CardBuySelectFragment"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_margin="24dp"
         app:layout_constraintBottom_toTopOf="@id/constraintLayout_buy_stepper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/fragment_card_buy_select" />
 </androidx.constraintlayout.widget.ConstraintLayout>
