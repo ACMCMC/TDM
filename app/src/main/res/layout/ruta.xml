@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:text="@string/tiempoRuta" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/layoutRuta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                 android:text="@string/tomarLinea" />
             </LinearLayout>-->
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/nuevoCalculoButton"
