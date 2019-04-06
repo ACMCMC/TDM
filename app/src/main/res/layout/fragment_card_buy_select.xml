@@ -16,6 +16,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp">
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardview_ic_buy_select_infinity"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:cardBackgroundColor="@color/TDMCardBackground"
+                    app:cardCornerRadius="@dimen/radiusCard"
+                    app:contentPadding="24dp"
+                    app:layout_constraintBottom_toBottomOf="@id/text_view_buy_select_infinity_descripcion"
+                    app:layout_constraintEnd_toStartOf="@id/text_view_buy_select_infinity_descripcion"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/text_view_buy_select_infinity">
+
+                    <ImageView
+                        android:id="@+id/imageView_ic_buy_select_infinity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/infinity"
+                        app:srcCompat="@drawable/ic_card_infinity" />
+
+                </androidx.cardview.widget.CardView>
+
                 <TextView
                     android:id="@+id/text_view_buy_select_infinity"
                     android:layout_width="0dp"
@@ -24,7 +45,7 @@
                     android:text="@string/infinity"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageView_ic_buy_select_infinity"
+                    app:layout_constraintStart_toEndOf="@+id/cardview_ic_buy_select_infinity"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -35,19 +56,8 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/infinity_descripcion"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imageView_ic_buy_select_infinity"
+                    app:layout_constraintStart_toEndOf="@id/cardview_ic_buy_select_infinity"
                     app:layout_constraintTop_toBottomOf="@id/text_view_buy_select_infinity" />
-
-                <ImageView
-                    android:id="@+id/imageView_ic_buy_select_infinity"
-                    android:layout_width="0dp"
-                    android:layout_height="36dp"
-                    android:contentDescription="@string/infinity"
-                    app:layout_constraintBottom_toBottomOf="@id/text_view_buy_select_infinity_descripcion"
-                    app:layout_constraintEnd_toStartOf="@id/text_view_buy_select_infinity_descripcion"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/text_view_buy_select_infinity"
-                    app:srcCompat="@drawable/ic_card_infinity" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -71,7 +81,7 @@
                     android:text="@string/element"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageView_ic_buy_select_element"
+                    app:layout_constraintStart_toEndOf="@id/cardview_ic_buy_select_element"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -82,19 +92,29 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/element_descripcion"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imageView_ic_buy_select_element"
+                    app:layout_constraintStart_toEndOf="@id/cardview_ic_buy_select_element"
                     app:layout_constraintTop_toBottomOf="@id/text_view_buy_select_element" />
 
-                <ImageView
-                    android:id="@+id/imageView_ic_buy_select_element"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardview_ic_buy_select_element"
                     android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:contentDescription="@string/element"
+                    android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="@id/text_view_buy_select_element_descripcion"
                     app:layout_constraintEnd_toStartOf="@id/text_view_buy_select_element_descripcion"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/text_view_buy_select_element"
-                    app:srcCompat="@drawable/ic_card_element" />
+                    app:cardBackgroundColor="@color/TDMCardBackground"
+                    app:cardCornerRadius="@dimen/radiusCard"
+                    app:contentPadding="24dp">
+
+                    <ImageView
+                        android:id="@+id/imageView_ic_buy_select_element"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/element"
+                        app:srcCompat="@drawable/ic_card_element" />
+
+                </androidx.cardview.widget.CardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
@@ -104,9 +124,9 @@
 
             <Button
                 android:id="@+id/button_buy_select_acreditar_condicion"
+                style="@style/OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:text="@string/acreditar_condiciones_especiales" />
 
         </LinearLayout>

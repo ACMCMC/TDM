@@ -20,7 +20,7 @@
             android:id="@+id/frameLayout1"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="@id/nombre_paso_compra_1"
             app:layout_constraintStart_toStartOf="@id/nombre_paso_compra_1"
             app:layout_constraintTop_toTopOf="parent">
@@ -135,7 +135,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        app:layout_constraintBottom_toTopOf="@id/constraintLayout_buy_stepper"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout="@layout/fragment_card_buy_select" />

@@ -5,6 +5,7 @@
     <color name="colorPrimaryLight">#ff5131</color>
     <color name="colorAccent">#FF0000</color>
     <color name="gris">#CCCCCC</color>
+    <color name="TDMCardBackground">#333333</color>
     <color name="blanco">#FFFFFF</color>
     <color name="negro">#000000</color>
 </resources>
