@@ -28,6 +28,14 @@
     <string name="conexionCon">naar</string>
     <string name="buscarEstacion">Trouver Station</string>
     <string name="textoBienvenida">Trouv tuhr Route. Dans trierd Steps.</string>
+    <string name="tarjeta">Card</string>
+    <string name="confirmacion">Confirmation</string>
+    <string name="datos">Data</string>
+    <string name="infinity" translatable="false">Infinity</string>
+    <string name="element" translatable="false">Element</string>
+    <string name="infinity_descripcion">Ne payez plus dans vos Trips</string>
+    <string name="element_descripcion">Simplicity verand une Card</string>
+    <string name="acreditar_condiciones_especiales">Montrer special Conditions</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

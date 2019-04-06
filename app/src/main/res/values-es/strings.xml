@@ -29,4 +29,10 @@
     <string name="conexionCon">hacia</string>
     <string name="buscarEstacion">Buscar una estación</string>
     <string name="textoBienvenida">Encuentra tu ruta. En tres pasos.</string>
+    <string name="tarjeta">Tarjeta</string>
+    <string name="confirmacion">Confirmación</string>
+    <string name="datos">Datos</string>
+    <string name="infinity_descripcion">No pagues por tus viajes. Muévete sin límites.</string>
+    <string name="element_descripcion">Una tarjeta hecha para la simplicidad. Paga por lo que uses.</string>
+    <string name="acreditar_condiciones_especiales">Acreditar condiciones especiales</string>
 </resources>

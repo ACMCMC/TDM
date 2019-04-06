@@ -29,4 +29,10 @@
     <string name="conexionCon">to</string>
     <string name="buscarEstacion">Search for a station</string>
     <string name="textoBienvenida">Find your route. In three steps.</string>
+    <string name="tarjeta">Card</string>
+    <string name="confirmacion">Confirmation</string>
+    <string name="datos">Data</string>
+    <string name="infinity_descripcion">Don\'t pay for your trips. Travel without limits.</string>
+    <string name="element_descripcion">A card made for simplicity. Pay only for what you use.</string>
+    <string name="acreditar_condiciones_especiales">Credit special conditions</string>
 </resources>
