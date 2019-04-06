@@ -19,7 +19,7 @@
     <style name="Bold.Button" parent="Widget.AppCompat.Button.Borderless"></style>
 
     <style name="Bold.Background">
-        <item name="background">@color/colorPrimary</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
     <style name="Bold.Headline" parent="TextAppearance.AppCompat.Display1">
