@@ -1,11 +1,20 @@
 <vector android:height="289dp" android:viewportHeight="289.21"
     android:viewportWidth="700" android:width="700dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:name="shadow"><path android:fillColor="#b78c30" android:pathData="M498.81,58.09l0.74,57.94l-49.84,28.78l-50.11,-28.94l99.21,-57.78z"/>
+    <group>
+        <path
+            android:name="shadow"
+            android:fillColor="#b78c30"
+            android:pathData="M498.81,58.09l0.74,57.94l-49.84,28.78l-50.11,-28.94l99.21,-57.78z" />
     <path android:fillColor="#b78c30" android:pathData="M699.56,116.34l0.44,57.6l-199.47,115.27l0.89,-58.45l198.14,-114.42z"/>
     <path android:fillColor="#b78c30" android:pathData="M350.24,202.41l-0.02,0.03l-149.56,86.17l-0.09,-57.85l99.4,-57.38l50.27,29.03z"/>
     <path android:fillColor="#b78c30" android:pathData="M199.77,57.54l0,57.97l-49.85,28.7l-50.27,-28.98l100.12,-57.69z"/></group>
     <path android:fillColor="#fff" android:pathData="M599.63,116.29l-49.65,28.56l-0.01,-0.01l-50.42,-28.81l-0.74,-57.94l100.82,58.2z"/>
     <path android:fillColor="#fff" android:pathData="M501.42,230.76l-0.89,58.45l-150.29,-86.8l-50.27,-29.03l-50.14,-28.95l-50.06,-28.92l0,-57.97l301.65,173.22z"/>
     <path android:fillColor="#fff" android:pathData="M200.57,230.76l0.09,57.85l-200.66,-115.82l0,-57.82l200.57,115.79z"/>
-    <group android:name="foreground"> <path android:fillColor="#f5a800" android:pathData="M399.6,115.87l50.11,28.94 50.08,28.91L550,144.85l49.65,-28.56L498.83,58.09ZM349.45,86.87L498.88,0.55 699.56,116.34 501.42,230.77 199.77,57.54 99.65,115.23l50.27,29 50.19,28.93 49.73,-28.72 50.13,29 -99.4,57.39L0,115 199,0Z"/></group>
+    <group>
+        <path
+            android:name="foreground"
+            android:fillColor="#f5a800"
+            android:pathData="M399.6,115.87l50.11,28.94 50.08,28.91L550,144.85l49.65,-28.56L498.83,58.09ZM349.45,86.87L498.88,0.55 699.56,116.34 501.42,230.77 199.77,57.54 99.65,115.23l50.27,29 50.19,28.93 49.73,-28.72 50.13,29 -99.4,57.39L0,115 199,0Z" />
+    </group>
 </vector>
