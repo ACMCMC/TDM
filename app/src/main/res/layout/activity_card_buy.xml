@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <FrameLayout
-            android:id="@+id/frameLayout1"
+            android:id="@+id/frameLayout_buy_step_1"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@color/colorAccent"
@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textView_frameLayout_buy_step_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -41,14 +41,14 @@
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/tarjeta"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintEnd_toStartOf="@id/nombre_paso_compra_2"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/frameLayout1" />
+            app:layout_constraintTop_toBottomOf="@id/frameLayout_buy_step_1" />
 
         <FrameLayout
-            android:id="@+id/frameLayout2"
+            android:id="@+id/frameLayout_buy_step_2"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@color/gris"
@@ -57,7 +57,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/textView_frameLayout_buy_step_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -75,10 +75,10 @@
             app:layout_constraintEnd_toStartOf="@id/nombre_paso_compra_3"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/nombre_paso_compra_1"
-            app:layout_constraintTop_toBottomOf="@id/frameLayout2" />
+            app:layout_constraintTop_toBottomOf="@id/frameLayout_buy_step_2" />
 
         <FrameLayout
-            android:id="@+id/frameLayout3"
+            android:id="@+id/frameLayout_buy_step_3"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@color/gris"
@@ -87,7 +87,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textView_frameLayout_buy_step_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -105,33 +105,32 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/nombre_paso_compra_2"
-            app:layout_constraintTop_toBottomOf="@id/frameLayout3" />
+            app:layout_constraintTop_toBottomOf="@id/frameLayout_buy_step_3" />
 
         <View
             style="@style/Divider"
             android:layout_width="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/frameLayout1"
-            app:layout_constraintEnd_toStartOf="@id/frameLayout2"
-            app:layout_constraintStart_toEndOf="@id/frameLayout1"
-            app:layout_constraintTop_toTopOf="@id/frameLayout1" />
+            app:layout_constraintBottom_toBottomOf="@id/frameLayout_buy_step_1"
+            app:layout_constraintEnd_toStartOf="@id/frameLayout_buy_step_2"
+            app:layout_constraintStart_toEndOf="@id/frameLayout_buy_step_1"
+            app:layout_constraintTop_toTopOf="@id/frameLayout_buy_step_1" />
 
         <View
             style="@style/Divider"
             android:layout_width="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/frameLayout1"
-            app:layout_constraintEnd_toStartOf="@id/frameLayout3"
-            app:layout_constraintStart_toEndOf="@id/frameLayout2"
-            app:layout_constraintTop_toTopOf="@id/frameLayout1" />
+            app:layout_constraintBottom_toBottomOf="@id/frameLayout_buy_step_1"
+            app:layout_constraintEnd_toStartOf="@id/frameLayout_buy_step_3"
+            app:layout_constraintStart_toEndOf="@id/frameLayout_buy_step_2"
+            app:layout_constraintTop_toTopOf="@id/frameLayout_buy_step_1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <fragment
+    <FrameLayout
         android:id="@+id/fragment"
-        android:name="ml.mitron.tdm.CardBuySelectFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="0dp"
@@ -169,7 +168,6 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:enabled="false"
             android:text="@string/cancelar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_card_buy_stepper_aceptar"

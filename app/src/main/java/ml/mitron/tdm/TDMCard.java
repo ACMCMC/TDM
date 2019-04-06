@@ -222,8 +222,8 @@ public class TDMCard {
     enum CARD_TYPE {
         STANDARD(0),
         INFINITY(1),
-        EMERALD(2),
-        DIAMOND(3);
+        ELEMENT(2),
+        DISCOUNT(3);
 
         private static final Map<Integer, CARD_TYPE> map = new HashMap<>();
 

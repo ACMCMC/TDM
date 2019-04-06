@@ -37,4 +37,5 @@
     <string name="acreditar_condiciones_especiales">Acreditar condiciones especiales</string>
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
+    <string name="saldo">Saldo</string>
 </resources>

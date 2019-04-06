@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 
@@ -17,6 +17,8 @@ import androidx.viewpager.widget.ViewPager;
  */
 public class CardBuySelectFragment extends androidx.fragment.app.Fragment {
 
+    ViewPager viewPager;
+    ViewPagerAdapter viewPagerAdapter;
 
     public CardBuySelectFragment() {
         // Required empty public constructor
@@ -30,12 +32,14 @@ public class CardBuySelectFragment extends androidx.fragment.app.Fragment {
 
         View view = inflater.inflate(R.layout.fragment_card_buy_select, container, false);
 
-        ((ViewPager) view.findViewById(R.id.viewPager_buy_select)).setAdapter(new ViewPagerAdapter(getFragmentManager()));
+        viewPager = (ViewPager) view.findViewById(R.id.viewPager_buy_select);
+        viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
+        viewPager.setAdapter(viewPagerAdapter);
 
         return view;
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         ViewPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);

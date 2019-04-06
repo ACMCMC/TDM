@@ -37,4 +37,5 @@
     <string name="acreditar_condiciones_especiales">Credit special conditions</string>
     <string name="aceptar">Accept</string>
     <string name="cancelar">Cancel</string>
+    <string name="saldo">Balance</string>
 </resources>
