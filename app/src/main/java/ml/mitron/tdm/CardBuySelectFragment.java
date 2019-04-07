@@ -1,6 +1,9 @@
 package ml.mitron.tdm;
 
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,8 @@ import androidx.viewpager.widget.ViewPager;
  */
 public class CardBuySelectFragment extends androidx.fragment.app.Fragment {
 
+    private static final String TAG = CardBuySelectFragment.class.getName();
+
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
 
@@ -24,6 +29,27 @@ public class CardBuySelectFragment extends androidx.fragment.app.Fragment {
         // Required empty public constructor
     }
 
+    public static Bitmap loadBitmapFromView(View v) {
+        Bitmap b = Bitmap.createBitmap(v.getWidth(),
+                v.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b);
+        v.layout(0, 0, v.getWidth(),
+                v.getHeight());
+        v.draw(c);
+        return b;
+    }
+
+    @Override
+    public void onPause() {
+        getView().setBackground(new BitmapDrawable(getResources(), loadBitmapFromView(getView())));
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        getView().setBackground(null);
+        super.onResume();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
