@@ -22,6 +22,7 @@ public class CardBuyActivity extends AppCompatActivity {
     CardBuyDataFragment cardBuyDataFragment;
     CardBuySelectFragment cardBuySelectFragment;
     CardBuyConfirmFragment cardBuyConfirmFragment;
+    CardBuyDataColorSelectFragment cardBuyDataColorSelectFragment;
 
     FragmentManager fragmentManager;
 
@@ -35,6 +36,7 @@ public class CardBuyActivity extends AppCompatActivity {
         cardBuyDataFragment = new CardBuyDataFragment();
         cardBuySelectFragment = new CardBuySelectFragment();
         cardBuyConfirmFragment = new CardBuyConfirmFragment();
+        cardBuyDataColorSelectFragment = new CardBuyDataColorSelectFragment();
 
         fragmentManager = getSupportFragmentManager();
 
@@ -63,11 +65,17 @@ public class CardBuyActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateBuyingStep(true);
+    }
+
     void updateBuyingStep(boolean isForwardStep) {
         switch (currentBuyingStep) {
             case 0:
                 if (isForwardStep) {
-                    fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left).replace(R.id.fragment, cardBuySelectFragment).addToBackStack(null).commit();
+                    fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fragment, cardBuySelectFragment).addToBackStack(null).commit();
                 }
                 setStepOnStepper(0);
                 break;
@@ -81,18 +89,24 @@ public class CardBuyActivity extends AppCompatActivity {
                         break;
                 }
                 if (isForwardStep) {
-                    fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left).replace(R.id.fragment, cardBuyDataFragment).addToBackStack(null).commit();
+                    fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fragment, cardBuyDataFragment).addToBackStack(null).commit();
                 }
                 setStepOnStepper(1);
                 break;
             case 2:
+                if (isForwardStep) {
+                    fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fragment, cardBuyDataColorSelectFragment).addToBackStack(null).commit();
+                }
+                setStepOnStepper(1);
+                break;
+            case 3:
                 cardBuyConfirmFragment.setCardType(cardType);
                 if (isForwardStep) {
-                    fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left).replace(R.id.fragment, cardBuyConfirmFragment).addToBackStack(null).commit();
+                    fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fragment, cardBuyConfirmFragment).addToBackStack(null).commit();
                 }
                 setStepOnStepper(2);
                 break;
-            case 3:
+            case 4:
                 finish();
         }
     }
@@ -142,7 +156,7 @@ public class CardBuyActivity extends AppCompatActivity {
 
 
         animatorSet.playTogether(grisAnimator1, grisAnimator2, accentAnimator, grisTextAnimator1, grisTextAnimator2, accentTextAnimator);
-        animatorSet.setDuration(1000);
+        animatorSet.setDuration(500);
         animatorSet.start();
     }
 }
