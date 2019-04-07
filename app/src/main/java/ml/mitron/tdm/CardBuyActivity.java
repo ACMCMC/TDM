@@ -67,7 +67,7 @@ public class CardBuyActivity extends AppCompatActivity {
         switch (currentBuyingStep) {
             case 0:
                 if (isForwardStep) {
-                    fragmentManager.beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out).replace(R.id.fragment, cardBuySelectFragment).addToBackStack(null).commit();
+                    fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left).replace(R.id.fragment, cardBuySelectFragment).addToBackStack(null).commit();
                 }
                 setStepOnStepper(0);
                 break;
@@ -81,14 +81,14 @@ public class CardBuyActivity extends AppCompatActivity {
                         break;
                 }
                 if (isForwardStep) {
-                    fragmentManager.beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out).replace(R.id.fragment, cardBuyDataFragment).addToBackStack(null).commit();
+                    fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left).replace(R.id.fragment, cardBuyDataFragment).addToBackStack(null).commit();
                 }
                 setStepOnStepper(1);
                 break;
             case 2:
                 cardBuyConfirmFragment.setCardType(cardType);
                 if (isForwardStep) {
-                    fragmentManager.beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out).replace(R.id.fragment, cardBuyConfirmFragment).addToBackStack(null).commit();
+                    fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left).replace(R.id.fragment, cardBuyConfirmFragment).addToBackStack(null).commit();
                 }
                 setStepOnStepper(2);
                 break;
