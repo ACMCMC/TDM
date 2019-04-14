@@ -5,9 +5,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.transition.AutoTransition;
-import android.transition.Scene;
 import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.util.Pair;
@@ -15,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,12 +28,6 @@ public class MainActivity extends AppCompatActivity {
     Context contexto;
     SQLDBExtractor extractor;
 
-    private Handler myHandler;
-
-    private Scene escena1, escena2;
-
-    private Transition transicion;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         FirebaseDBExtractor firebaseDBExtractor = new FirebaseDBExtractor();
+
+
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.card_reel_FrameLayout);
+        getSupportFragmentManager().beginTransaction().add(frameLayout.getId(), new CardReelFragment()).commit();
+
 
 
         //TextView valueTV = new TextView(this);
@@ -263,8 +261,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
-        myHandler.removeCallbacksAndMessages(null);
     }
 
     @Override

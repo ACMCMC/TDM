@@ -111,6 +111,10 @@ class User {
         }
     }
 
+    public Map<TDMCard.CardNumber, TDMCard> getTarjetas() {
+        return tarjetas;
+    }
+
     boolean poseeTarjetaTDM(TDMCard tarjeta) {
         return tarjetas.containsKey(tarjeta.getCardNumber());
     }

@@ -9,17 +9,14 @@
     android:clipToPadding="false"
     tools:context="ml.mitron.tdm.MainActivity">
 
-    <TextView
-        android:id="@+id/nombreEstacionNoria"
-        style="@style/Bold.Display2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Mitron Centraalen"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
+    <FrameLayout
+        android:id="@+id/card_reel_FrameLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_busqueda" />
+        app:layout_constraintBottom_toTopOf="@id/tdm_card_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_busqueda"></FrameLayout>
 
     <FrameLayout
         android:id="@+id/tdm_card_layout"
