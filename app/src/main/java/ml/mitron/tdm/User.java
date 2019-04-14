@@ -1,15 +1,20 @@
 package ml.mitron.tdm;
 
 import android.util.Log;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -24,105 +29,56 @@ class User {
     private User() {
         tarjetas = new HashMap<>();
         mAuth = FirebaseAuth.getInstance();
-        mAuth.signInAnonymously();
-        mDatabase = FirebaseDatabase.getInstance().getReference("usuarios").child(mAuth.getUid());
-
-        DatabaseReference ownershipReference = FirebaseDatabase.getInstance().getReference("ownership");
-
-        ChildEventListener ownershipChildEventListener = new ChildEventListener() {
+        mAuth.signInAnonymously().addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.v("TRIAL", dataSnapshot.toString());
-            }
+            public void onSuccess(AuthResult authResult) {
+                mDatabase = FirebaseDatabase.getInstance().getReference("usuarios").child(authResult.getUser().getUid());
+                DatabaseReference ownershipReference = FirebaseDatabase.getInstance().getReference("ownership").child(authResult.getUser().getUid());
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                ChildEventListener ownershipChildEventListener = new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        Log.v("TRIAL", dataSnapshot.toString());
+                        DatabaseReference cardReference = FirebaseDatabase.getInstance().getReference("tarjetas_tdm").child(String.valueOf(dataSnapshot.getKey()));
+                        if (dataSnapshot.getValue(Boolean.class)) {
+                            cardReference.addValueEventListener(new TDMCardValueEventListener());
+                        }
+                    }
 
-            }
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                    }
 
-            }
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    }
 
-            }
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
 
-            }
-        };
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        ownershipReference.orderByKey().equalTo(mAuth.getUid()).addChildEventListener(ownershipChildEventListener);
+                    }
+                };
 
-
-        DatabaseReference cardReference = FirebaseDatabase.getInstance().getReference("tarjetas_tdm");
-
-        ChildEventListener TDMCardChildEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.v("TRIAL", dataSnapshot.toString());
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-
-        cardReference.orderByChild("owner_uid").addChildEventListener(TDMCardChildEventListener);
-
-        mDatabase.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                switch (dataSnapshot.getKey()) {
-                    case "nombre":
-                        nombre = (String) dataSnapshot.getValue();
-                        break;
-                    case "tarjetas_tdm":
-                        tarjetas = parseTDMCardList(dataSnapshot);
-                        break;
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                ownershipReference.orderByKey().addChildEventListener(ownershipChildEventListener);
             }
         });
+
+
+    }
+
+    private TDMCard parseTDMCard(DataSnapshot tarjetaSnapshot) {
+        byte[] cardNumber = new byte[16];
+        for (int i = 0; i < 16; i++) {
+            cardNumber[i] = ((Long) tarjetaSnapshot.child("numero").child(Integer.toString(i)).getValue(Long.class)).byteValue();
+        }
+        return new TDMCard(TDMCard.CARD_TYPE.of(tarjetaSnapshot.child("tipo").getValue(Long.class).intValue()), cardNumber, nombre, tarjetaSnapshot.child("balance").getValue(Float.class));
     }
 
     @Deprecated
@@ -143,20 +99,16 @@ class User {
 
     }
 
-    private Map<TDMCard.CardNumber, TDMCard> parseTDMCardList(DataSnapshot tarjetasKey) {
-        Map<TDMCard.CardNumber, TDMCard> tdmCardList = new HashMap<>();
-
-        Iterator cardIterator = tarjetasKey.getChildren().iterator();
-        DataSnapshot currentCard;
-        while (cardIterator.hasNext()) {
-            currentCard = (DataSnapshot) cardIterator.next();
-            byte[] cardNumber = new byte[16];
-            for (int i = 0; i < 16; i++) {
-                cardNumber[i] = ((Long) currentCard.child("numero").child(Integer.toString(i)).getValue()).byteValue();
-            }
-            tdmCardList.put(new TDMCard.CardNumber(cardNumber), new TDMCard(TDMCard.CARD_TYPE.STANDARD, cardNumber, nombre, ((Long) currentCard.child("saldo").getValue()).floatValue()));
+    private class TDMCardValueEventListener implements ValueEventListener {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            tarjetas.put(parseTDMCard(dataSnapshot).getCardNumber(), parseTDMCard(dataSnapshot));
         }
-        return tdmCardList;
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
     }
 
     boolean poseeTarjetaTDM(TDMCard tarjeta) {

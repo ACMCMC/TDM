@@ -1,8 +1,5 @@
 package ml.mitron.tdm;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -19,8 +16,6 @@ import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.Random;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -174,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        myHandler = new Handler();
+        /*myHandler = new Handler();
 
         Runnable noriaChange = new Runnable() {
             @Override
@@ -220,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        myHandler.postDelayed(noriaChange, 2000);
+        myHandler.postDelayed(noriaChange, 2000);*/
     }
 
     @Override
