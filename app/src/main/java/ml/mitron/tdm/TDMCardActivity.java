@@ -16,10 +16,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.devs.vectorchildfinder.VectorChildFinder;
 
 import androidx.annotation.Nullable;
@@ -95,15 +95,6 @@ public class TDMCardActivity extends AppCompatActivity {
                 onNewIntent(getIntent());
             }
         }
-
-        //Ajustamos el botón para comprar una nueva tarjeta
-
-        ((Button)findViewById(R.id.button_card_buy)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(TDMCardActivity.this, CardBuyActivity.class));
-            }
-        });
     }
 
     @Override

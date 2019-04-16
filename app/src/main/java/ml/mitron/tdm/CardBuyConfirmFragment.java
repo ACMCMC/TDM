@@ -40,10 +40,10 @@ public class CardBuyConfirmFragment extends Fragment {
 
         int resId = 0;
         switch (cardType) {
-            case INFINITY:
+            case ELEMENT:
                 resId = R.drawable.ic_card_infinity;
                 break;
-            case ELEMENT:
+            case INFINITY:
                 resId = R.drawable.ic_card_element;
                 break;
             case STANDARD:

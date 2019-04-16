@@ -1,9 +1,11 @@
 package ml.mitron.tdm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,38 +48,80 @@ public class CardReelFragment extends Fragment {
         return view;
     }
 
-    private class ReelViewAdapter extends RecyclerView.Adapter<ReelViewAdapter.ViewHolder> {
+    private class ReelViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            ViewHolder viewHolder;
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            RecyclerView.ViewHolder viewHolder;
             View cardView;
-            cardView = LayoutInflater.from(getContext()).inflate(R.layout.layout_card_reel_card, parent, false);
-            viewHolder = new ViewHolder(cardView);
+            switch (viewType) {
+                case 0:
+                default:
+                    cardView = LayoutInflater.from(getContext()).inflate(R.layout.layout_card_reel_card, parent, false);
+                    viewHolder = new ViewHolderCard(cardView);
+                    break;
+                case 1:
+                    cardView = LayoutInflater.from(getContext()).inflate(R.layout.layout_card_reel_add_card, parent, false);
+                    viewHolder = new ViewHolderAddCard(cardView);
+                    break;
+            }
             return viewHolder;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        public int getItemViewType(int position) {
+            if (position == (getItemCount() - 1)) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            if (getItemViewType(position) == 1) {
+                ViewHolderAddCard viewHolderAddCard = (ViewHolderAddCard) holder;
+                viewHolderAddCard.card.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), CardBuyActivity.class));
+                    }
+                });
+                return;
+            }
+            ViewHolderCard viewHolderCard = (ViewHolderCard) holder;
             List<TDMCard.CardNumber> cardNumberList = Arrays.asList(User.getUser().getTarjetas().keySet().toArray(new TDMCard.CardNumber[User.getUser().getTarjetas().keySet().size()]));
-            holder.numero.setText(User.getUser().getTarjetas().get(cardNumberList.get(position)).getHiddenCardNumber());
-            holder.nombre.setText(User.getUser().getTarjetas().get(cardNumberList.get(position)).getCardHolderName());
+            viewHolderCard.numero.setText(User.getUser().getTarjetas().get(cardNumberList.get(position)).getHiddenCardNumber());
+            viewHolderCard.nombre.setText(User.getUser().getTarjetas().get(cardNumberList.get(position)).getCardHolderName());
+            viewHolderCard.icono.setImageDrawable(User.getUser().getTarjetas().get(cardNumberList.get(position)).getIconoCardDrawable(getContext()));
         }
 
         @Override
         public int getItemCount() {
-            return User.getUser().getTarjetas().size();
+            //sumamos uno porque el último view es el de añadir una tarjeta
+            return (User.getUser().getTarjetas().size() + 1);
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder {
+        class ViewHolderCard extends RecyclerView.ViewHolder {
             TextView nombre;
             TextView numero;
+            ImageView icono;
 
-            ViewHolder(@NonNull View itemView) {
+            ViewHolderCard(@NonNull View itemView) {
                 super(itemView);
                 nombre = itemView.findViewById(R.id.nombreCard);
                 numero = itemView.findViewById(R.id.numeroCard);
+                icono = itemView.findViewById(R.id.ic_card);
+            }
+        }
+
+        class ViewHolderAddCard extends RecyclerView.ViewHolder {
+            CardView card;
+
+            ViewHolderAddCard(@NonNull View itemView) {
+                super(itemView);
+                card = itemView.findViewById(R.id.card_view_card_reel_add_card);
             }
         }
 

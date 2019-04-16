@@ -1,5 +1,6 @@
 package ml.mitron.tdm;
 
+import android.content.Context;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -18,6 +19,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 public class TDMCard {
 
@@ -219,10 +222,25 @@ public class TDMCard {
         }
     }
 
+    VectorDrawableCompat getIconoCardDrawable(Context context) {
+        VectorDrawableCompat mVector;
+        switch (cardType.typeId) {
+            case 1:
+            default:
+                mVector = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_card_element, null);
+                break;
+            case 2:
+                mVector = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_card_infinity, null);
+                break;
+        }
+        return mVector;
+
+    }
+
     enum CARD_TYPE {
         STANDARD(0),
-        INFINITY(1),
-        ELEMENT(2),
+        ELEMENT(1),
+        INFINITY(2),
         DISCOUNT(3);
 
         private static final Map<Integer, CARD_TYPE> map = new HashMap<>();

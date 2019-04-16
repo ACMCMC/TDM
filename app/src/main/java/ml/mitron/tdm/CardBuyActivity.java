@@ -94,10 +94,10 @@ public class CardBuyActivity extends AppCompatActivity {
             case 1:
                 switch (cardBuySelectFragment.viewPager.getCurrentItem()) {
                     case 0:
-                        cardType = TDMCard.CARD_TYPE.ELEMENT;
+                        cardType = TDMCard.CARD_TYPE.INFINITY;
                         break;
                     case 1:
-                        cardType = TDMCard.CARD_TYPE.INFINITY;
+                        cardType = TDMCard.CARD_TYPE.ELEMENT;
                         break;
                 }
                 if (isForwardStep) {
