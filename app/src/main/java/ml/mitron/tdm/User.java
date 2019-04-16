@@ -13,7 +13,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +23,12 @@ import androidx.annotation.Nullable;
 class User {
 
     private static User user;
+    private static Set<DataSetChangeListener> dataSetChangeListeners;
+
+    static {
+        dataSetChangeListeners = new HashSet<>();
+    }
+
     public String nombre;
     private Map<TDMCard.CardNumber, TDMCard> tarjetas;
     private DatabaseReference mDatabase;
@@ -73,14 +81,6 @@ class User {
 
     }
 
-    private TDMCard parseTDMCard(DataSnapshot tarjetaSnapshot) {
-        byte[] cardNumber = new byte[16];
-        for (int i = 0; i < 16; i++) {
-            cardNumber[i] = ((Long) tarjetaSnapshot.child("numero").child(Integer.toString(i)).getValue(Long.class)).byteValue();
-        }
-        return new TDMCard(TDMCard.CARD_TYPE.of(tarjetaSnapshot.child("tipo").getValue(Long.class).intValue()), cardNumber, nombre, tarjetaSnapshot.child("balance").getValue(Float.class));
-    }
-
     @Deprecated
     private User(Map<TDMCard.CardNumber, TDMCard> listTarjetasTDM) {
         this();
@@ -95,19 +95,26 @@ class User {
         return user;
     }
 
+    static void addDataSetChangeListener(DataSetChangeListener listener) {
+        dataSetChangeListeners.add(listener);
+    }
+
+    private TDMCard parseTDMCard(DataSnapshot tarjetaSnapshot) {
+        byte[] cardNumber = new byte[16];
+        for (int i = 0; i < 16; i++) {
+            cardNumber[i] = ((Long) tarjetaSnapshot.child("numero").child(Integer.toString(i)).getValue(Long.class)).byteValue();
+        }
+        return new TDMCard(TDMCard.CARD_TYPE.of(tarjetaSnapshot.child("tipo").getValue(Long.class).intValue()), cardNumber, nombre, tarjetaSnapshot.child("balance").getValue(Float.class));
+    }
+
     void registerTDMCard(TDMCard tdmCard) {
 
     }
 
-    private class TDMCardValueEventListener implements ValueEventListener {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            tarjetas.put(parseTDMCard(dataSnapshot).getCardNumber(), parseTDMCard(dataSnapshot));
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-
+    private void notifyDataSetChanged() {
+        for (DataSetChangeListener dataSetChangeListener :
+                dataSetChangeListeners) {
+            dataSetChangeListener.onDataSetChange();
         }
     }
 
@@ -117,5 +124,22 @@ class User {
 
     boolean poseeTarjetaTDM(TDMCard tarjeta) {
         return tarjetas.containsKey(tarjeta.getCardNumber());
+    }
+
+    interface DataSetChangeListener {
+        void onDataSetChange();
+    }
+
+    private class TDMCardValueEventListener implements ValueEventListener {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            tarjetas.put(parseTDMCard(dataSnapshot).getCardNumber(), parseTDMCard(dataSnapshot));
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
     }
 }
