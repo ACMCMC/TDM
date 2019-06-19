@@ -78,18 +78,34 @@ class User {
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                        DatabaseReference cardReference = FirebaseDatabase.getInstance().getReference("tarjetas_tdm").child(String.valueOf(dataSnapshot.getKey()));
+                        String ref = dataSnapshot.getRef().getKey();
+                        if (dataSnapshot.getValue(Boolean.class)) {
+                            TDMCardValueEventListener tdmCardValueEventListener = new TDMCardValueEventListener();
+                            cardReference.addValueEventListener(tdmCardValueEventListener);
+                            TDMCardValueEventListenersMap.put(cardReference, tdmCardValueEventListener);
+                            TDMCardDatabaseReferences.put(ref, cardReference);
+                        } else if (TDMCardDatabaseReferences.containsKey(cardReference.getKey())) {
+                            TDMCardDatabaseReferences.get(ref).removeEventListener(TDMCardValueEventListenersMap.get(TDMCardDatabaseReferences.get(ref)));
+                            tarjetas.remove(TDMDatabaseKeyAndCardNumberMap.get(ref));
+                            TDMDatabaseKeyAndCardNumberMap.remove(ref);
+                            TDMCardValueEventListenersMap.remove(TDMCardDatabaseReferences.get(ref));
+                            TDMCardDatabaseReferences.remove(ref);
+                            notifyDataSetChanged();
+                        }
                     }
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                         String ref = dataSnapshot.getRef().getKey();
-                        TDMCardDatabaseReferences.get(ref).removeEventListener(TDMCardValueEventListenersMap.get(TDMCardDatabaseReferences.get(ref)));
-                        tarjetas.remove(TDMDatabaseKeyAndCardNumberMap.get(ref));
-                        TDMDatabaseKeyAndCardNumberMap.remove(ref);
-                        TDMCardValueEventListenersMap.remove(TDMCardDatabaseReferences.get(ref));
-                        TDMCardDatabaseReferences.remove(ref);
-                        notifyDataSetChanged();
+                        if (TDMCardDatabaseReferences.containsKey(ref)) {
+                            TDMCardDatabaseReferences.get(ref).removeEventListener(TDMCardValueEventListenersMap.get(TDMCardDatabaseReferences.get(ref)));
+                            tarjetas.remove(TDMDatabaseKeyAndCardNumberMap.get(ref));
+                            TDMDatabaseKeyAndCardNumberMap.remove(ref);
+                            TDMCardValueEventListenersMap.remove(TDMCardDatabaseReferences.get(ref));
+                            TDMCardDatabaseReferences.remove(ref);
+                            notifyDataSetChanged();
+                        }
                     }
 
                     @Override
