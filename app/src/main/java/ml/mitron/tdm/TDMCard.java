@@ -36,38 +36,15 @@ public class TDMCard {
 
     private CardNumber cardNumber;
 
-    static class CardNumber {
-
-        private List<Byte> numberList;
-
-        CardNumber(byte[] numberList) {
-            this.numberList = new ArrayList<>();
-            for (byte numero : numberList){
-                this.numberList.add(new Byte(numero));
-            }
+    public String getHiddenCardNumber() {
+        String hiddenNumber = new String();
+        byte[] cardByteArray = cardNumber.getByteArray();
+        for (int i = 0; i < 4; i++) {
+            hiddenNumber = hiddenNumber.concat(Integer.toString((int) cardByteArray[i]));
         }
+        hiddenNumber = hiddenNumber.concat(" ····");
 
-        byte[] getByteArray() {
-            byte[] numberByteArray = new byte[numberList.size()];
-            for (Byte currentByte:numberList) {
-                numberByteArray[numberList.indexOf(currentByte)] = currentByte.byteValue();
-            }
-            return numberByteArray;
-        }
-
-        @Override
-        public boolean equals(@Nullable Object obj) {
-            if (obj.getClass() == TDMCard.CardNumber.class){
-                return Arrays.deepEquals(Arrays.asList(this.getByteArray()).toArray(), Arrays.asList(((TDMCard.CardNumber) obj).getByteArray()).toArray());
-            } else {
-               return super.equals(obj);
-            }
-        }
-
-        @Override
-        public int hashCode() {
-            return ByteBuffer.wrap(getByteArray()).getInt();
-        }
+        return hiddenNumber;
     }
 
     private CARD_TYPE cardType;
@@ -178,14 +155,38 @@ public class TDMCard {
         return cardNumber;
     }
 
-    public String getHiddenCardNumber() {
-        String hiddenNumber = new String();
-        for (int i = 0; i < 4; i++) {
-            hiddenNumber = hiddenNumber.concat(Integer.toString((int) cardNumber.getByteArray()[i]));
-        }
-        hiddenNumber = hiddenNumber.concat(" ····");
+    static class CardNumber {
 
-        return hiddenNumber;
+        private List<Byte> numberList;
+
+        CardNumber(byte[] numberList) {
+            this.numberList = new ArrayList<>();
+            for (byte numero : numberList) {
+                this.numberList.add(new Byte(numero));
+            }
+        }
+
+        byte[] getByteArray() {
+            byte[] numberByteArray = new byte[numberList.size()];
+            for (int i = 0; i < numberList.size(); i++) {
+                numberByteArray[i] = numberList.get(i);
+            }
+            return numberByteArray;
+        }
+
+        @Override
+        public boolean equals(@Nullable Object obj) {
+            if (obj.getClass() == TDMCard.CardNumber.class) {
+                return Arrays.deepEquals(Arrays.asList(this.getByteArray()).toArray(), Arrays.asList(((TDMCard.CardNumber) obj).getByteArray()).toArray());
+            } else {
+                return super.equals(obj);
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return ByteBuffer.wrap(getByteArray()).getInt();
+        }
     }
 
     public String getCardHolderName() {
