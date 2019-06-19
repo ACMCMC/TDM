@@ -17,12 +17,14 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CardReelFragment extends Fragment {
 
     private ReelViewAdapter reelViewAdapter;
     private RecyclerView recyclerView;
+    private PagerSnapHelper pagerSnapHelper;
 
     public CardReelFragment() {
         // Required empty public constructor
@@ -44,6 +46,9 @@ public class CardReelFragment extends Fragment {
                 reelViewAdapter.notifyDataSetChanged();
             }
         });
+
+        pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(recyclerView);
 
         return view;
     }

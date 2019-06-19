@@ -21,12 +21,32 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 class User {
+    private static final String TAG = User.class.getName();
 
     private static User user;
     private static Set<DataSetChangeListener> dataSetChangeListeners;
+    private static Map<String, DatabaseReference> TDMCardDatabaseReferences;
+    private static Map<DatabaseReference, ValueEventListener> TDMCardValueEventListenersMap;
+    private static Map<String, TDMCard.CardNumber> TDMDatabaseKeyAndCardNumberMap;
+    /*Esto lo necesitamos porque en la base de datos de Firebase, la referencia de una tarjeta (p. ej, /tarjetas/34),
+    no tiene por qué ser su número. La tarjeta 34 podría tener el número 72391934712, o lo que sea,
+    y la referencia en sí no se guarda en el Map de las tarjetas (solo se guarda el número de la tarjeta en sí),
+    por eso necesitamos una forma de saber qué tarjeta se corresponde a qué referencia, y eso es lo que guardamos aquí.*/
 
     static {
         dataSetChangeListeners = new HashSet<>();
+    }
+
+    static {
+        TDMCardDatabaseReferences = new HashMap<>();
+    }
+
+    static {
+        TDMCardValueEventListenersMap = new HashMap<>();
+    }
+
+    static {
+        TDMDatabaseKeyAndCardNumberMap = new HashMap<>();
     }
 
     public String nombre;
@@ -40,16 +60,19 @@ class User {
         mAuth.signInAnonymously().addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
+                Log.v(TAG, "Usuario: " + authResult.getUser().getUid());
                 mDatabase = FirebaseDatabase.getInstance().getReference("usuarios").child(authResult.getUser().getUid());
                 DatabaseReference ownershipReference = FirebaseDatabase.getInstance().getReference("ownership").child(authResult.getUser().getUid());
 
                 ChildEventListener ownershipChildEventListener = new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        Log.v("TRIAL", dataSnapshot.toString());
                         DatabaseReference cardReference = FirebaseDatabase.getInstance().getReference("tarjetas_tdm").child(String.valueOf(dataSnapshot.getKey()));
                         if (dataSnapshot.getValue(Boolean.class)) {
-                            cardReference.addValueEventListener(new TDMCardValueEventListener());
+                            TDMCardValueEventListener tdmCardValueEventListener = new TDMCardValueEventListener();
+                            cardReference.addValueEventListener(tdmCardValueEventListener);
+                            TDMCardValueEventListenersMap.put(cardReference, tdmCardValueEventListener);
+                            TDMCardDatabaseReferences.put(cardReference.getKey(), cardReference);
                         }
                     }
 
@@ -60,7 +83,13 @@ class User {
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
+                        String ref = dataSnapshot.getRef().getKey();
+                        TDMCardDatabaseReferences.get(ref).removeEventListener(TDMCardValueEventListenersMap.get(TDMCardDatabaseReferences.get(ref)));
+                        tarjetas.remove(TDMDatabaseKeyAndCardNumberMap.get(ref));
+                        TDMDatabaseKeyAndCardNumberMap.remove(ref);
+                        TDMCardValueEventListenersMap.remove(TDMCardDatabaseReferences.get(ref));
+                        TDMCardDatabaseReferences.remove(ref);
+                        notifyDataSetChanged();
                     }
 
                     @Override
@@ -133,7 +162,11 @@ class User {
     private class TDMCardValueEventListener implements ValueEventListener {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            if (tarjetas.containsKey(parseTDMCard(dataSnapshot).getCardNumber())) {
+                tarjetas.remove(parseTDMCard(dataSnapshot).getCardNumber());
+            }
             tarjetas.put(parseTDMCard(dataSnapshot).getCardNumber(), parseTDMCard(dataSnapshot));
+            TDMDatabaseKeyAndCardNumberMap.put(dataSnapshot.getKey(), parseTDMCard(dataSnapshot).getCardNumber());
             notifyDataSetChanged();
         }
 

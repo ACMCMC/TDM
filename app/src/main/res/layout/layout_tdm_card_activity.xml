@@ -74,7 +74,7 @@
             style="@style/Card.Card"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:alpha="1"
+            android:alpha="0"
             android:translationY="16dp"
             android:translationZ="-1dp">
 

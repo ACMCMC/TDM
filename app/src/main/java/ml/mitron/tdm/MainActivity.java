@@ -16,8 +16,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -152,20 +153,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        CardView tdmCard = (CardView) findViewById(R.id.tdm_card_hidden);
-        tdmCard.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton floatingActionButton = findViewById(R.id.floatingActionButton_myTDM);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Pair<View, String> pair1 = Pair.create(findViewById(R.id.tdm_card_hidden), "card");
-
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pair1);
-
-                Intent intent = new Intent(contexto, TDMCardActivity.class);
-
-                startActivity(intent, options.toBundle());
+                startActivity(new Intent(MainActivity.this, TDMCardActivity.class));
             }
         });
+        floatingActionButton.getDrawable().mutate().setTint(getResources().getColor(R.color.blanco));
 
         /*myHandler = new Handler();
 
