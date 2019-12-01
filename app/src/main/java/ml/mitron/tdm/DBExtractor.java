@@ -11,6 +11,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +46,8 @@ class FirebaseDBExtractor implements DBExtractor {
 
     private List<Estacion> estaciones;
 
+    private List<Conexion> conexiones;
+
         FirebaseDBExtractor() {
 
             estaciones = new ArrayList<>();
@@ -54,11 +57,12 @@ class FirebaseDBExtractor implements DBExtractor {
             mDatabase.getRoot().child("map_data").child("estaciones").orderByKey().addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    Log.v(TAG, "Estacion: " + dataSnapshot.getKey());
 
-                    Estacion estacion = new Estacion(((Long) dataSnapshot.child("_id").getValue()).intValue(), (String) dataSnapshot.child("nombre").getValue(), null, null);
+                    Estacion estacion = new Estacion(((Long) dataSnapshot.child("_id").getValue()).intValue(), (String) dataSnapshot.child("nombre").getValue(), Arrays.asList(((String) dataSnapshot.child("lineas").getValue()).split(",")), null);
 
                     estaciones.add(estacion);
+
+                    Log.v(TAG, estacion.toString());
                 }
 
                 @Override
@@ -74,6 +78,19 @@ class FirebaseDBExtractor implements DBExtractor {
                 @Override
                 public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            mDatabase.getRoot().child("map_data").child("conexiones").orderByKey().addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    estaciones.get(((Long) dataSnapshot.child("origen").getValue()).intValue()).addConexion(new Conexion(((Long) dataSnapshot.child("origen").getValue()).intValue(), ((Long) dataSnapshot.child("destino").getValue()).intValue(), ((Long) dataSnapshot.child("distancia").getValue()).intValue(), Arrays.asList(((String) dataSnapshot.child("lineas").getValue()).split(","))));
+                    Log.v(TAG, estaciones.get(((Long) dataSnapshot.child("origen").getValue()).intValue()).toString());
                 }
 
                 @Override

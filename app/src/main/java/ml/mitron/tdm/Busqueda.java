@@ -1,9 +1,9 @@
 package ml.mitron.tdm;
 
 import android.content.Context;
-import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Set;
+
+import androidx.core.content.ContextCompat;
 
 public class Busqueda {
     //este código se ejecuta al pulsar el botón
@@ -35,6 +37,10 @@ class Estacion {
         this.conexiones = conexiones;
     }
 
+    void addConexion(Conexion conexion) {
+        conexiones.add(conexion);
+    }
+
     public String getNombre() {
         return (nombre);
     }
@@ -53,6 +59,11 @@ class Estacion {
 
     List<String> getLineas() {
         return (lineas);
+    }
+
+    @Override
+    public String toString() {
+        return new String("Estación con ID " + this.id + ": " + this.nombre + ". Líneas: " + Arrays.toString(this.lineas.toArray()) + ". Conexiones: " + Arrays.toString(this.conexiones.toArray()));
     }
 }
 
@@ -260,6 +271,11 @@ class Conexion implements Comparable<Conexion> {
         } else {
             return (0);
         }
+    }
+
+    @Override
+    public String toString() {
+        return (new String("Conexión entre " + origen + " y " + destino + ", con distancia " + distancia + " y líneas " + Arrays.toString(lineas.toArray())));
     }
 }
 

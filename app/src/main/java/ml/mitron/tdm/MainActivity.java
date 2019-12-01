@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, TDMCardActivity.class));
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
             }
         });
         floatingActionButton.getDrawable().mutate().setTint(getResources().getColor(R.color.blanco));
