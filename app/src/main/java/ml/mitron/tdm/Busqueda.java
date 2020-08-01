@@ -63,7 +63,7 @@ class Estacion {
 
     @Override
     public String toString() {
-        return new String("Estación con ID " + this.id + ": " + this.nombre + ". Líneas: " + Arrays.toString(this.lineas.toArray()) + ". Conexiones: " + Arrays.toString(this.conexiones.toArray()));
+        return new String("Estación con ID " + this.id + ": " + this.nombre + ". Líneas: " + Arrays.toString(this.lineas.toArray()) + ". Conexiones: " + (this.conexiones == null ? "SIN CONEXIONES" : Arrays.toString(this.conexiones.toArray())));
     }
 }
 

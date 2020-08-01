@@ -67,7 +67,8 @@ class FirebaseDBExtractor implements DBExtractor {
 
                 @Override
                 public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                    estaciones.get(((Long) dataSnapshot.child("origen").getValue()).intValue()).addConexion(new Conexion(((Long) dataSnapshot.child("origen").getValue()).intValue(), ((Long) dataSnapshot.child("destino").getValue()).intValue(), ((Long) dataSnapshot.child("distancia").getValue()).intValue(), Arrays.asList(((String) dataSnapshot.child("lineas").getValue()).split(","))));
+                    Log.v(TAG, estaciones.get(((Long) dataSnapshot.child("origen").getValue()).intValue()).toString());
                 }
 
                 @Override
@@ -78,19 +79,6 @@ class FirebaseDBExtractor implements DBExtractor {
                 @Override
                 public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-
-            mDatabase.getRoot().child("map_data").child("conexiones").orderByKey().addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    estaciones.get(((Long) dataSnapshot.child("origen").getValue()).intValue()).addConexion(new Conexion(((Long) dataSnapshot.child("origen").getValue()).intValue(), ((Long) dataSnapshot.child("destino").getValue()).intValue(), ((Long) dataSnapshot.child("distancia").getValue()).intValue(), Arrays.asList(((String) dataSnapshot.child("lineas").getValue()).split(","))));
-                    Log.v(TAG, estaciones.get(((Long) dataSnapshot.child("origen").getValue()).intValue()).toString());
                 }
 
                 @Override
