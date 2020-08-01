@@ -1,6 +1,7 @@
 package ml.mitron.tdm;
 
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
@@ -61,6 +62,19 @@ public class CardBuySelectFragment extends androidx.fragment.app.Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.viewPager_buy_select);
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
+        /*viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {
+            }
+
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            public void onPageSelected(int position) {
+                Intent intent = new Intent(getActivity().getBaseContext(), CardBuyActivity.class);
+                intent.putExtra("CARD_TYPE", viewPager.getCurrentItem());
+                startActivity(intent);
+            }
+        });*/
 
         return view;
     }

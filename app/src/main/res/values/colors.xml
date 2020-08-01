@@ -8,4 +8,24 @@
     <color name="TDMCardBackground">#222222</color>
     <color name="blanco">#FFFFFF</color>
     <color name="negro">#000000</color>
+
+    <array name="card_colors">
+        <item>#FF1744</item>
+        <item>#F50057</item>
+        <item>#D500F9</item>
+        <item>#651FFF</item>
+        <item>#3D5AFE</item>
+        <item>#2979FF</item>
+        <item>#00B0FF</item>
+        <item>#00E5FF</item>
+        <item>#1DE9B6</item>
+        <item>#00E676</item>
+        <item>#76FF03</item>
+        <item>#C6FF00</item>
+        <item>#FFEA00</item>
+        <item>#FFC400</item>
+        <item>#FF9100</item>
+        <item>#FF3D00</item>
+    </array>
+
 </resources>

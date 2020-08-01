@@ -8,16 +8,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
+
+import org.jetbrains.annotations.TestOnly;
 
 public class CardBuyActivity extends AppCompatActivity {
 
     Integer currentBuyingStep;
 
     TDMCard.CARD_TYPE cardType;
+
+    int cardColor;
 
     CardBuyDataFragment cardBuyDataFragment;
     CardBuySelectFragment cardBuySelectFragment;
@@ -118,6 +123,10 @@ public class CardBuyActivity extends AppCompatActivity {
                 setStepOnStepper(1);
                 break;
             case 3:
+                cardColor = cardBuyDataColorSelectFragment.selectedColor;
+
+                Toast.makeText(getBaseContext(), String.valueOf(cardColor), Toast.LENGTH_SHORT).show();
+
                 cardBuyConfirmFragment.setCardType(cardType);
                 if (isForwardStep) {
                     fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fragment, cardBuyConfirmFragment).addToBackStack(cardBuyConfirmFragment.getTag()).commit();

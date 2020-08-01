@@ -2,12 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingStart="24dp"
     android:paddingTop="16dp"
     android:paddingEnd="24dp"
     android:paddingBottom="16dp">
 
-    <com.google.android.material.chip.ChipGroup
+    <!--<com.google.android.material.chip.ChipGroup
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -34,5 +35,15 @@
             style="@style/Chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </com.google.android.material.chip.ChipGroup>
+    </com.google.android.material.chip.ChipGroup>-->
+
+    <com.thebluealliance.spectrum.SpectrumPalette
+        android:id="@+id/sprectrum_palette"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:spectrum_colors="@array/card_colors"
+        ></com.thebluealliance.spectrum.SpectrumPalette>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
