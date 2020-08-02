@@ -16,10 +16,10 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.card_reel_FrameLayout);
         getSupportFragmentManager().beginTransaction().add(frameLayout.getId(), new CardReelFragment()).commit();
-
 
 
         //TextView valueTV = new TextView(this);

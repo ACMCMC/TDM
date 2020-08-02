@@ -6,11 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+
 import com.thebluealliance.spectrum.SpectrumPalette;
 
 import org.jetbrains.annotations.NotNull;
-
-import androidx.fragment.app.Fragment;
 
 import ml.mitron.tdm.R;
 

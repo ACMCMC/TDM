@@ -36,7 +36,7 @@ public class CardBuyDataFragment extends androidx.fragment.app.Fragment implemen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_card_buy_data, container, false);
+        View view = inflater.inflate(R.layout.fragment_card_buy_data, container, false);
 
         name = view.findViewById(R.id.nameEditText);
         surname = view.findViewById(R.id.surnameEditText);
@@ -66,13 +66,13 @@ public class CardBuyDataFragment extends androidx.fragment.app.Fragment implemen
 
         boolean correcto = true; //checkea si el formulario es correcto en conjunto
 
-            if ((balance.getText().toString().equals("")) || Float.valueOf(balance.getText().toString()) <= 0) {
-                balanceLayout.setError(getResources().getText(R.string.debe_ser_mayor_que_cero));
-                correcto = false;
-            } else {
-                balanceLayout.setError(null);
-            }
-                balanceLayout.invalidate();
+        if ((balance.getText().toString().equals("")) || Float.valueOf(balance.getText().toString()) <= 0) {
+            balanceLayout.setError(getResources().getText(R.string.debe_ser_mayor_que_cero));
+            correcto = false;
+        } else {
+            balanceLayout.setError(null);
+        }
+        balanceLayout.invalidate();
 
         if (name.getText().toString().equals("")) {
             nameLayout.setError(getResources().getText(R.string.introduzca_nombre));
@@ -80,7 +80,7 @@ public class CardBuyDataFragment extends androidx.fragment.app.Fragment implemen
         } else {
             nameLayout.setError(null);
         }
-            nameLayout.invalidate();
+        nameLayout.invalidate();
 
         if (surname.getText().toString().equals("")) {
             surnameLayout.setError(getResources().getText(R.string.introduzca_apellidos));
@@ -88,11 +88,10 @@ public class CardBuyDataFragment extends androidx.fragment.app.Fragment implemen
         } else {
             surnameLayout.setError(null);
         }
-            surnameLayout.invalidate();
+        surnameLayout.invalidate();
 
 
-
-            ((CardBuyActivity) this.getActivity()).buttonNext.setEnabled(correcto);
+        ((CardBuyActivity) this.getActivity()).buttonNext.setEnabled(correcto);
 
     }
 }

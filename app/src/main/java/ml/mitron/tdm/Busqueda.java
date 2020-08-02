@@ -2,6 +2,8 @@ package ml.mitron.tdm;
 
 import android.content.Context;
 
+import androidx.core.content.ContextCompat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,8 +13,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Set;
-
-import androidx.core.content.ContextCompat;
 
 public class Busqueda {
     //este código se ejecuta al pulsar el botón
@@ -487,12 +487,12 @@ class Ruta {
         lineas.add(new seccionLinea(lastEstacion, estaciones.get(estaciones.size() - 1), lineasDisponibles.toArray()[0].toString()));
     }
 
-    void setTiempo(Integer tiempo) {
-        this.tiempo = tiempo;
-    }
-
     Integer getTiempo() {
         return (tiempo);
+    }
+
+    void setTiempo(Integer tiempo) {
+        this.tiempo = tiempo;
     }
 }
 
