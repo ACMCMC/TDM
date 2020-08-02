@@ -161,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
         });
         floatingActionButton.getDrawable().mutate().setTint(getResources().getColor(R.color.blanco));
 
+        floatingActionButton.setVisibility(View.INVISIBLE); //TODO: CREAR EL PROCESO DE LOGIN, DESACTIVADO POR AHORA
+
         /*myHandler = new Handler();
 
         Runnable noriaChange = new Runnable() {
