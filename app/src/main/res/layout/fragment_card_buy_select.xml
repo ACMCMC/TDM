@@ -6,6 +6,7 @@
 
     <TextView
         android:id="@+id/text_view_buy_select_prompt"
+        android:textAppearance="@style/Bold.Display2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"

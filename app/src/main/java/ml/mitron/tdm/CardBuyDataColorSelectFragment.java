@@ -50,6 +50,7 @@ public class CardBuyDataColorSelectFragment extends Fragment {
                 selectedColor = color;
             }
         });
+        spectrumPalette.setSelectedColor(getResources().getColor(R.color.colorPrimary, getContext().getTheme()));
 
         /*ChipGroup chipGroup = ((ChipGroup) ((ConstraintLayout) view.getRootView()).getChildAt(0));
 
