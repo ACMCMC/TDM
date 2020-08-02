@@ -99,6 +99,7 @@ public class TDMCardActivity extends AppCompatActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
 
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         Log.v(TAG, "DESCUBIERTO " + tag.toString());
@@ -113,9 +114,9 @@ public class TDMCardActivity extends AppCompatActivity {
         } catch (IllegalArgumentException e) {
             Log.e(TAG, "La tarjeta no es válida.");
             startActivityForResult(new Intent(this,TDMCardErrorActivity.class),1);
-            tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD,new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "Try again", (float)0);
+            tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD, Long.valueOf(0), "Try again", (float)0);
         } catch (NullPointerException e) {
-            tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD,new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "?", (float)0);
+            tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD, Long.valueOf(0), "?", (float)0);
             Toast.makeText(this, "Lectura incompleta", Toast.LENGTH_SHORT).show();
         }
 
@@ -128,7 +129,7 @@ public class TDMCardActivity extends AppCompatActivity {
 
         //
 
-        tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD,new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, tarjeta.getCardHolderName(), (float)tarjeta.getBalance());
+        tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD, Long.valueOf(0), tarjeta.getCardHolderName(), (float)tarjeta.getBalance());
         tarjeta.writeToCard(ndefTag);
         //
 

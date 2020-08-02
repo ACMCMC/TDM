@@ -21,7 +21,7 @@ public class MyApplicationClass extends Application {
 
         usuario.toString();
 
-        boolean bool = new TDMCard.CardNumber(new byte[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}).equals(new TDMCard.CardNumber(new byte[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}));
+        boolean bool = new TDMCard.CardNumber(Long.valueOf(0)).equals(new TDMCard.CardNumber(Long.valueOf(0)));
 
         /*
 

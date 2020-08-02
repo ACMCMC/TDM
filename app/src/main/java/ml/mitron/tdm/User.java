@@ -145,11 +145,7 @@ class User {
     }
 
     private TDMCard parseTDMCard(DataSnapshot tarjetaSnapshot) {
-        byte[] cardNumber = new byte[16];
-        for (int i = 0; i < 16; i++) {
-            cardNumber[i] = ((Long) tarjetaSnapshot.child("numero").child(Integer.toString(i)).getValue(Long.class)).byteValue();
-        }
-        return new TDMCard(TDMCard.CARD_TYPE.of(tarjetaSnapshot.child("tipo").getValue(Long.class).intValue()), cardNumber, nombre, tarjetaSnapshot.child("balance").getValue(Float.class));
+        return new TDMCard(TDMCard.CARD_TYPE.of(tarjetaSnapshot.child("tipo").getValue(Long.class).intValue()), (Long) tarjetaSnapshot.child("numero").getValue(Long.class), nombre, tarjetaSnapshot.child("balance").getValue(Float.class));
     }
 
     void registerTDMCard(TDMCard tdmCard) {
