@@ -52,5 +52,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="nombre">Nom</string>
+    <string name="apellidos">Surnom</string>
 
 </resources>

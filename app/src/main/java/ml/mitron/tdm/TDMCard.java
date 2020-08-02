@@ -221,82 +221,83 @@ public class TDMCard {
     */
     }
 
-        public String getCardHolderName() {
-            return cardHolderName;
-        }
+    public String getCardHolderName() {
+        return cardHolderName;
+    }
 
-        public Float getBalance() {
-            return balance;
-        }
+    public Float getBalance() {
+        return balance;
+    }
 
-        public void writeToCard(Ndef ndefTag) {
-            NdefRecord[] records = new NdefRecord[5];
+    public void writeToCard(Ndef ndefTag) {
+        NdefRecord[] records = new NdefRecord[5];
 
-            records[0] = NdefRecord.createUri("card://" + CARD_HOST_ID);
-            records[1] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_TYPE_ID, new byte[]{0});
-            records[2] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_ID, cardNumber.getByteArray());
-            records[3] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_HOLDER_NAME_ID, cardHolderName.getBytes());
+        records[0] = NdefRecord.createUri("card://" + CARD_HOST_ID);
+        records[1] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_TYPE_ID, new byte[]{0});
+        records[2] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_ID, cardNumber.getByteArray());
+        records[3] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_HOLDER_NAME_ID, cardHolderName.getBytes());
 
-            ByteArrayOutputStream balanceArray = new ByteArrayOutputStream();
-            balanceArray.write(Float.floatToIntBits(balance));
+        ByteArrayOutputStream balanceArray = new ByteArrayOutputStream();
+        balanceArray.write(Float.floatToIntBits(balance));
 
-            records[4] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_BALANCE_ID, balanceArray.toByteArray());
+        records[4] = NdefRecord.createExternal(TDMCard.CARD_HOST_ID, CARD_FIELD_BALANCE_ID, balanceArray.toByteArray());
 
-            NdefMessage message = new NdefMessage(records);
+        NdefMessage message = new NdefMessage(records);
 
-            try {
-                ndefTag.connect();
-                ndefTag.writeNdefMessage(message);
-                ndefTag.close();
-            } catch (IOException e) {
+        try {
+            ndefTag.connect();
+            ndefTag.writeNdefMessage(message);
+            ndefTag.close();
+        } catch (IOException e) {
 
-            } catch (FormatException e) {
+        } catch (FormatException e) {
 
-            }
-        }
-
-        VectorDrawableCompat getIconoCardDrawable(Context context) {
-            VectorDrawableCompat mVector;
-            switch (cardType.typeId) {
-                case 1:
-                default:
-                    mVector = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_card_element, null);
-                    break;
-                case 2:
-                    mVector = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_card_infinity, null);
-                    break;
-            }
-            return mVector;
-
-        }
-
-        enum CARD_TYPE {
-            STANDARD(0),
-            ELEMENT(1),
-            INFINITY(2),
-            DISCOUNT(3);
-
-            private static final Map<Integer, CARD_TYPE> map = new HashMap<>();
-
-            static {
-                for (CARD_TYPE type : CARD_TYPE.values()) {
-                    map.put(type.getCardTypeId(), type);
-                }
-            }
-
-            private final int typeId;
-
-            CARD_TYPE(int i) {
-                typeId = i;
-            }
-
-            static CARD_TYPE of(int typeId) {
-                return map.get(typeId);
-            }
-
-            int getCardTypeId() {
-                return typeId;
-            }
         }
     }
+
+    VectorDrawableCompat getIconoCardDrawable(Context context) {
+        VectorDrawableCompat mVector;
+        switch (cardType.typeId) {
+            case 1:
+            default:
+                mVector = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_card_element, null);
+                break;
+            case 2:
+                mVector = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_card_infinity, null);
+                break;
+        }
+        return mVector;
+
+    }
+
+    enum CARD_TYPE {
+        STANDARD(0),
+        ELEMENT(1),
+        INFINITY(2),
+        DISCOUNT(3);
+
+        private static final Map<Integer, CARD_TYPE> map = new HashMap<>();
+
+        static {
+            for (CARD_TYPE type : CARD_TYPE.values()) {
+                map.put(type.getCardTypeId(), type);
+            }
+        }
+
+        private final int typeId;
+
+        CARD_TYPE(int i) {
+            typeId = i;
+        }
+
+        static CARD_TYPE of(int typeId) {
+            return map.get(typeId);
+        }
+
+        int getCardTypeId() {
+            return typeId;
+        }
+    }
+}
+
 

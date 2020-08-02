@@ -21,8 +21,10 @@ public class CardBuyActivity extends AppCompatActivity {
     Integer currentBuyingStep;
 
     TDMCard.CARD_TYPE cardType;
-
     int cardColor;
+    Float cardBalance;
+    String cardHolderName;
+    String cardHolderSurname;
 
     CardBuyDataFragment cardBuyDataFragment;
     CardBuySelectFragment cardBuySelectFragment;
@@ -44,6 +46,8 @@ public class CardBuyActivity extends AppCompatActivity {
         cardBuyDataColorSelectFragment = new CardBuyDataColorSelectFragment();
 
         fragmentManager = getSupportFragmentManager();
+
+        cardColor = 0; //defaults to black
 
         fragmentManager.beginTransaction().add(R.id.fragment, cardBuySelectFragment).commit();
 
@@ -76,6 +80,10 @@ public class CardBuyActivity extends AppCompatActivity {
         //fragmentManager.popBackStack(savedInstanceState.getString("fragment_tag"), 0);
         currentBuyingStep = savedInstanceState.getInt("currentBuyingStep", 0);
         updateBuyingStep(false);
+        this.cardColor = savedInstanceState.getInt("cardColor", 0);
+        this.cardBalance = savedInstanceState.getFloat("cardBalance", 0);
+        this.cardHolderName = savedInstanceState.getString("cardHolderName");
+        this.cardHolderSurname = savedInstanceState.getString("cardHolderSurname");
     }
 
     @Override
@@ -83,6 +91,10 @@ public class CardBuyActivity extends AppCompatActivity {
         //outState.putString("fragment_tag", fragmentManager.getFragments().get(fragmentManager.getFragments().size() - 1).getTag());
         super.onSaveInstanceState(outState);
         outState.putInt("currentBuyingStep", currentBuyingStep);
+        outState.putInt("cardColor", cardColor);
+        outState.putFloat("cardBalance", cardBalance);
+        outState.putString("cardHolderName", cardHolderName);
+        outState.putString("cardHolderSurname", cardHolderSurname);
     }
 
     void updateBuyingStep(boolean isForwardStep) {
@@ -114,6 +126,11 @@ public class CardBuyActivity extends AppCompatActivity {
                 setStepOnStepper(1);
                 break;
             case 2:
+
+                cardHolderName = cardBuyDataFragment.name.getText().toString();
+                cardHolderSurname = cardBuyDataFragment.surname.getText().toString();
+                cardBalance = Float.valueOf(cardBuyDataFragment.balance.getText().toString());
+
                 if (isForwardStep) {
                     fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fragment, cardBuyDataColorSelectFragment).addToBackStack(cardBuyDataColorSelectFragment.getTag()).commit();
                 } /*else {

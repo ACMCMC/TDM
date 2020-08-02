@@ -38,4 +38,6 @@
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
     <string name="saldo">Saldo</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellidos">Apellidos</string>
 </resources>
