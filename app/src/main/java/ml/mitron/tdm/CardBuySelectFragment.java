@@ -92,13 +92,15 @@ public class CardBuySelectFragment extends androidx.fragment.app.Fragment {
                     return (new ElementCardBuySelectFragment());
                 case 1:
                     return (new InfinityCardBuySelectFragment());
+                case 2:
+                    return (new DiscountCardBuySelectFragment());
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     }
 

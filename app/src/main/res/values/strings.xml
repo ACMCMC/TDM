@@ -54,5 +54,11 @@
     </string>
     <string name="nombre">Nom</string>
     <string name="apellidos">Surnom</string>
+    <string name="discount" translatable="false">Discount</string>
+    <string name="discount_descripcion">Pour people with special conditions</string>
+    <string name="selecciona_tipo_tarjeta">Select tuhr Card Type</string>
+    <string name="debe_ser_mayor_que_cero">Doit ser plus que Zero</string>
+    <string name="introduzca_nombre">Introduz un Nom</string>
+    <string name="introduzca_apellidos">Type tuhr Surnom(s)</string>
 
 </resources>

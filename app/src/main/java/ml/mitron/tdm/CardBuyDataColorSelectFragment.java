@@ -48,9 +48,9 @@ public class CardBuyDataColorSelectFragment extends Fragment {
             @Override
             public void onColorSelected(int color) {
                 selectedColor = color;
+                ((CardBuyActivity) getActivity()).buttonNext.setEnabled(true);
             }
         });
-        spectrumPalette.setSelectedColor(getResources().getColor(R.color.colorPrimary, getContext().getTheme()));
 
         /*ChipGroup chipGroup = ((ChipGroup) ((ConstraintLayout) view.getRootView()).getChildAt(0));
 

@@ -14,7 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 
+import com.thebluealliance.spectrum.SpectrumPalette;
+
 import org.jetbrains.annotations.TestOnly;
+
+import java.util.EventListener;
 
 public class CardBuyActivity extends AppCompatActivity {
 
@@ -30,6 +34,9 @@ public class CardBuyActivity extends AppCompatActivity {
     CardBuySelectFragment cardBuySelectFragment;
     CardBuyConfirmFragment cardBuyConfirmFragment;
     CardBuyDataColorSelectFragment cardBuyDataColorSelectFragment;
+
+    Button buttonNext;
+    Button buttonBack;
 
     FragmentManager fragmentManager;
 
@@ -51,7 +58,10 @@ public class CardBuyActivity extends AppCompatActivity {
 
         fragmentManager.beginTransaction().add(R.id.fragment, cardBuySelectFragment).commit();
 
-        ((Button) findViewById(R.id.button_card_buy_stepper_aceptar)).setOnClickListener(new View.OnClickListener() {
+        buttonNext = findViewById(R.id.button_card_buy_stepper_aceptar);
+        buttonBack = findViewById(R.id.button_card_buy_stepper_cancelar);
+
+        buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 currentBuyingStep++;
@@ -59,7 +69,7 @@ public class CardBuyActivity extends AppCompatActivity {
             }
         });
 
-        ((Button) findViewById(R.id.button_card_buy_stepper_cancelar)).setOnClickListener(new View.OnClickListener() {
+        buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CardBuyActivity.this.onBackPressed();
@@ -98,6 +108,8 @@ public class CardBuyActivity extends AppCompatActivity {
     }
 
     void updateBuyingStep(boolean isForwardStep) {
+        buttonNext.setEnabled(true); //El boton de siguiente va a estar activado por defecto
+
         switch (currentBuyingStep) {
             case 0:
                 if (isForwardStep) {
@@ -116,9 +128,12 @@ public class CardBuyActivity extends AppCompatActivity {
                     case 1:
                         cardType = TDMCard.CARD_TYPE.ELEMENT;
                         break;
+                    case 2:
+                        cardType = TDMCard.CARD_TYPE.DISCOUNT;
                 }
                 if (isForwardStep) {
                     fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fragment, cardBuyDataFragment).addToBackStack(cardBuyDataFragment.getTag()).commit();
+                    buttonNext.setEnabled(false);
                 } /*else {
                     fragmentManager.popBackStack(cardBuyDataFragment.getTag(), 0);
                     fragmentManager.beginTransaction().replace(R.id.fragment, cardBuyDataFragment).commit();
@@ -133,6 +148,7 @@ public class CardBuyActivity extends AppCompatActivity {
 
                 if (isForwardStep) {
                     fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fragment, cardBuyDataColorSelectFragment).addToBackStack(cardBuyDataColorSelectFragment.getTag()).commit();
+                    buttonNext.setEnabled(false);
                 } /*else {
                     fragmentManager.popBackStack(cardBuyDataColorSelectFragment.getTag(), 0);
                     fragmentManager.beginTransaction().replace(R.id.fragment, cardBuyDataColorSelectFragment).commit();
@@ -141,8 +157,6 @@ public class CardBuyActivity extends AppCompatActivity {
                 break;
             case 3:
                 cardColor = cardBuyDataColorSelectFragment.selectedColor;
-
-                Toast.makeText(getBaseContext(), String.valueOf(cardColor), Toast.LENGTH_SHORT).show();
 
                 cardBuyConfirmFragment.setCardType(cardType);
                 if (isForwardStep) {

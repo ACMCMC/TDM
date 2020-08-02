@@ -40,4 +40,9 @@
     <string name="saldo">Balance</string>
     <string name="nombre">Name</string>
     <string name="apellidos">Surname</string>
+    <string name="discount_descripcion">For special groups of people</string>
+    <string name="selecciona_tipo_tarjeta">Choose your card type</string>
+    <string name="debe_ser_mayor_que_cero">Must be greater than 0</string>
+    <string name="introduzca_nombre">Type your name</string>
+    <string name="introduzca_apellidos">Type your surname(s)</string>
 </resources>

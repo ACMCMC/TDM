@@ -12,21 +12,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TDM">
         <activity
+            android:screenOrientation="portrait"
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
-        <activity android:name=".CardBuyActivity" />
-        <activity android:name=".TDMCardErrorActivity" />
-        <activity android:name=".MainActivity">
+            android:label="@string/title_activity_login" />
+        <activity android:name=".CardBuyActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            />
+        <activity android:name=".TDMCardErrorActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RutaActivity" />
-        <activity android:name=".ErrorActivity" />
-        <activity android:name=".EstacionActivity" />
-        <activity android:name=".TDMCardActivity">
+        <activity android:name=".RutaActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ErrorActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".EstacionActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".TDMCardActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
@@ -37,7 +47,8 @@
                     android:scheme="card" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchableActivity">
+        <activity android:name=".SearchableActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

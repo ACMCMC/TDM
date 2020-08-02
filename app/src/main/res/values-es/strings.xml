@@ -40,4 +40,9 @@
     <string name="saldo">Saldo</string>
     <string name="nombre">Nombre</string>
     <string name="apellidos">Apellidos</string>
+    <string name="discount_descripcion">Para colectivos especiales</string>
+    <string name="selecciona_tipo_tarjeta">Selecciona tu tipo de tarjeta</string>
+    <string name="debe_ser_mayor_que_cero">Debe ser mayor que 0</string>
+    <string name="introduzca_apellidos">Introduzca su(s) apellido(s)</string>
+    <string name="introduzca_nombre">Introduzca su(s) nombre(s)</string>
 </resources>
