@@ -60,5 +60,6 @@
     <string name="debe_ser_mayor_que_cero">Doit ser plus que Zero</string>
     <string name="introduzca_nombre">Introduz un Nom</string>
     <string name="introduzca_apellidos">Type tuhr Surnom(s)</string>
+    <string name="data_input_prompt">Input tuhr Data</string>
 
 </resources>

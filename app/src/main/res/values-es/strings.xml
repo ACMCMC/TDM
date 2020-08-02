@@ -45,4 +45,5 @@
     <string name="debe_ser_mayor_que_cero">Debe ser mayor que 0</string>
     <string name="introduzca_apellidos">Introduzca su(s) apellido(s)</string>
     <string name="introduzca_nombre">Introduzca su(s) nombre(s)</string>
+    <string name="data_input_prompt">Introduzca sus datos</string>
 </resources>
