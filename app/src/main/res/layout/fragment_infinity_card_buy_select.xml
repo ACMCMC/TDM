@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InfinityCardBuySelectFragment">
+    tools:context=".CardBuy.InfinityCardBuySelectFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintlayout__buy_select_infinity"

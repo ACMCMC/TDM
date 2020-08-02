@@ -1,18 +1,18 @@
-package ml.mitron.tdm;
+package ml.mitron.tdm.CardBuy;
 
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import ml.mitron.tdm.R;
 
 
 /**

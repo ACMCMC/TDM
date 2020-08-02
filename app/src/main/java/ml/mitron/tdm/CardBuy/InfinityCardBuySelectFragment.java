@@ -1,4 +1,4 @@
-package ml.mitron.tdm;
+package ml.mitron.tdm.CardBuy;
 
 
 import android.app.Fragment;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import ml.mitron.tdm.R;
 
 
 /**

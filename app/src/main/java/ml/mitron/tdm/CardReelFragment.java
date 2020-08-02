@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import ml.mitron.tdm.CardBuy.CardBuyActivity;
+
 public class CardReelFragment extends Fragment {
 
     private ReelViewAdapter reelViewAdapter;
