@@ -6,7 +6,7 @@ android {
         applicationId "ml.mitron.tdm"
         minSdkVersion 25
         targetSdkVersion 30
-        versionCode "3.0"
+        versionCode 3
         versionName "3.0"
         vectorDrawables.useSupportLibrary = true
     }
