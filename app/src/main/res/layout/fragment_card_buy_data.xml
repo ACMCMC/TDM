@@ -37,35 +37,35 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
-        android:paddingStart="0dp"
-        android:paddingEnd="24dp"
+        android:id="@+id/moneyIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/moneyIcon"
+        android:paddingStart="0dp"
+        android:paddingEnd="24dp"
         android:src="@drawable/ic_outline_attach_money_24"
+        app:layout_constraintBottom_toBottomOf="@id/balanceTextInputLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/balanceTextInputLayout"
-        app:layout_constraintBottom_toBottomOf="@id/balanceTextInputLayout" />
+        app:layout_constraintTop_toTopOf="@id/balanceTextInputLayout" />
 
     <ImageView
-        android:paddingStart="0dp"
-        android:paddingEnd="24dp"
+        android:id="@+id/personIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/personIcon"
+        android:paddingStart="0dp"
+        android:paddingEnd="24dp"
         android:src="@drawable/ic_outline_person_24"
+        app:layout_constraintBottom_toBottomOf="@id/nameTextInputLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/nameTextInputLayout"
-        app:layout_constraintBottom_toBottomOf="@id/nameTextInputLayout" />
+        app:layout_constraintTop_toTopOf="@id/nameTextInputLayout" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginTop="16dp"
         android:id="@+id/nameTextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/personIcon"
-        app:layout_constraintTop_toBottomOf="@id/balanceTextInputLayout" >
+        app:layout_constraintTop_toBottomOf="@id/balanceTextInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nameEditText"
@@ -79,10 +79,10 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginTop="16dp"
         android:id="@+id/surnameTextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/personIcon"
         app:layout_constraintTop_toBottomOf="@id/nameTextInputLayout">

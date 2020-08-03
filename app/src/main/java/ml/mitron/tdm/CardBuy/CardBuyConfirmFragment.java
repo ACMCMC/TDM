@@ -1,4 +1,4 @@
-package ml.mitron.tdm;
+package ml.mitron.tdm.CardBuy;
 
 
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
+
+import ml.mitron.tdm.R;
+import ml.mitron.tdm.TDMCard;
 
 
 /**

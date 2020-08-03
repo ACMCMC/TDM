@@ -20,12 +20,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.devs.vectorchildfinder.VectorChildFinder;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.devs.vectorchildfinder.VectorChildFinder;
 
 public class TDMCardActivity extends AppCompatActivity {
 
@@ -113,10 +113,10 @@ public class TDMCardActivity extends AppCompatActivity {
             tarjeta = new TDMCard(ndefTag);
         } catch (IllegalArgumentException e) {
             Log.e(TAG, "La tarjeta no es válida.");
-            startActivityForResult(new Intent(this,TDMCardErrorActivity.class),1);
-            tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD, Long.valueOf(0), "Try again", (float)0);
+            startActivityForResult(new Intent(this, TDMCardErrorActivity.class), 1);
+            tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD, Long.valueOf(0), "Try again", (float) 0);
         } catch (NullPointerException e) {
-            tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD, Long.valueOf(0), "?", (float)0);
+            tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD, Long.valueOf(0), "?", (float) 0);
             Toast.makeText(this, "Lectura incompleta", Toast.LENGTH_SHORT).show();
         }
 
@@ -129,7 +129,7 @@ public class TDMCardActivity extends AppCompatActivity {
 
         //
 
-        tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD, Long.valueOf(0), tarjeta.getCardHolderName(), (float)tarjeta.getBalance());
+        tarjeta = new TDMCard(TDMCard.CARD_TYPE.STANDARD, Long.valueOf(0), tarjeta.getCardHolderName(), (float) tarjeta.getBalance());
         tarjeta.writeToCard(ndefTag);
         //
 

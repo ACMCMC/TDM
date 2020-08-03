@@ -1,27 +1,18 @@
-package ml.mitron.tdm;
+package ml.mitron.tdm.CardBuy;
 
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
+import androidx.fragment.app.Fragment;
+
 import com.thebluealliance.spectrum.SpectrumPalette;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
+import ml.mitron.tdm.R;
 
 
 /**

@@ -1,4 +1,4 @@
-package ml.mitron.tdm;
+package ml.mitron.tdm.CardBuy;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -8,17 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 
-import com.thebluealliance.spectrum.SpectrumPalette;
-
-import org.jetbrains.annotations.TestOnly;
-
-import java.util.EventListener;
+import ml.mitron.tdm.R;
+import ml.mitron.tdm.TDMCard;
 
 public class CardBuyActivity extends AppCompatActivity {
 

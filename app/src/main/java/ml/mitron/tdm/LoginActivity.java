@@ -16,9 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import androidx.annotation.NonNull;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * A login screen that offers login via email/password.

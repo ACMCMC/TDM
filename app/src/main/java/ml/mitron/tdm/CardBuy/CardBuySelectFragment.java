@@ -1,7 +1,6 @@
-package ml.mitron.tdm;
+package ml.mitron.tdm.CardBuy;
 
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
@@ -14,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import ml.mitron.tdm.R;
 
 
 /**
