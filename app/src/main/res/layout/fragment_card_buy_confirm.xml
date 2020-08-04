@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="Confirmar"
+        android:text="@string/confirmacion"
         android:id="@+id/card_buy_confirm_textview_prompt"
         style="@style/Bold.Display2" />
 
@@ -24,7 +24,6 @@
         android:alpha="1"
         android:translationY="16dp"
         android:translationZ="-1dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_buy_confirm_textview_prompt">
 

@@ -46,4 +46,5 @@
     <string name="introduzca_nombre">Type your name</string>
     <string name="introduzca_apellidos">Type your surname(s)</string>
     <string name="data_input_prompt">Fill your data</string>
+    <string name="selecciona_color">Select your color</string>
 </resources>

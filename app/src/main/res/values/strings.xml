@@ -61,5 +61,6 @@
     <string name="introduzca_nombre">Introduz un Nom</string>
     <string name="introduzca_apellidos">Type tuhr Surnom(s)</string>
     <string name="data_input_prompt">Input tuhr Data</string>
+    <string name="selecciona_color">Select tuhr Color</string>
 
 </resources>
