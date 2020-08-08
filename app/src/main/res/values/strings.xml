@@ -2,10 +2,10 @@
     <string name="app_name">Ihr Route TDM</string>
     <string name="estacionDestino">Naar</string>
     <string name="estacionOrigen">Vertrek</string>
-    <string name="encontrarRuta">Calcul ihr ruut</string>
+    <string name="encontrarRuta">Fjind ihr ruut</string>
     <string name="nombreMarca">Transports di Mitron</string>
-    <string name="rutaEncontrada">Trouved ruut</string>
-    <string name="tiempoRuta">Aproximaat ruut tim lenght</string>
+    <string name="rutaEncontrada">Fjindi ruut</string>
+    <string name="tiempoRuta">Will ruut duretjon</string>
     <string name="tomarLinea">Taag tu der linka</string>
     <string name="l1">Ocean</string>
     <string name="l2">Suburban</string>
@@ -19,26 +19,26 @@
     <string name="C">Circular di Southlands</string>
     <string name="F">Funicular di Southlands</string>
     <string name="l7A">Mitron Ouest</string>
-    <string name="l7B">Mitron Aeropórt Express</string>
-    <string name="tituloError">Irro</string>
-    <string name="descripcionError">Nula ruut trouved</string>
+    <string name="l7B">Mitron Aeroport Express</string>
+    <string name="tituloError">Keke</string>
+    <string name="descripcionError">Nula ruut fjindi</string>
     <string name="buttonCalcular">Calcul ihr ruut</string>
-    <string name="calcularOtraButton">Trouv altre ruut</string>
-    <string name="estacionRedTDM">TDM Network station</string>
+    <string name="calcularOtraButton">Fijnd ein altre ruut</string>
+    <string name="estacionRedTDM">TDM Network statjon</string>
     <string name="conexionCon">naar</string>
-    <string name="buscarEstacion">Trouver Station</string>
-    <string name="textoBienvenida">Trouv tuhr Route. Dans trierd Steps.</string>
-    <string name="tarjeta">Card</string>
-    <string name="confirmacion">Confirmation</string>
+    <string name="buscarEstacion">Fjind ein station</string>
+    <string name="textoBienvenida">Fjind tu tuhr ruut, van drie steps.</string>
+    <string name="tarjeta">Karte</string>
+    <string name="confirmacion">Huoje</string>
     <string name="datos">Data</string>
     <string name="infinity" translatable="false">Infinity</string>
     <string name="element" translatable="false">Element</string>
-    <string name="infinity_descripcion">Ne payez plus dans vos Trips</string>
-    <string name="element_descripcion">Simplicity verand une Card</string>
-    <string name="acreditar_condiciones_especiales">Montrer special Conditions</string>
-    <string name="aceptar">Acepter</string>
-    <string name="cancelar">Canceler</string>
-    <string name="saldo">Sald</string>
+    <string name="infinity_descripcion">Tisar tu nee naar tuhr trippen</string>
+    <string name="element_descripcion">Naiveet van ein karte</string>
+    <string name="acreditar_condiciones_especiales">Lurar erytjunen conditjonnen</string>
+    <string name="aceptar">Huoj</string>
+    <string name="cancelar">Cancel</string>
+    <string name="saldo">Lagraritisanen</string>
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -52,15 +52,15 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="nombre">Nom</string>
-    <string name="apellidos">Surnom</string>
+    <string name="nombre">Einerd</string>
+    <string name="apellidos">Dierd(den)</string>
     <string name="discount" translatable="false">Discount</string>
-    <string name="discount_descripcion">Pour people with special conditions</string>
-    <string name="selecciona_tipo_tarjeta">Select tuhr Card Type</string>
-    <string name="debe_ser_mayor_que_cero">Doit ser plus que Zero</string>
-    <string name="introduzca_nombre">Introduz un Nom</string>
-    <string name="introduzca_apellidos">Type tuhr Surnom(s)</string>
-    <string name="data_input_prompt">Input tuhr Data</string>
-    <string name="selecciona_color">Select tuhr Color</string>
+    <string name="discount_descripcion">Naar hitonen mit enytjunen conditjonnen</string>
+    <string name="selecciona_tipo_tarjeta">Select tu tuhr karte kind</string>
+    <string name="debe_ser_mayor_que_cero">Mast is plusd van oolf</string>
+    <string name="introduzca_nombre">Enput tu tuhr einerd</string>
+    <string name="introduzca_apellidos">Enput tu tuhr dierd(den)</string>
+    <string name="data_input_prompt">Enput tu tuhr data</string>
+    <string name="selecciona_color">Select tu tuhr hjue</string>
 
 </resources>
